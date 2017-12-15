@@ -1,0 +1,53 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain_apcShaderOptVertWT
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+
+#define ThreadGroupSize_X 4
+#define ThreadGroupSize_Y 4
+
+struct InputVertexStruct
+{
+	float3 _posL;
+	float _riggingWeight;
+	float3 _posRigging;
+	
+	float4x4 _mtx_Cal_VertLocal;
+	float4x4 _mtx_Cal_VertWorld;
+};
+
+struct OutVertexStruct
+{
+	float3 _posWorld3;
+	float2 _posWorld2;
+	float3 _posLocalOnMesh;
+};
+
+float4x4 _mtx_Static_Vert2Mesh;
+float4x4 _mtx_MeshTransform;
+//float4x4 _mtx_MeshTransformInverse;
+float4x4 _mtx_Static_Vert2MeshInverse;//<<Opt는 좌표계 특성상 이걸 Inverse해야한다.
+RWStructuredBuffer<InputVertexStruct> _inputBuffer;
+RWStructuredBuffer<OutVertexStruct> _outputBuffer;
+
+
+
+[numthreads(ThreadGroupSize_X,ThreadGroupSize_Y,1)]
+void CSMain_apcShaderOptVertWT (uint3 id : SV_DispatchThreadID)
+{
+	int idx = id.x + id.y * ThreadGroupSize_X * 32;
+	float spacing = 1.0;
+	float4x4 mtxWorld = mul(_inputBuffer[idx]._mtx_Cal_VertWorld, mul(_mtx_MeshTransform, mul(_inputBuffer[idx]._mtx_Cal_VertLocal, _mtx_Static_Vert2Mesh)));
+	float3 posL = (_inputBuffer[idx]._posL * (1.0f - _inputBuffer[idx]._riggingWeight)) + (_inputBuffer[idx]._posRigging * _inputBuffer[idx]._riggingWeight);
+
+	float4 posWorld4 = mul(mtxWorld, float4(posL.xyz, 1) );
+	float3 posWorld3 = posWorld4.xyz;
+
+	_outputBuffer[idx]._posWorld3 = posWorld3;
+	_outputBuffer[idx]._posWorld2 = posWorld3.xy;
+	//_outputBuffer[idx]._posLocalOnMesh = mul(_mtx_MeshTransformInverse, float4(posWorld3.xyz, 1)).xyz;
+	_outputBuffer[idx]._posLocalOnMesh = mul(_mtx_Static_Vert2MeshInverse, float4(posWorld3.xyz, 1)).xyz;
+	//_outputBuffer[idx]._posLocalOnMesh.x = 0;
+	_outputBuffer[idx]._posLocalOnMesh.z = 0;
+}

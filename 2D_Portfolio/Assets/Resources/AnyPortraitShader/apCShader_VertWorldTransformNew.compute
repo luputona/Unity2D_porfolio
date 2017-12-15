@@ -1,0 +1,68 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain_apcShaderVertWTNew
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+//RWTexture2D<float4> Result;
+
+#define ThreadGroupSize_X 32
+#define ThreadGroupSize_Y 32
+
+struct InputVertexStruct
+{
+	float2 _posL;
+	float _riggingWeight;
+	float2 _posRigging;
+	float2 _calVertLocal;
+	float2 _calVertWorld;
+	float3x3 _mtx_Static_Vert2Mesh;
+	float3x3 _mtx_MeshTransform;
+	float3x3 _mtx_MeshTransformInverse;
+};
+
+
+
+struct OutVertexStruct
+{
+	float2 _posWorld2;
+	float3 _posLocalOnMesh;
+	float3x3 _matrixWorld;
+};
+
+
+RWStructuredBuffer<InputVertexStruct> _inputBuffer;
+RWStructuredBuffer<OutVertexStruct> _outputBuffer;
+
+
+
+
+[numthreads(ThreadGroupSize_X,ThreadGroupSize_Y,1)]
+void CSMain_apcShaderVertWTNew (uint3 id : SV_DispatchThreadID)
+{
+	int idx = id.x + id.y * ThreadGroupSize_X * 32;
+	float spacing = 1.0;
+
+	float2 calVertLocal = _inputBuffer[idx]._calVertLocal;
+	float2 calVertWorld = _inputBuffer[idx]._calVertWorld;
+	float3x3 mtxCalVertLocal = float3x3(	1, 0, calVertLocal.x,
+											0, 1, calVertLocal.y,
+											0, 0, 1);
+
+	float3x3 mtxCalVertWorld = float3x3(	1, 0, calVertWorld.x,
+											0, 1, calVertWorld.y,
+											0, 0, 1);
+
+	float3x3 mtxWorld = mul(mtxCalVertWorld, mul(_inputBuffer[idx]._mtx_MeshTransform, mul(mtxCalVertLocal, _inputBuffer[idx]._mtx_Static_Vert2Mesh)));
+	
+	float2 posL = (_inputBuffer[idx]._posL.xy * (1.0f - _inputBuffer[idx]._riggingWeight)) + (_inputBuffer[idx]._posRigging.xy * _inputBuffer[idx]._riggingWeight);
+	
+	float3 posWorld3 = mul(mtxWorld, float3(posL.xy, 0) );
+	
+	
+	//_outputBuffer[idx]._posWorld3 = posWorld3;
+	_outputBuffer[idx]._posWorld2 = posWorld3.xy;
+	_outputBuffer[idx]._posLocalOnMesh = mul(_inputBuffer[idx]._mtx_MeshTransformInverse, posWorld3).xyz;
+	_outputBuffer[idx]._posLocalOnMesh.z = 0;
+
+	_outputBuffer[idx]._matrixWorld = mtxWorld;
+}
