@@ -5,46 +5,46 @@ using System.IO;
 using LitJson;
 using System.Text;
 
-public class CSwordData : CItemData
+public class CSwordData : SingleTon<CSwordData>, IItemData
 {
     [SerializeField]
     private string m_serverUrl;
     [SerializeField]
-    private JsonData m_swordData;
+    private JsonData m_swordJsonData;
 
     public List<SwordItem> m_swordItemList = new List<SwordItem>();
     
-    protected override void Awake()
+    public void Awake()
     {
         StartCoroutine(LoadData());
     }
-    protected override void Start()
+    public void Start()
     {
     }
 
-    protected override void ConstructData()
+    public void ConstructData()
     {
-        for(int i = 0; i < m_swordData.Count; i++)
+        for(int i = 0; i < m_swordJsonData.Count; i++)
         {
             m_swordItemList.Add(new SwordItem(
-                (int)m_swordData[i]["id"], 
-                m_swordData[i]["name"].ToString(), 
-                m_swordData[i]["discription"].ToString(),
-                m_swordData[i]["skill_name"].ToString(), 
-                m_swordData[i]["skill_Dis"].ToString(), 
-                double.Parse(m_swordData[i]["skill_effect_01"].ToString()),
-                double.Parse(m_swordData[i]["skill_effect_02"].ToString()),
-                double.Parse(m_swordData[i]["skill_effect_03"].ToString()),
-                double.Parse(m_swordData[i]["skill_effect_04"].ToString()),
-                double.Parse(m_swordData[i]["damage"].ToString()),
-                double.Parse(m_swordData[i]["def"].ToString()),
-                double.Parse(m_swordData[i]["dodging"].ToString()),
-                double.Parse(m_swordData[i]["hp"].ToString()), 
-                (int)m_swordData[i]["cost"]));
+                (int)m_swordJsonData[i]["id"],
+                m_swordJsonData[i]["name"].ToString(),
+                m_swordJsonData[i]["discription"].ToString(),
+                m_swordJsonData[i]["skill_name"].ToString(),
+                m_swordJsonData[i]["skill_Dis"].ToString(), 
+                double.Parse(m_swordJsonData[i]["skill_effect_01"].ToString()),
+                double.Parse(m_swordJsonData[i]["skill_effect_02"].ToString()),
+                double.Parse(m_swordJsonData[i]["skill_effect_03"].ToString()),
+                double.Parse(m_swordJsonData[i]["skill_effect_04"].ToString()),
+                double.Parse(m_swordJsonData[i]["damage"].ToString()),
+                double.Parse(m_swordJsonData[i]["def"].ToString()),
+                double.Parse(m_swordJsonData[i]["dodging"].ToString()),
+                double.Parse(m_swordJsonData[i]["hp"].ToString()), 
+                (int)m_swordJsonData[i]["cost"]));
         }
     }
 
-    protected override IEnumerator LoadData()
+    public IEnumerator LoadData()
     {
         WWW www = new WWW(m_serverUrl);
 
@@ -52,21 +52,18 @@ public class CSwordData : CItemData
         
         //byte[] bytes = Encoding.Default.GetBytes(serverDB);
         string serverDB = Encoding.UTF8.GetString(www.bytes);
-        
-        m_swordData = JsonMapper.ToObject(serverDB);
+
+        m_swordJsonData = JsonMapper.ToObject(serverDB);
 
         if(www.isDone)
         {
-            
+            this.ConstructData();
         }
-        ConstructData();
+    }
 
-        for (int i = 0; i < m_swordItemList.Count; i++)
-        {
-            Debug.Log(m_swordItemList[i].m_name);
-        }
-        Debug.Log(serverDB);
-    }    
+    public void LoadLocalData()
+    { }
+    public void ConstructLocalData() { }
 }
 
 [System.Serializable]

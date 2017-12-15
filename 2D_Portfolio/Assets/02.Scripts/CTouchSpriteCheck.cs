@@ -17,11 +17,18 @@ public class CTouchSpriteCheck : CSelectShop
         }
     }
 
+
+
+    [SerializeField]
+    private CWeaponShop m_cWeaponShop;
+
     public CSelectShop selectShop;
     [SerializeField]
     protected GameObject m_shopPanel;
     [SerializeField]
     protected GameObject[] m_shop;
+    
+
     
     public Dictionary<ShopInfo, GameObject> m_shopDictionary = new Dictionary<ShopInfo, GameObject>(new ShopInfoComparer()); // 가비지를 없애려면 인터페이스로 만든 컴페어 클래스의 생성자를 넣어줘야함 
 
@@ -31,6 +38,7 @@ public class CTouchSpriteCheck : CSelectShop
     {
         selectShop = null;
         m_shopPanel = GameObject.Find("00_Shop_Panel") as GameObject;
+        m_cWeaponShop = this.gameObject.GetComponent<CWeaponShop>();
                
         m_childCount = m_shopPanel.transform.childCount;
     }
@@ -53,7 +61,7 @@ public class CTouchSpriteCheck : CSelectShop
 
         while(enumerator.MoveNext())
         {
-            Debug.Log("dic : " + enumerator.Current.Key);
+            //Debug.Log("dic : " + enumerator.Current.Key);
         }        
     }
 
@@ -89,7 +97,7 @@ public class CTouchSpriteCheck : CSelectShop
             Debug.Log("웨폰샵");
             m_shopPanel.SetActive(true);
             m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
-            
+
         }
         else if(m_shopinfo == ShopInfo.ItemShop)
         {
