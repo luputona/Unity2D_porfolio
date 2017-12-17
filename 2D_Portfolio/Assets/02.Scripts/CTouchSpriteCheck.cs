@@ -88,10 +88,25 @@ public class CTouchSpriteCheck : CSelectShop
                 }
             }
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition ), Vector2.zero);
+
+            if (hit)
+            {
+                Debug.Log(hit.collider.gameObject.transform.name);
+                selectShop = hit.collider.gameObject.GetComponent<CSelectShop>();
+                m_shopinfo = selectShop.m_shopinfo;
+
+                OpenShop();
+            }
+        }
     }
 
     protected virtual void OpenShop()
     {
+        m_shopDictionary[ShopInfo.Category].SetActive(true);
         if (m_shopinfo == ShopInfo.WeaponShop)
         {
             Debug.Log("웨폰샵");

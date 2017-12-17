@@ -75,7 +75,7 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
         {
             m_categoryLocalList.Add(new WeaponCategory((int)m_localData[i]["id"], m_localData[i]["Category"].ToString()));
 
-            Debug.Log(m_categoryLocalList[i].m_category);
+            //Debug.Log(m_categoryLocalList[i].m_category);
         }
     }
 
