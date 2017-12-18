@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class CSelectCategory :MonoBehaviour
 {
-    public enum ESelcetCategory
+    public enum ESelcetWeaponCategory
     {
         Sword,
         Bow,
@@ -14,57 +15,61 @@ public class CSelectCategory :MonoBehaviour
         Mace,
         Spear,
         MatialArts,
-        Disable = 98,
+        Disable = 97,
+        Closed = 98,
         Default = 99
+    }
+
+    public enum ESelectItemShopCategory
+    {
+
     }
 
     private Button m_btnColor;
 
     public bool m_isColor = true;
-    public ESelcetCategory m_eCategory = ESelcetCategory.Default;
+    public ESelcetWeaponCategory m_eCategory = ESelcetWeaponCategory.Default;
+    public int m_categoryCount;
 
-    
-
-    private void Start()
-    {
+    protected virtual void Start()
+    {        
         m_btnColor = this.GetComponent<Button>();
-
-        for (int i = 0; i < CShopCategory.GetInstance.m_categoryCount; i++)
+        m_categoryCount = CWeaponData.GetInstance.m_categoryLocalList.Count;
+        for (int i = 0; i < m_categoryCount; i++)
         {
             if (this.transform.name == "Sword")
             {
-                m_eCategory = ESelcetCategory.Sword;
+                m_eCategory = ESelcetWeaponCategory.Sword;
             }
             else if (this.transform.name == "Staff")
             {
-                m_eCategory = ESelcetCategory.Staff;
+                m_eCategory = ESelcetWeaponCategory.Staff;
             }
             else if (this.transform.name == "Spear")
             {
-                m_eCategory = ESelcetCategory.Spear;
+                m_eCategory = ESelcetWeaponCategory.Spear;
             }
             else if (this.transform.name == "Martial_arts")
             {
-                m_eCategory = ESelcetCategory.MatialArts;
+                m_eCategory = ESelcetWeaponCategory.MatialArts;
             }
             else if (this.transform.name == "Mace")
             {
-                m_eCategory = ESelcetCategory.Mace;
+                m_eCategory = ESelcetWeaponCategory.Mace;
             }
             else if (this.transform.name == "Bow")
             {
-                m_eCategory = ESelcetCategory.Bow;
+                m_eCategory = ESelcetWeaponCategory.Bow;
             }
             else if (this.transform.name == "Accessory")
             {
-                m_eCategory = ESelcetCategory.Accessory;
+                m_eCategory = ESelcetWeaponCategory.Accessory;
             }
             else
             {
-                m_eCategory = ESelcetCategory.Default;
+                m_eCategory = ESelcetWeaponCategory.Default;
             }
         }
-        
 
         //if (m_eCategory == ESelcetCategory.Sword  && m_isColor)
         //{
@@ -78,11 +83,14 @@ public class CSelectCategory :MonoBehaviour
         //    cb.normalColor = new Color32(214, 214, 214, 255);
         //    m_btnColor.colors = cb;
         //}
-
-        //m_btnColor.onClick.AddListener(() => CShopCategory.GetInstance.ButtonColorSetting());
-        //m_btnColor.onClick.AddListener(() => ColorChange());
+        
     }
 
+    //protected virtual void OpenItemListInCategory(ESelcetCategory eSelect)
+    //{
+
+    //}
+    
     void ColorChange()
     {        
         //if (m_eCategory == ESelcetCategory.Sword)
@@ -91,14 +99,14 @@ public class CSelectCategory :MonoBehaviour
         //    cb.normalColor = new Color32(214, 214, 214, 255);
         //    m_btnColor.colors = cb;
         //}
-        if(CShopCategory.GetInstance.m_isCategoryBtnColor == false && m_eCategory == ESelcetCategory.Sword)
-        {
-            ColorBlock cb = m_btnColor.colors;
-            cb.normalColor = new Color32(214, 214, 214, 255);
-            m_btnColor.colors = cb;
-        }
+        //if(CShopCategory.GetInstance.m_isCategoryBtnColor == false && m_eCategory == ESelcetCategory.Sword)
+        //{
+        //    ColorBlock cb = m_btnColor.colors;
+        //    cb.normalColor = new Color32(214, 214, 214, 255);
+        //    m_btnColor.colors = cb;
+        //}
        
     }
-
+    
 
 }

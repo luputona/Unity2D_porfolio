@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CTouchSpriteCheck : CSelectShop
+public class CVillageManager : CSelectShop
 {
     //딕셔너리키값을 enum 으로 선언하면 가비지가 생기므로 인터페이스 구현
     class ShopInfoComparer : IEqualityComparer<ShopInfo>
@@ -17,33 +17,49 @@ public class CTouchSpriteCheck : CSelectShop
         }
     }
 
-
-
     [SerializeField]
     private CWeaponShop m_cWeaponShop;
-
-    public CSelectShop selectShop;
+    [SerializeField]
+    protected CShopCategory m_cShopCategory;
+    
     [SerializeField]
     protected GameObject m_shopPanel;
     [SerializeField]
     protected GameObject[] m_shop;
-    
+    [SerializeField]
+    protected int m_shopSlotCount;
+    [SerializeField]
+    private GameObject shopSlotPrefab;
+    public CSelectShop selectShop;
 
-    
+    public List<GameObject> m_slots = new List<GameObject>();
     public Dictionary<ShopInfo, GameObject> m_shopDictionary = new Dictionary<ShopInfo, GameObject>(new ShopInfoComparer()); // 가비지를 없애려면 인터페이스로 만든 컴페어 클래스의 생성자를 넣어줘야함 
 
     public int m_childCount;
 
+    protected virtual GameObject ShopSlotPrefab
+    {
+        get
+        {
+            return shopSlotPrefab;
+        }        
+    }
+
+
+
     protected virtual void Awake()
     {
         selectShop = null;
-        m_shopPanel = GameObject.Find("00_Shop_Panel") as GameObject;
+        m_shopPanel = GameObject.Find("00_inst_Shop_Panel") as GameObject;
+       
+
         m_cWeaponShop = this.gameObject.GetComponent<CWeaponShop>();
-               
+        m_cShopCategory = this.gameObject.GetComponent<CShopCategory>();
         m_childCount = m_shopPanel.transform.childCount;
     }
     protected virtual void Start()
     {
+        m_shopSlotCount = 10;
         m_shop = new GameObject[m_childCount];
         for (int i = 0; i < m_childCount; i++)
         {
@@ -62,12 +78,26 @@ public class CTouchSpriteCheck : CSelectShop
         while(enumerator.MoveNext())
         {
             //Debug.Log("dic : " + enumerator.Current.Key);
-        }        
+        }
+
+
+        CreatedShopListSlot();
     }
 
     protected virtual void Update()
     {
         TouchGetObj();
+    }
+
+    protected virtual void CreatedShopListSlot()
+    {
+        //TODO : 웨폰상점 슬롯 임시 생성
+
+        //for (int i = 0; i < m_shopSlotCount; i++)
+        //{
+        //    m_slots.Add(Instantiate(ShopSlotPrefab));
+        //    m_slots[i].transform.SetParent(m_itemList_Content.transform, false);
+        //}
     }
 
     protected virtual void TouchGetObj()
@@ -85,6 +115,7 @@ public class CTouchSpriteCheck : CSelectShop
                     m_shopinfo = selectShop.m_shopinfo;
 
                     OpenShop();
+                    
                 }
             }
         }
@@ -107,24 +138,50 @@ public class CTouchSpriteCheck : CSelectShop
     protected virtual void OpenShop()
     {
         m_shopDictionary[ShopInfo.Category].SetActive(true);
-        if (m_shopinfo == ShopInfo.WeaponShop)
-        {
-            Debug.Log("웨폰샵");
-            m_shopPanel.SetActive(true);
-            m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
+        m_shopDictionary[ShopInfo.BackButton].SetActive(true);
+        m_shopDictionary[ShopInfo.ShopContenItemList].SetActive(true);
+        m_shopDictionary[ShopInfo.ItemDescription].SetActive(true);
 
-        }
-        else if(m_shopinfo == ShopInfo.ItemShop)
-        {
-            Debug.Log("아이템샵");
-            m_shopPanel.SetActive(true);
-            m_shopDictionary[ShopInfo.ItemShop].SetActive(true);
-        }
-        else if(m_shopinfo == ShopInfo.EntryDungeon)
+        //if (m_shopinfo == ShopInfo.WeaponShop)
+        //{
+        //    Debug.Log("웨폰샵");
+        //    m_shopPanel.SetActive(true);
+        //    m_shop[4].SetActive(true);
+        //    m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
+        //    m_cShopCategory.m_eCategory = CSelectCategory.ESelcetWeaponCategory.Closed;
+
+        //}
+        //if(m_shopinfo == ShopInfo.ItemShop)
+        //{
+        //    Debug.Log("아이템샵");
+        //    m_shopPanel.SetActive(true);
+        //    m_shop[4].SetActive(true);
+        //    m_shopDictionary[ShopInfo.ItemShop].SetActive(true);
+        //}
+        if(m_shopinfo == ShopInfo.EntryDungeon)
         {
             Debug.Log("엔트리 던전");
+        }        
+    }
 
+    public void ClosedShop()
+    {
+        
+        if(m_cShopCategory.m_eCategory == CSelectCategory.ESelcetWeaponCategory.Disable)//현재 UI가 무기샵이고 카테고리가 무기 카테고리 일 경우 
+        {
+            m_shopDictionary[ShopInfo.Category].SetActive(true);
+            m_cShopCategory.m_eCategory = CSelectCategory.ESelcetWeaponCategory.Closed;            
         }
+        else if (m_cShopCategory.m_eCategory == CSelectCategory.ESelcetWeaponCategory.Closed)
+        {
+            for (int i = 0; i < m_childCount; i++)
+            {
+                m_shop[i].SetActive(false);
+            }
+            m_shopPanel.SetActive(false);
+        }
+        
+        
     }
        
 }

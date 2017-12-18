@@ -3,49 +3,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CWeaponShop : MonoBehaviour
+public class CWeaponShop : CVillageManager
 {
     [SerializeField]
-    private GameObject m_weaponShopScrollViewObj;
-    [SerializeField]
-    private GameObject m_itemList_Content;
-    [SerializeField]
-    private CTouchSpriteCheck m_touchSpriteCheck;
+    private CVillageManager m_touchSpriteCheck;
     [SerializeField]
     private Text m_itemName_Text;
     [SerializeField]
     private Text m_itemCost_Text;
    
-    public List<GameObject> m_slots = new List<GameObject>();
-    
-
-    public int tempSlotCount;
-
-    public GameObject m_shopSlot;
     public GameObject m_shopItem;
 
-    void Awake()
+    protected new GameObject ShopSlotPrefab
     {
-        m_touchSpriteCheck = this.GetComponent<CTouchSpriteCheck>();
-        tempSlotCount = 10;
-
-        m_weaponShopScrollViewObj = GameObject.Find("ItemList_ScrollView").gameObject;
-        m_itemList_Content = m_weaponShopScrollViewObj.transform.Find("ItemList_Viewport").transform.Find("ItemList_Content").gameObject;
-        
-    }
-
-    void Start()
-    {
-        //TODO : 서버에서 받아온 걸로 카테고리별 분기를 나누어서  생성으로 변경
-        for (int i = 0; i < tempSlotCount; i++)
+        get
         {
-            m_slots.Add(Instantiate(m_shopSlot));
-            m_slots[i].transform.SetParent(m_itemList_Content.transform,false);
+            return base.ShopSlotPrefab;
         }
     }
 
-    //생성된 슬롯 UI에 Json 데이터를 전달
-    public void InsertItemData()
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+        m_touchSpriteCheck = this.GetComponent<CVillageManager>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        
+    }
+    protected override void Update()
+    {
+        TouchGetObj();
+    }
+
+    protected override void TouchGetObj()
+    {
+        base.TouchGetObj();
+    }
+
+    protected override void OpenShop()
+    {
+        base.OpenShop();
+        if (m_shopinfo == ShopInfo.WeaponShop)
+        {
+            Debug.Log("웨폰샵");
+            m_shopPanel.SetActive(true);
+            m_shop[4].SetActive(true);
+            m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
+            m_cShopCategory.m_eCategory = CSelectCategory.ESelcetWeaponCategory.Closed;
+            
+        }
+    }
+
+    //생성된 슬롯 UI에 Json 데이터를 전달 
+    public void InsertSwordItemData()
     {
         for (int i = 0; i < CSwordData.GetInstance.m_swordItemList.Count; i++)
         {
@@ -56,12 +71,17 @@ public class CWeaponShop : MonoBehaviour
 
         }
     }
-
-    public void CreateItemList()
-    {
-
-    }
-
     
+    public void InsertBowItemData()
+    {
+        for (int i = 0; i < CBowData.GetInstance.m_bowItemList.Count; i++)
+        {
+            m_itemName_Text = m_slots[i].transform.Find("ItemName_Text").GetComponent<Text>();
+            m_itemCost_Text = m_slots[i].transform.Find("ItemCost_Text").GetComponent<Text>();
+            m_itemName_Text.text = string.Format("{0}", CBowData.GetInstance.m_bowItemList[i].m_name);
+            m_itemCost_Text.text = string.Format("{0}", CBowData.GetInstance.m_bowItemList[i].m_cost);
+
+        }
+    }
 
 }
