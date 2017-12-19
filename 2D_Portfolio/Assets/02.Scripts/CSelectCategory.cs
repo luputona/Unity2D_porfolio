@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public class CSelectCategory :MonoBehaviour
 {
+    public enum EBACKUISTATE
+    {
+        Disable = 97,
+        Closed = 98,
+        Default = 99
+    }
     public enum ESelcetWeaponCategory
     {
         Sword,
@@ -14,9 +20,7 @@ public class CSelectCategory :MonoBehaviour
         Accessory,
         Mace,
         Spear,
-        MatialArts,
-        Disable = 97,
-        Closed = 98,
+        MatialArts,        
         Default = 99
     }
 
@@ -31,13 +35,32 @@ public class CSelectCategory :MonoBehaviour
     public ESelcetWeaponCategory m_eCategory = ESelcetWeaponCategory.Default;
     public int m_categoryCount;
 
-    protected virtual void Start()
-    {        
+    
+    void Start()
+    {
+        InitializeCategory();
+        //if (m_eCategory == ESelcetCategory.Sword  && m_isColor)
+        //{
+        //    ColorBlock cb = m_btnColor.colors;
+        //    cb.normalColor = new Color32(124, 124, 124, 255);
+        //    m_btnColor.colors = cb;
+        //}
+        //else
+        //{
+        //    ColorBlock cb = m_btnColor.colors;
+        //    cb.normalColor = new Color32(214, 214, 214, 255);
+        //    m_btnColor.colors = cb;
+        //}
+
+    }
+
+    protected virtual void InitializeCategory()
+    {
         m_btnColor = this.GetComponent<Button>();
         m_categoryCount = CWeaponData.GetInstance.m_categoryLocalList.Count;
         for (int i = 0; i < m_categoryCount; i++)
         {
-            if (this.transform.name == "Sword")
+            if (this.transform.name.Equals("Sword") )
             {
                 m_eCategory = ESelcetWeaponCategory.Sword;
             }
@@ -65,26 +88,13 @@ public class CSelectCategory :MonoBehaviour
             {
                 m_eCategory = ESelcetWeaponCategory.Accessory;
             }
-            else
-            {
-                m_eCategory = ESelcetWeaponCategory.Default;
-            }
+            //else
+            //{
+            //    m_eCategory = ESelcetWeaponCategory.Default;
+            //}
         }
-
-        //if (m_eCategory == ESelcetCategory.Sword  && m_isColor)
-        //{
-        //    ColorBlock cb = m_btnColor.colors;
-        //    cb.normalColor = new Color32(124, 124, 124, 255);
-        //    m_btnColor.colors = cb;
-        //}
-        //else
-        //{
-        //    ColorBlock cb = m_btnColor.colors;
-        //    cb.normalColor = new Color32(214, 214, 214, 255);
-        //    m_btnColor.colors = cb;
-        //}
-        
     }
+
 
     //protected virtual void OpenItemListInCategory(ESelcetCategory eSelect)
     //{

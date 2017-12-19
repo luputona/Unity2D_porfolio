@@ -63,7 +63,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: -1
+  m_PreferredHeight: 58
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 0
@@ -81,7 +81,6 @@ MonoBehaviour:
   m_isColor: 1
   m_eCategory: 99
   m_categoryCount: 0
-  m_checkButton: {fileID: 0}
 --- !u!114 &114313899768605512
 MonoBehaviour:
   m_ObjectHideFlags: 1

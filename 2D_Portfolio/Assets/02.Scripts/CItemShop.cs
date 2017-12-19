@@ -4,37 +4,52 @@ using UnityEngine;
 
 public class CItemShop : CVillageManager
 {
-    protected new GameObject ShopSlotPrefab
+    //protected new GameObject ShopSlotPrefab
+    //{
+    //    get
+    //    {
+    //        return base.ShopSlotPrefab;
+    //    }
+    //}
+
+    void Awake()
     {
-        get
-        {
-            return base.ShopSlotPrefab;
-        }
+       
     }
 
-    protected override void Awake()
-    {
-        base.Awake();
+    void Start()
+    {       
     }
 
-    protected override void Start()
+    void Update()
     {
-        base.Start();
-        
+        TouchGetObj();
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
 
     protected override void TouchGetObj()
     {
         base.TouchGetObj();
     }
+
     protected override void OpenShop()
     {
-        base.OpenShop();
+        //base.OpenShop();
+        if (m_shopinfo == ShopInfo.ItemShop)
+        {
+            Debug.Log("아이템샵");
+            m_shopPanel.SetActive(true);
+            m_shop[4].SetActive(true);
+            m_shopDictionary[ShopInfo.ItemShop].SetActive(true);
+        }
+    }
+
+
+
+    //임시 함수
+    void OpenItemShop()
+    {
+        //base.OpenShop();
         if (m_shopinfo == ShopInfo.ItemShop)
         {
             Debug.Log("아이템샵");

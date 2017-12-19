@@ -486,6 +486,7 @@ GameObject:
   - component: {fileID: 80845843}
   - component: {fileID: 80845846}
   - component: {fileID: 80845847}
+  - component: {fileID: 80845848}
   m_Layer: 0
   m_Name: VillageManager
   m_TagString: Untagged
@@ -506,16 +507,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_shopinfo: 99
   m_cWeaponShop: {fileID: 0}
-  m_weaponShopScrollViewObj: {fileID: 0}
-  m_itemList_Content: {fileID: 0}
   m_cShopCategory: {fileID: 0}
   m_shopPanel: {fileID: 0}
   m_shop: []
   m_shopSlotCount: 0
   shopSlotPrefab: {fileID: 0}
   selectShop: {fileID: 0}
-  m_slots: []
   m_childCount: 0
+  m_cItemShopManager: {fileID: 0}
   m_touchSpriteCheck: {fileID: 0}
   m_itemName_Text: {fileID: 0}
   m_itemCost_Text: {fileID: 0}
@@ -546,8 +545,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_shopinfo: 99
   m_cWeaponShop: {fileID: 0}
-  m_weaponShopScrollViewObj: {fileID: 0}
-  m_itemList_Content: {fileID: 0}
   m_cShopCategory: {fileID: 0}
   m_shopPanel: {fileID: 0}
   m_shop: []
@@ -555,7 +552,6 @@ MonoBehaviour:
   shopSlotPrefab: {fileID: 1468946444856802, guid: 99047fa568b5c24428be7d3d4292c2f0,
     type: 2}
   selectShop: {fileID: 0}
-  m_slots: []
   m_childCount: 0
 --- !u!114 &80845846
 MonoBehaviour:
@@ -568,14 +564,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33de3d57951a9c448832e4182f11ecdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isColor: 1
-  m_eCategory: 99
-  m_categoryCount: 0
   m_shop_Catergory: {fileID: 0}
   m_shopcheck: {fileID: 0}
   m_categoryText: {fileID: 0}
   m_categoryBtn: {fileID: 0}
   m_cWeaponShop: {fileID: 0}
+  m_selectCategory: 99
+  m_eBackUiState: 99
+  m_categoryCount: 0
   m_isCategoryBtnColor: 1
   m_categorySlotList: []
   m_categoryslotPrefab: {fileID: 1344580040750270, guid: ad307345aba1e5e45bb4d067e3890dfb,
@@ -594,16 +590,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_shopinfo: 99
   m_cWeaponShop: {fileID: 0}
-  m_weaponShopScrollViewObj: {fileID: 0}
-  m_itemList_Content: {fileID: 0}
   m_cShopCategory: {fileID: 0}
   m_shopPanel: {fileID: 0}
   m_shop: []
   m_shopSlotCount: 0
   shopSlotPrefab: {fileID: 0}
   selectShop: {fileID: 0}
-  m_slots: []
   m_childCount: 0
+--- !u!114 &80845848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 80845842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a10bca835de19a4888f5f93189c25eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cWeaponShop: {fileID: 0}
+  m_cItemShop: {fileID: 0}
+  m_cVillageManager: {fileID: 0}
+  m_weaponShopScrollViewObj: {fileID: 0}
+  m_itemList_Content: {fileID: 0}
+  m_shopSlotCount: 0
+  shopSlotPrefab: {fileID: 1468946444856802, guid: 99047fa568b5c24428be7d3d4292c2f0,
+    type: 2}
+  m_slots: []
 --- !u!1 &118171379
 GameObject:
   m_ObjectHideFlags: 0
@@ -3575,7 +3588,7 @@ Prefab:
     - target: {fileID: 224677187510381892, guid: ad307345aba1e5e45bb4d067e3890dfb,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -30
+      value: -31.5
       objectReference: {fileID: 0}
     - target: {fileID: 224677187510381892, guid: ad307345aba1e5e45bb4d067e3890dfb,
         type: 2}
@@ -3656,6 +3669,10 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344580040750270, guid: ad307345aba1e5e45bb4d067e3890dfb, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad307345aba1e5e45bb4d067e3890dfb, type: 2}
