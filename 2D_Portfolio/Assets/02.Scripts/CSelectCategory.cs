@@ -20,7 +20,8 @@ public class CSelectCategory :MonoBehaviour
         Accessory,
         Mace,
         Spear,
-        MatialArts,        
+        MatialArts,
+        Potion,
         Default = 99
     }
 
@@ -52,6 +53,14 @@ public class CSelectCategory :MonoBehaviour
         //    m_btnColor.colors = cb;
         //}
 
+        this.gameObject.GetComponent<Button>().onClick.AddListener(()=>CItemShopSlotListManager.GetInstance.HideSlotList(m_eCategory));
+        this.gameObject.GetComponent<Button>().onClick.AddListener(()=>CShopCategory.GetInstance.OpenItemListInCategory(m_eCategory));
+
+    }
+
+    void TEST()
+    {
+        Debug.Log("onbbtn : " + m_eCategory);
     }
 
     protected virtual void InitializeCategory()

@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Village
   - Shop
+  - VillageShops
+  - RayCheck
   layers:
   - Default
   - TransparentFX

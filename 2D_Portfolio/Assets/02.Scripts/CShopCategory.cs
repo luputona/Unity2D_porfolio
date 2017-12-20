@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글턴, 추후 다시 모노로 변경
+public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시로 싱글턴, 추후 다시 모노로 변경
 {
     //public enum SelcetCategory
     //{
@@ -26,12 +26,10 @@ public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글�
     [SerializeField]
     private CWeaponShop m_cWeaponShop;
     [SerializeField]
-    private CItemShopManager m_cItemShopManager;
+    private CItemShopSlotListManager m_cItemShopManager;
     [SerializeField]
     private Text m_categoryText;
-    [SerializeField]
-    private Button m_categoryBtn;
-    
+ 
 
     public CSelectCategory.ESelcetWeaponCategory m_selectCategory = CSelectCategory.ESelcetWeaponCategory.Default; // 현재 선택한 카테고리 선별
     public CSelectCategory.EBACKUISTATE m_eBackUiState = CSelectCategory.EBACKUISTATE.Default;
@@ -48,7 +46,7 @@ public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글�
         m_shop_Catergory = GameObject.Find("Shop_CatergoryList").gameObject;
         m_shopcheck = this.GetComponent<CVillageManager>();
         m_cWeaponShop = this.GetComponent<CWeaponShop>();
-        m_cItemShopManager = this.GetComponent<CItemShopManager>();
+        m_cItemShopManager = this.GetComponent<CItemShopSlotListManager>();
     }
 
     void Start()
@@ -69,14 +67,14 @@ public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글�
 
     void PopupCategoryPanel()
     {
-        m_categoryCount = CWeaponData.GetInstance.m_categoryLocalList.Count;
+        m_categoryCount = 10;
         //카테고리 슬롯 생성
         for (int i = 0; i < m_categoryCount; i++)
         {
-            GameObject tObj = Instantiate(m_categoryslotPrefab) as GameObject;
+            GameObject tObj = Instantiate(m_categoryslotPrefab);
             m_categorySlotList.Add(tObj);
             m_categorySlotList[i].transform.SetParent(m_shop_Catergory.transform,false);
-            m_categorySlotList[i].transform.name = CWeaponData.GetInstance.m_categoryLocalList[i].m_category; // TODO: 추후 m_categoryLocalList를 m_categoryList 로 변경
+            
             m_categoryText = m_categorySlotList[i].transform.GetChild(0).GetComponent<Text>();
             m_categoryText.text = string.Format("{0}" ,CWeaponData.GetInstance.m_categoryLocalList[i].m_category);
 
@@ -86,7 +84,7 @@ public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글�
 
             //string 으로 체크
             string tName = m_categorySlotList[i].transform.name;
-            tObj.gameObject.GetComponent<Button>().onClick.AddListener(() => OpenItemListInCategoryStrVer(tName));
+            //tObj.gameObject.GetComponent<Button>().onClick.AddListener(() => OpenItemListInCategoryStrVer(tName));
 
             //상점 리스트에서 광클릭하다가 카테고리로 돌아가는 이유 - > 빌리지매니저에 레이캐스팅이 ui뒤에 가려져 있던 상점체크 콜라이더를 인식해서 발생함
         }
@@ -100,69 +98,111 @@ public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글�
     }
  
     //enum으로 체크
-    void OpenItemListInCategory(CSelectCategory.ESelcetWeaponCategory tEselect)
+    public void OpenItemListInCategory(CSelectCategory.ESelcetWeaponCategory tEWeaponSelect = 0, CSelectCategory.ESelectItemShopCategory tEItemSelect = 0 )
     {
         if(m_shopcheck.m_shopinfo == CSelectShop.ShopInfo.WeaponShop)
         {          
-            Debug.Log("tEselect : " + tEselect);
-
-            WeaponCateogryList(tEselect);
-
+            for(int i = 0; i < m_categoryCount; i++ )
+            {
+                m_categorySlotList[i].transform.name = CWeaponData.GetInstance.m_categoryLocalList[i].m_category; // TODO: 추후 m_categoryLocalList를 m_categoryList 로 변경
+            }
+            WeaponCateogryList(tEWeaponSelect);
         }
         else if(m_shopcheck.m_shopinfo == CSelectShop.ShopInfo.ItemShop)
         {
-            //ItemCategoryList(tEShopInfo);
+            for (int i = 0; i < m_categoryCount; i++)
+            {
+                //m_categorySlotList[i].transform.name = CItemShop.GetInstance.m_categoryLocalList[i].m_category; // TODO: 추후 m_categoryLocalList를 m_categoryList 로 변경
+            }
+            ItemCategoryList(tEItemSelect);
         }
     }
     
+    void ChangeSlotObjName()
+    {
+
+    }
+
+
+
     //enum으로 체크 
     void WeaponCateogryList(CSelectCategory.ESelcetWeaponCategory tEselect)
     {
+        m_selectCategory = tEselect;
         m_shopcheck.m_shopDictionary[CSelectShop.ShopInfo.Category].SetActive(false);
-        if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Sword].GetComponent<CSelectCategory>().m_eCategory == tEselect)
-        {
+        if (CSelectCategory.ESelcetWeaponCategory.Sword == tEselect)
+        {            
             m_cWeaponShop.InsertSwordItemData();
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             
             Debug.Log("칼오픈");
         }
-        else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Bow].GetComponent<CSelectCategory>().m_eCategory == tEselect)
+        else if (CSelectCategory.ESelcetWeaponCategory.Bow == tEselect)
         {
             m_cWeaponShop.InsertBowItemData();
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("활오픈");
         }
-        else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Staff].GetComponent<CSelectCategory>().m_eCategory == tEselect)
+        else if (CSelectCategory.ESelcetWeaponCategory.Staff == tEselect)
         {
+            m_cWeaponShop.InsertStaffData();
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("스태프오픈");
         }
-        else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Accessory].GetComponent<CSelectCategory>().m_eCategory == tEselect)
+        else if (CSelectCategory.ESelcetWeaponCategory.Accessory == tEselect)
         {
+            m_cWeaponShop.InsertAccessoryData();
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("악세오픈");
         }
-        else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Mace].GetComponent<CSelectCategory>().m_eCategory == tEselect)
+        else if (CSelectCategory.ESelcetWeaponCategory.Mace == tEselect)
         {
+            m_cWeaponShop.InsertMaceData();
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("둔기오픈");
         }
-        else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Spear].GetComponent<CSelectCategory>().m_eCategory == tEselect)
+        else if (CSelectCategory.ESelcetWeaponCategory.Spear == tEselect)
         {
+            m_cWeaponShop.InsertSpearData();
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("창오픈");
         }
-        else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.MatialArts].GetComponent<CSelectCategory>().m_eCategory == tEselect)
+        else if (CSelectCategory.ESelcetWeaponCategory.MatialArts == tEselect)
         {
+            m_cWeaponShop.InsertMartailArtsData();
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("근접오픈");
         }
     }
 
-    void ItemCategoryList(string categoryName)
+    void ItemCategoryList(CSelectCategory.ESelectItemShopCategory tESelect)
     {
 
+        Debug.Log("아이템샵 카테고리 오픈");
+
+
+
     }
+    
+    void SlotCount(int tCount)
+    {
+        if (tCount < m_categorySlotList.Count)
+        {
+            for (int i = tCount; i < m_categorySlotList.Count; i++)
+            {
+                m_categorySlotList[i].SetActive(false);
+            }
+        }
+    }
+
+
+    
+
+
+
+
+
+
 
 
     //string으로 체크 
@@ -188,6 +228,7 @@ public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글�
         if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Sword].transform.name == tName)
         {
             m_cWeaponShop.InsertSwordItemData();
+            m_cItemShopManager.m_categoryName = tName;
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
 
             Debug.Log("칼오픈");
@@ -195,31 +236,42 @@ public class CShopCategory : MonoBehaviour//CSelectCategory// 임시로 싱글�
         else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Bow].transform.name == tName)
         {
             m_cWeaponShop.InsertBowItemData();
+            m_cItemShopManager.m_categoryName = tName;
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("활오픈");
         }
         else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Staff].transform.name == tName)
         {
+            m_cWeaponShop.InsertStaffData();
+            m_cItemShopManager.m_categoryName = tName;
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("스태프오픈");
         }
         else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Accessory].transform.name == tName)
         {
+            m_cWeaponShop.InsertAccessoryData();
+            m_cItemShopManager.m_categoryName = tName;
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("악세오픈");
         }
         else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Mace].transform.name == tName)
         {
+            m_cWeaponShop.InsertMaceData();
+            m_cItemShopManager.m_categoryName = tName;
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("둔기오픈");
         }
         else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.Spear].transform.name == tName)
         {
+            m_cWeaponShop.InsertSpearData();
+            m_cItemShopManager.m_categoryName = tName;
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("창오픈");
         }
         else if (m_categorySlotList[(int)CSelectCategory.ESelcetWeaponCategory.MatialArts].transform.name == tName)
         {
+            m_cWeaponShop.InsertMartailArtsData();
+            m_cItemShopManager.m_categoryName = tName;
             m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
             Debug.Log("근접오픈");
         }

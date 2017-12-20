@@ -12,7 +12,7 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
     [SerializeField]
     private JsonData m_matialArtsJsonData;
 
-    public List<SwordItem> m_spearItemList = new List<SwordItem>();
+    public List<SwordItem> m_matialArtsItemList = new List<SwordItem>();
 
     public void Awake()
     {
@@ -26,10 +26,10 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
     {
         for (int i = 0; i < m_matialArtsJsonData.Count; i++)
         {
-            m_spearItemList.Add(new SwordItem(
+            m_matialArtsItemList.Add(new SwordItem(
                 (int)m_matialArtsJsonData[i]["id"],
                 m_matialArtsJsonData[i]["name"].ToString(),
-                m_matialArtsJsonData[i]["discription"].ToString(),
+                m_matialArtsJsonData[i]["description"].ToString(),
                 m_matialArtsJsonData[i]["skill_name"].ToString(),
                 m_matialArtsJsonData[i]["skill_Dis"].ToString(),
                 double.Parse(m_matialArtsJsonData[i]["skill_effect_01"].ToString()),
@@ -75,7 +75,7 @@ public class MartialArtsItem
 {
     public int m_id;//{ get; set; }
     public string m_name;// { get; set; }
-    public string m_discription;// { get; set; }
+    public string m_description;// { get; set; }
     public string m_skill_name;// { get; set; }
     public string m_skill_Dis;// { get; set; }
     public double m_skill_effect_01;// { get; set; }
@@ -88,14 +88,14 @@ public class MartialArtsItem
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
 
-    public MartialArtsItem(int id, string name, string discription, string skill_name, string skill_dis,
+    public MartialArtsItem(int id, string name, string description, string skill_name, string skill_dis,
         double skill_effect_01, double skill_effect_02,
         double skill_effect_03, double skill_effect_04, double damage,
         double def, double dodging, double hp, int cost)
     {
         m_id = id;
         m_name = name;
-        m_discription = discription;
+        m_description = description;
         m_skill_name = skill_name;
         m_skill_Dis = skill_dis;
         m_skill_effect_01 = skill_effect_01;

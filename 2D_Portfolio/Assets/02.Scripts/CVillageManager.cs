@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class CVillageManager : CSelectShop
 {
@@ -28,8 +30,8 @@ public class CVillageManager : CSelectShop
     protected GameObject[] m_shop;
     [SerializeField]
     protected int m_shopSlotCount;
-    [SerializeField]    
-    private GameObject shopSlotPrefab;
+    [SerializeField]
+    private GameObject m_rayStateCheckObj;
     public CSelectShop selectShop;
 
     //public List<GameObject> m_slots = new List<GameObject>();
@@ -43,15 +45,15 @@ public class CVillageManager : CSelectShop
     //[SerializeField]
     //protected GameObject m_itemList_Content;
 
-    void Awake()
-    {
+    //void Awake()
+    //{
         
-    }
-    void Start()
-    {
-        //InsertShopDictionary();
-        //CreatedShopListSlot();
-    }
+    //}
+    //void Start()
+    //{
+    //    //InsertShopDictionary();
+    //    //CreatedShopListSlot();
+    //}
     void Update()
     {
         TouchGetObj();
@@ -70,12 +72,18 @@ public class CVillageManager : CSelectShop
 
         m_cWeaponShop = this.gameObject.GetComponent<CWeaponShop>();
         m_cShopCategory = this.gameObject.GetComponent<CShopCategory>();
+        m_rayStateCheckObj = GameObject.FindGameObjectWithTag("RayCheck");
         m_childCount = m_shopPanel.transform.childCount;
+        
     }
 
-
+    public void InitRayCheckObj()
+    {
+        m_rayStateCheckObj.SetActive(false);
+    }
     
-	public virtual void InsertShopDictionary()
+
+    public virtual void InsertShopDictionary()
 	{
 		m_shopSlotCount = 10;
 		m_shop = new GameObject[m_childCount];
@@ -111,11 +119,28 @@ public class CVillageManager : CSelectShop
 
                 if (hit)
                 {
-                    Debug.Log(hit.collider.gameObject.transform.name);
-                    selectShop = hit.collider.gameObject.GetComponent<CSelectShop>();
-                    m_shopinfo = selectShop.m_shopinfo;
+                    if (hit.collider.gameObject.tag.Equals("RayCheck"))
+                    {
+                        Debug.Log("RayCheck");
+                        return;
+                    }
+                    if (hit.collider.gameObject.tag.Equals("VillageShops"))
+                    {
+                        Debug.Log(hit.collider.gameObject.transform.name);
+                        selectShop = hit.collider.gameObject.GetComponent<CSelectShop>();
+                        m_shopinfo = selectShop.m_shopinfo;
 
-                    OpenShop();                    
+                        OpenShop();
+                    }
+                    else
+                    {
+                        Debug.Log("Not found shops");
+                    }
+                }
+                else
+                {
+                    selectShop = null;
+                    Debug.Log("Not have collider");
                 }
             }
         }
@@ -123,14 +148,37 @@ public class CVillageManager : CSelectShop
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition ), Vector2.zero);
-
+            
+                        
             if (hit)
             {
-                Debug.Log(hit.collider.gameObject.transform.name);
-                selectShop = hit.collider.gameObject.GetComponent<CSelectShop>();
-                m_shopinfo = selectShop.m_shopinfo;
+                if(hit.collider.gameObject.tag.Equals("RayCheck"))
+                {
+                    Debug.Log("RayCheck");
+                    return;
+                }
+                if(hit.collider.gameObject.tag.Equals("VillageShops"))
+                {
+                    Debug.Log(hit.collider.gameObject.transform.name);
+                    selectShop = hit.collider.gameObject.GetComponent<CSelectShop>();
+                    m_shopinfo = selectShop.m_shopinfo;
 
-                OpenShop();
+                    OpenShop();
+                }
+                else
+                {
+                    Debug.Log("Not found shops");
+                }
+               
+            }
+            //else if(hit.collider.gameObject.tag.Equals("RayCheck"))
+            //{
+            //    selectShop = null;
+            //}
+            else
+            {
+                selectShop = null;
+                Debug.Log("Not have collider");
             }
         }
     }
@@ -142,6 +190,7 @@ public class CVillageManager : CSelectShop
         m_shopDictionary[ShopInfo.BackButton].SetActive(true);
         m_shopDictionary[ShopInfo.ShopContenItemList].SetActive(true);
         m_shopDictionary[ShopInfo.ItemDescription].SetActive(true);
+        m_rayStateCheckObj.SetActive(true);
         Debug.Log("오픈상점");
         //if (m_shopinfo == ShopInfo.WeaponShop)
         //{
@@ -166,22 +215,33 @@ public class CVillageManager : CSelectShop
     }
 
     public void ClosedShop()
-    {        
-        if(m_cShopCategory.m_eBackUiState == CSelectCategory.EBACKUISTATE.Disable)//현재 UI가 무기샵이고 카테고리가 무기 카테고리 일 경우 
+    {
+        m_rayStateCheckObj.SetActive(true);
+
+        if (m_cShopCategory.m_eBackUiState == CSelectCategory.EBACKUISTATE.Disable)//현재 UI가 무기샵이고 카테고리가 무기 카테고리 일 경우 
         {
             m_shopDictionary[ShopInfo.Category].SetActive(true);
+            CItemShopSlotListManager.GetInstance.ShowSlotList();
+            
+
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;            
         }
         else if (m_cShopCategory.m_eBackUiState == CSelectCategory.EBACKUISTATE.Closed)
         {
+            //CItemShopSlotListManager.GetInstance.m_itemList_Content.transform.a = new Vector2(0.0f, 0.0f);
+            
             for (int i = 0; i < m_childCount; i++)
             {
                 m_shop[i].SetActive(false);
             }
             m_shopPanel.SetActive(false);
+            m_rayStateCheckObj.SetActive(false);
         }
-        
-        
+        m_shop[4].gameObject.GetComponent<ScrollRect>().content.anchoredPosition = Vector3.zero;
+        m_shop[4].gameObject.GetComponent<ScrollRect>().StopMovement();
+        m_shop[3].gameObject.GetComponent<ScrollRect>().content.anchoredPosition = Vector3.zero;
+        m_shop[3].gameObject.GetComponent<ScrollRect>().StopMovement();
+
     }
 
 

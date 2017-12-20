@@ -30,7 +30,7 @@ public class CBowData : SingleTon<CBowData>, IItemData
             m_bowItemList.Add(new SwordItem(
                 (int)m_bowJsonData[i]["id"],
                 m_bowJsonData[i]["name"].ToString(),
-                m_bowJsonData[i]["discription"].ToString(),
+                m_bowJsonData[i]["description"].ToString(),
                 m_bowJsonData[i]["skill_name"].ToString(),
                 m_bowJsonData[i]["skill_Dis"].ToString(),
                 double.Parse(m_bowJsonData[i]["skill_effect_01"].ToString()),
@@ -76,7 +76,7 @@ public class BowItem
 {
     public int m_id;//{ get; set; }
     public string m_name;// { get; set; }
-    public string m_discription;// { get; set; }
+    public string m_description;// { get; set; }
     public string m_skill_name;// { get; set; }
     public string m_skill_Dis;// { get; set; }
     public double m_skill_effect_01;// { get; set; }
@@ -89,14 +89,14 @@ public class BowItem
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
 
-    public BowItem(int id, string name, string discription, string skill_name, string skill_dis,
+    public BowItem(int id, string name, string description, string skill_name, string skill_dis,
         double skill_effect_01, double skill_effect_02,
         double skill_effect_03, double skill_effect_04, double damage,
         double def, double dodging, double hp, int cost)
     {
         m_id = id;
         m_name = name;
-        m_discription = discription;
+        m_description = description;
         m_skill_name = skill_name;
         m_skill_Dis = skill_dis;
         m_skill_effect_01 = skill_effect_01;
