@@ -1,0 +1,15 @@
+[
+    {
+        "id": 0,
+        "Category": "Potion"
+    },
+    {
+        "id": 1,
+        "Category": "Goods"
+    },
+    {
+        "id":2,
+        "Category": "ETC"
+    }
+
+]

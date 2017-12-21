@@ -78,9 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a4ac04b00e63494799d95e31eb71c43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isColor: 1
+  m_cVillageManager: {fileID: 0}
   m_eCategory: 99
+  m_eItemShopCategory: 99
   m_categoryCount: 0
+  m_isColor: 1
 --- !u!114 &114313899768605512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,7 +162,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.83823526, g: 0.83823526, b: 0.83823526, a: 1}
+    m_NormalColor: {r: 0.7794118, g: 0.7794118, b: 0.7794118, a: 1}
     m_HighlightedColor: {r: 0.4852941, g: 0.4852941, b: 0.4852941, a: 1}
     m_PressedColor: {r: 0.4862745, g: 0.4862745, b: 0.4862745, a: 1}
     m_DisabledColor: {r: 0.4862745, g: 0.4862745, b: 0.4862745, a: 1}

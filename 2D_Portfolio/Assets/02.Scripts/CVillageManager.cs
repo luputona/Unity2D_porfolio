@@ -22,6 +22,8 @@ public class CVillageManager : CSelectShop
     [SerializeField]
     private CWeaponShop m_cWeaponShop;
     [SerializeField]
+    private CGoodsShop m_cGoodsShop;
+    [SerializeField]
     protected CShopCategory m_cShopCategory;
         
     [SerializeField]
@@ -32,6 +34,8 @@ public class CVillageManager : CSelectShop
     protected int m_shopSlotCount;
     [SerializeField]
     private GameObject m_rayStateCheckObj;
+
+
     public CSelectShop selectShop;
 
     //public List<GameObject> m_slots = new List<GameObject>();
@@ -69,7 +73,7 @@ public class CVillageManager : CSelectShop
         //m_weaponShopScrollViewObj = GameObject.Find("03_inst_ItemList_ScrollView").gameObject;
         //m_itemList_Content = m_weaponShopScrollViewObj.transform.Find("ItemList_Viewport").transform.Find("ItemList_Content").gameObject;
 
-
+        m_cGoodsShop = this.gameObject.GetComponent<CGoodsShop>();
         m_cWeaponShop = this.gameObject.GetComponent<CWeaponShop>();
         m_cShopCategory = this.gameObject.GetComponent<CShopCategory>();
         m_rayStateCheckObj = GameObject.FindGameObjectWithTag("RayCheck");
@@ -154,12 +158,12 @@ public class CVillageManager : CSelectShop
             {
                 if(hit.collider.gameObject.tag.Equals("RayCheck"))
                 {
-                    Debug.Log("RayCheck");
+                    //Debug.Log("RayCheck");
                     return;
                 }
                 if(hit.collider.gameObject.tag.Equals("VillageShops"))
                 {
-                    Debug.Log(hit.collider.gameObject.transform.name);
+                    //Debug.Log(hit.collider.gameObject.transform.name);
                     selectShop = hit.collider.gameObject.GetComponent<CSelectShop>();
                     m_shopinfo = selectShop.m_shopinfo;
 
@@ -167,18 +171,15 @@ public class CVillageManager : CSelectShop
                 }
                 else
                 {
-                    Debug.Log("Not found shops");
+                    //Debug.Log("Not found shops");
                 }
                
-            }
-            //else if(hit.collider.gameObject.tag.Equals("RayCheck"))
-            //{
-            //    selectShop = null;
-            //}
+            }           
             else
             {
                 selectShop = null;
-                Debug.Log("Not have collider");
+                return;
+                //Debug.Log("Not have collider");
             }
         }
     }
@@ -188,26 +189,37 @@ public class CVillageManager : CSelectShop
         
         m_shopDictionary[ShopInfo.Category].SetActive(true);
         m_shopDictionary[ShopInfo.BackButton].SetActive(true);
-        m_shopDictionary[ShopInfo.ShopContenItemList].SetActive(true);
+        //m_shopDictionary[ShopInfo.ShopContenItemList].SetActive(true);
         m_shopDictionary[ShopInfo.ItemDescription].SetActive(true);
         m_rayStateCheckObj.SetActive(true);
         Debug.Log("오픈상점");
+
+        //if (m_shopinfo == ShopInfo.GoodsShop)
+        //{
+        //    Debug.Log("아이템샵");
+        //    m_shopPanel.SetActive(true);
+
+        //    m_shop[4].SetActive(true);
+        //    m_shopDictionary[ShopInfo.GoodsShop].SetActive(true);
+        //    m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
+
+        //    m_cShopCategory.ChangeSlotObjNameIsGoodsShop();
+        //    m_cShopCategory.SlotCount(CGoodsShopData.GetInstance.m_localGoodsCategoryList.Count);
+        //}
         //if (m_shopinfo == ShopInfo.WeaponShop)
         //{
         //    Debug.Log("웨폰샵");
         //    m_shopPanel.SetActive(true);
+
         //    m_shop[4].SetActive(true);
         //    m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
-        //    m_cShopCategory.m_eCategory = CSelectCategory.ESelcetWeaponCategory.Closed;
+        //    m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
+
+        //    m_cShopCategory.ChangeSlotObjNameIsWeaponShop();
+        //    m_cShopCategory.SlotCount(CWeaponData.GetInstance.m_categoryLocalList.Count);
 
         //}
-        //if (m_shopinfo == ShopInfo.ItemShop)
-        //{
-        //    Debug.Log("아이템샵");
-        //    m_shopPanel.SetActive(true);
-        //    m_shop[4].SetActive(true);
-        //    m_shopDictionary[ShopInfo.ItemShop].SetActive(true);
-        //}
+
         if (m_shopinfo == ShopInfo.EntryDungeon)
         {
             Debug.Log("엔트리 던전");
@@ -217,26 +229,37 @@ public class CVillageManager : CSelectShop
     public void ClosedShop()
     {
         m_rayStateCheckObj.SetActive(true);
-
-        if (m_cShopCategory.m_eBackUiState == CSelectCategory.EBACKUISTATE.Disable)//현재 UI가 무기샵이고 카테고리가 무기 카테고리 일 경우 
+        
+        if (m_cShopCategory.m_eBackUiState == CSelectCategory.EBACKUISTATE.Disable)//현재 UI가 샵이고 카테고리 화면 일 경우 
         {
             m_shopDictionary[ShopInfo.Category].SetActive(true);
             CItemShopSlotListManager.GetInstance.ShowSlotList();
+
+            m_shopDictionary[ShopInfo.ShopContenItemList].SetActive(false);
+
+            m_cShopCategory.m_selectGoodsShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default;
+            m_cShopCategory.m_selectCategory = CSelectCategory.ESelcetWeaponCategory.Default;
             
 
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;            
         }
         else if (m_cShopCategory.m_eBackUiState == CSelectCategory.EBACKUISTATE.Closed)
         {
+            m_shopinfo = ShopInfo.Default;
+            m_cWeaponShop.m_shopinfo = ShopInfo.Default;
+            m_cGoodsShop.m_shopinfo = ShopInfo.Default;
+            ResetItemCategory();
             //CItemShopSlotListManager.GetInstance.m_itemList_Content.transform.a = new Vector2(0.0f, 0.0f);
-            
+
             for (int i = 0; i < m_childCount; i++)
             {
                 m_shop[i].SetActive(false);
             }
+            
             m_shopPanel.SetActive(false);
             m_rayStateCheckObj.SetActive(false);
         }
+        
         m_shop[4].gameObject.GetComponent<ScrollRect>().content.anchoredPosition = Vector3.zero;
         m_shop[4].gameObject.GetComponent<ScrollRect>().StopMovement();
         m_shop[3].gameObject.GetComponent<ScrollRect>().content.anchoredPosition = Vector3.zero;
@@ -244,6 +267,16 @@ public class CVillageManager : CSelectShop
 
     }
 
+
+    void ResetItemCategory()
+    {
+        for(int i = 0; i < m_cShopCategory.m_categorySlotList.Count; i++)
+        {
+            m_cShopCategory.m_categorySlotList[i].GetComponent<CSelectCategory>().m_eCategory = CSelectCategory.ESelcetWeaponCategory.Default;
+            m_cShopCategory.m_categorySlotList[i].GetComponent<CSelectCategory>().m_eItemShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default;            
+        }
+        Debug.Log("스테이트 초기화 함수 호출");
+    }
 
     //void CreatedShopListSlot()
     //{
