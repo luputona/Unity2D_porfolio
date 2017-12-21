@@ -178,7 +178,7 @@ public class CVillageManager : CSelectShop
             else
             {
                 selectShop = null;
-                return;
+                
                 //Debug.Log("Not have collider");
             }
         }
@@ -194,31 +194,31 @@ public class CVillageManager : CSelectShop
         m_rayStateCheckObj.SetActive(true);
         Debug.Log("오픈상점");
 
-        //if (m_shopinfo == ShopInfo.GoodsShop)
-        //{
-        //    Debug.Log("아이템샵");
-        //    m_shopPanel.SetActive(true);
+        if (m_shopinfo == ShopInfo.GoodsShop)
+        {
+            Debug.Log("아이템샵");
+            m_shopPanel.SetActive(true);
 
-        //    m_shop[4].SetActive(true);
-        //    m_shopDictionary[ShopInfo.GoodsShop].SetActive(true);
-        //    m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
+            m_shop[4].SetActive(true);
+            m_shopDictionary[ShopInfo.GoodsShop].SetActive(true);
+            //m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
 
-        //    m_cShopCategory.ChangeSlotObjNameIsGoodsShop();
-        //    m_cShopCategory.SlotCount(CGoodsShopData.GetInstance.m_localGoodsCategoryList.Count);
-        //}
-        //if (m_shopinfo == ShopInfo.WeaponShop)
-        //{
-        //    Debug.Log("웨폰샵");
-        //    m_shopPanel.SetActive(true);
+            //m_cShopCategory.ChangeSlotObjNameIsGoodsShop();
+            //m_cShopCategory.SlotCount(CGoodsShopData.GetInstance.m_localGoodsCategoryList.Count);
+        }
+        if (m_shopinfo == ShopInfo.WeaponShop)
+        {
+            Debug.Log("웨폰샵");
+            m_shopPanel.SetActive(true);
 
-        //    m_shop[4].SetActive(true);
-        //    m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
-        //    m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
+            m_shop[4].SetActive(true);
+            m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
+            //m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
 
-        //    m_cShopCategory.ChangeSlotObjNameIsWeaponShop();
-        //    m_cShopCategory.SlotCount(CWeaponData.GetInstance.m_categoryLocalList.Count);
+            //m_cShopCategory.ChangeSlotObjNameIsWeaponShop();
+            //m_cShopCategory.SlotCount(CWeaponData.GetInstance.m_categoryLocalList.Count);
 
-        //}
+        }
 
         if (m_shopinfo == ShopInfo.EntryDungeon)
         {

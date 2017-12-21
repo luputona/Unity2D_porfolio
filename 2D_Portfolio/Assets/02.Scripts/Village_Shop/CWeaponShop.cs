@@ -46,8 +46,7 @@ public class CWeaponShop : CVillageManager
 
     protected override void TouchGetObj()
     {
-        base.TouchGetObj();   
-        OpenShop();
+        base.TouchGetObj();           
     }
 
     protected override void OpenShop()
@@ -56,10 +55,10 @@ public class CWeaponShop : CVillageManager
         if (m_shopinfo == ShopInfo.WeaponShop)
         {
             Debug.Log("웨폰샵");
-            m_shopPanel.SetActive(true);
+            //m_shopPanel.SetActive(true);
             
-            m_shop[4].SetActive(true);
-            m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
+            //m_shop[4].SetActive(true);
+            //m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
             
             m_cShopCategory.ChangeSlotObjNameIsWeaponShop();

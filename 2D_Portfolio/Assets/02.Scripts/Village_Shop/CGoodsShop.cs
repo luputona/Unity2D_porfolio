@@ -47,19 +47,19 @@ public class CGoodsShop : CVillageManager
     protected override void TouchGetObj()
     {
         base.TouchGetObj();
-        OpenShop();
+        
     }
 
     protected override void OpenShop()
     {
         //base.OpenShop();
-        if (base.m_shopinfo == ShopInfo.GoodsShop)
+        if (m_shopinfo == ShopInfo.GoodsShop)
         {
             Debug.Log("아이템샵");
-            m_shopPanel.SetActive(true);
+            //m_shopPanel.SetActive(true);
             
-            m_shop[4].SetActive(true);
-            m_shopDictionary[ShopInfo.GoodsShop].SetActive(true);
+            //m_shop[4].SetActive(true);
+            //m_shopDictionary[ShopInfo.GoodsShop].SetActive(true);
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
 
             m_cShopCategory.ChangeSlotObjNameIsGoodsShop();
