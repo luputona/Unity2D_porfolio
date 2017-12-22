@@ -224,8 +224,8 @@ PlayerSettings:
   AndroidTargetDevice: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: D:/unityproject/Unity2D_porfolio/2D_Portfolio/Keys/user.keystore
+  AndroidKeyaliasName: test
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   AndroidEnableTango: 0

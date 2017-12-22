@@ -62,10 +62,11 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
 
     public void LoadLocalData()
     {
-        //TextAsset jdatatext = Resources.Load("Data/WeaponData") as TextAsset;
-        //m_localPath = jdatatext.text;
-        m_localData = JsonMapper.ToObject(File.ReadAllText(Application.streamingAssetsPath + "/WeaponData.json"));
-        
+        TextAsset jdatatext = Resources.Load<TextAsset>("Data/WeaponData");
+        m_localPath = jdatatext.text;
+        //m_localData = JsonMapper.ToObject(File.ReadAllText(Application.streamingAssetsPath + "/WeaponData.json"));
+        m_localData = JsonMapper.ToObject(m_localPath);
+
         ConstructLocalData();
     }
 

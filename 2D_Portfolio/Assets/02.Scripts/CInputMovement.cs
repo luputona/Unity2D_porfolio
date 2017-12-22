@@ -21,13 +21,13 @@ public class CInputMovement : CMovement
     [SerializeField]
     private Transform m_fakeDefaultPos;
     [SerializeField]
-    private float m_fakeFlip;
+    private float m_fakeFlip; // 페이크 오브젝트의 이동 좌표 리미트 
     [SerializeField]
     private float m_fakeSpeed = 0.1f;
 
     public bool m_isSideColCheck;
     public float m_moveSpeed;
-    public Vector2 m_fakePosX;
+    public Vector2 m_fakePosX; // 페이크 오브젝트의 이동 좌표 제어
 
     public float FakeFlip
     {
@@ -101,9 +101,9 @@ public class CInputMovement : CMovement
         
         m_rigidbody.velocity = new Vector2(h * m_moveSpeed * -1, m_rigidbody.velocity.y);
 
-        if (h < 0.0f )
+        if (h < 0.0f ) //왼쪽
         {
-            m_fakeFlip = 0.5f;
+            m_fakeFlip = 0.5f; 
             m_fakePosX = new Vector2(m_fakePlayerPos.position.x + m_fakeFlip, m_fakePlayerPos.position.y);
             if (m_fakePlayerPos.position.x >= 0.6f)
             {
@@ -114,7 +114,7 @@ public class CInputMovement : CMovement
                 m_fakePlayerPos.position = Vector3.Lerp(m_fakePlayerPos.position, m_fakePosX, m_fakeSpeed * Time.deltaTime);
             }
         }
-        else if(h > 0.0f )
+        else if(h > 0.0f ) //오른쪽
         {
             m_fakeFlip = -0.5f;
             m_fakePosX = new Vector2(m_fakePlayerPos.position.x + m_fakeFlip, m_fakePlayerPos.position.y);
@@ -136,7 +136,7 @@ public class CInputMovement : CMovement
         }
         else if( h == 0.0f && m_isSideColCheck == true)
         {
-            m_characterCtrl.gameObject.transform.position = new Vector2(0.0f, 0.0f);
+            m_characterCtrl.gameObject.transform.position = new Vector2(0.0f, 0.0f);// 충돌로 인한 약간의 좌표가 어긋나는 것을 초기화로 잡아줌
         }
     }
     

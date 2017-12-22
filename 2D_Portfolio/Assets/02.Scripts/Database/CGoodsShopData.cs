@@ -82,7 +82,11 @@ public class CGoodsShopData : SingleTon<CGoodsShopData>, IItemData
 
     public void LoadLocalData()
     {
-        m_localGoodsData = JsonMapper.ToObject(File.ReadAllText(Application.streamingAssetsPath + "/GoodsShopData.json"));
+        TextAsset jdatatext = Resources.Load<TextAsset>("Data/GoodsShopData");
+        m_localPath = jdatatext.text;
+
+        m_localGoodsData = JsonMapper.ToObject(m_localPath);
+        //m_localGoodsData = JsonMapper.ToObject(File.ReadAllText(Application.streamingAssetsPath + "/GoodsShopData.json"));
 
         ConstructLocalData();
     }
