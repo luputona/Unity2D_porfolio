@@ -25,6 +25,8 @@ public class CVillageManager : CSelectShop
     private CGoodsShop m_cGoodsShop;
     [SerializeField]
     protected CShopCategory m_cShopCategory;
+    [SerializeField]
+    private CEntryDungeon m_cEntryDungeon;
         
     [SerializeField]
     protected GameObject m_shopPanel;
@@ -35,6 +37,8 @@ public class CVillageManager : CSelectShop
     [SerializeField]
     private GameObject m_rayStateCheckObj;
 
+    [SerializeField]
+    private Text m_descText;
 
     public CSelectShop selectShop;
 
@@ -76,6 +80,8 @@ public class CVillageManager : CSelectShop
         m_cGoodsShop = this.gameObject.GetComponent<CGoodsShop>();
         m_cWeaponShop = this.gameObject.GetComponent<CWeaponShop>();
         m_cShopCategory = this.gameObject.GetComponent<CShopCategory>();
+        m_cEntryDungeon = this.gameObject.GetComponent<CEntryDungeon>();
+        
         m_rayStateCheckObj = GameObject.FindGameObjectWithTag("RayCheck");
         m_childCount = m_shopPanel.transform.childCount;
         
@@ -109,8 +115,8 @@ public class CVillageManager : CSelectShop
 		{
 			//Debug.Log("dic : " + enumerator.Current.Key);
 		}
-		
-	}
+        
+    }
 
 
     protected virtual void TouchGetObj()
@@ -135,6 +141,9 @@ public class CVillageManager : CSelectShop
                         m_shopinfo = selectShop.m_shopinfo;
 
                         OpenShop();
+                        m_cEntryDungeon.OpenShop();
+                        m_cGoodsShop.OpenShop();
+                        m_cWeaponShop.OpenShop();
                     }
                     else
                     {
@@ -168,6 +177,9 @@ public class CVillageManager : CSelectShop
                     m_shopinfo = selectShop.m_shopinfo;
 
                     OpenShop();
+                    m_cEntryDungeon.OpenShop();
+                    m_cGoodsShop.OpenShop();
+                    m_cWeaponShop.OpenShop();
                 }
                 else
                 {
@@ -187,42 +199,33 @@ public class CVillageManager : CSelectShop
     protected virtual void OpenShop()
     {
         
+
         m_shopDictionary[ShopInfo.Category].SetActive(true);
         m_shopDictionary[ShopInfo.BackButton].SetActive(true);
         //m_shopDictionary[ShopInfo.ShopContenItemList].SetActive(true);
         m_shopDictionary[ShopInfo.ItemDescription].SetActive(true);
         m_rayStateCheckObj.SetActive(true);
-        Debug.Log("오픈상점");
-
+        
         if (m_shopinfo == ShopInfo.GoodsShop)
         {
-            Debug.Log("아이템샵");
-            m_shopPanel.SetActive(true);
+            m_cGoodsShop.m_shopinfo = m_shopinfo;
 
-            m_shop[4].SetActive(true);
+            m_shopPanel.SetActive(true);                       
             m_shopDictionary[ShopInfo.GoodsShop].SetActive(true);
-            //m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
-
-            //m_cShopCategory.ChangeSlotObjNameIsGoodsShop();
-            //m_cShopCategory.SlotCount(CGoodsShopData.GetInstance.m_localGoodsCategoryList.Count);
         }
         if (m_shopinfo == ShopInfo.WeaponShop)
         {
-            Debug.Log("웨폰샵");
-            m_shopPanel.SetActive(true);
+            m_cWeaponShop.m_shopinfo = m_shopinfo;
 
-            m_shop[4].SetActive(true);
+            m_shopPanel.SetActive(true);                        
             m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
-            //m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
-
-            //m_cShopCategory.ChangeSlotObjNameIsWeaponShop();
-            //m_cShopCategory.SlotCount(CWeaponData.GetInstance.m_categoryLocalList.Count);
-
         }
-
-        if (m_shopinfo == ShopInfo.EntryDungeon)
+        if (m_shopinfo == ShopInfo.EntryDungeonDesk)
         {
-            Debug.Log("엔트리 던전");
+            m_cEntryDungeon.m_shopinfo = m_shopinfo;
+
+            m_shopPanel.SetActive(true);
+            m_shopDictionary[ShopInfo.EntryDungeonDesk].SetActive(true);            
         }        
     }
 
@@ -238,7 +241,22 @@ public class CVillageManager : CSelectShop
             m_shopDictionary[ShopInfo.ShopContenItemList].SetActive(false);
 
             m_cShopCategory.m_selectGoodsShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default;
-            m_cShopCategory.m_selectCategory = CSelectCategory.ESelcetWeaponCategory.Default;
+            m_cShopCategory.m_selectCategory = CSelectCategory.ESelcetWeaponCategory.Default;          
+
+
+            //카테고리 선택중 일때 npc대사 
+            if(m_shopinfo == CSelectShop.ShopInfo.WeaponShop)
+            {
+                m_cWeaponShop.WeaponShopMainText();
+            }
+            else if(m_shopinfo == CSelectShop.ShopInfo.GoodsShop)
+            {
+                m_cGoodsShop.GoodsShopMainText();
+            }
+            else if(m_shopinfo == CSelectShop.ShopInfo.EntryDungeonDesk)
+            {
+                //TODO : 던전은 아직 나갈대 대사 없음
+            }
             
 
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;            
@@ -248,6 +266,7 @@ public class CVillageManager : CSelectShop
             m_shopinfo = ShopInfo.Default;
             m_cWeaponShop.m_shopinfo = ShopInfo.Default;
             m_cGoodsShop.m_shopinfo = ShopInfo.Default;
+            m_cEntryDungeon.m_shopinfo = ShopInfo.Default;
             ResetItemCategory();
             //CItemShopSlotListManager.GetInstance.m_itemList_Content.transform.a = new Vector2(0.0f, 0.0f);
 

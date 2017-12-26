@@ -19,8 +19,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - ShopCollision
+  - Raycast_State_check
   - 
   - 
   - 

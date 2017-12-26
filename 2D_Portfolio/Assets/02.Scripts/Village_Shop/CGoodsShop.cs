@@ -28,7 +28,7 @@ public class CGoodsShop : CVillageManager
 
     void Update()
     {
-        TouchGetObj();
+        //TouchGetObj();
     }
 
     public void InitializeItemShop()
@@ -42,11 +42,11 @@ public class CGoodsShop : CVillageManager
     public override void InsertShopDictionary()
     {
         base.InsertShopDictionary();
+        m_itemDesc_Text = m_shopDictionary[ShopInfo.ItemDescription].gameObject.GetComponentInChildren<Text>();
     }    
 
     protected override void TouchGetObj()
-    {
-        base.TouchGetObj();
+    {        
         
     }
 
@@ -56,10 +56,9 @@ public class CGoodsShop : CVillageManager
         if (m_shopinfo == ShopInfo.GoodsShop)
         {
             Debug.Log("아이템샵");
-            //m_shopPanel.SetActive(true);
-            
-            //m_shop[4].SetActive(true);
-            //m_shopDictionary[ShopInfo.GoodsShop].SetActive(true);
+
+            GoodsShopMainText();
+
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
 
             m_cShopCategory.ChangeSlotObjNameIsGoodsShop();
@@ -71,10 +70,16 @@ public class CGoodsShop : CVillageManager
     {
         m_itemName_Text = m_cItemShopManager.m_slots[tStart].transform.Find("ItemName_Text").GetComponent<Text>();
         m_itemCost_Text = m_cItemShopManager.m_slots[tStart].transform.Find("ItemCost_Text").GetComponent<Text>();
-        m_itemDesc_Text = m_shopDictionary[ShopInfo.ItemDescription].gameObject.GetComponentInChildren<Text>();
+        
         m_itemName_Text.text = string.Format("{0}", tName);
         m_itemCost_Text.text = string.Format("{0}", tCost);
 
+    }
+
+    public void GoodsShopMainText()
+    {
+        //TODO : 추후 서버에 npc대사 모음으로 처리
+        m_itemDesc_Text.text = string.Format("포션 츄라이 츄라이");
     }
 
     public void InsertPotionItemData()

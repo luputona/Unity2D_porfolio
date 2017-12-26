@@ -8,11 +8,12 @@ public class CSelectShop : MonoBehaviour
     {        
         WeaponShop,
         GoodsShop,
-        EntryDungeon,
+        EntryDungeonDesk,
         ShopContenItemList,
         Category,
         ItemDescription,
         BackButton,
+        EntryDungeonButton,
         Default = 99
     }
 

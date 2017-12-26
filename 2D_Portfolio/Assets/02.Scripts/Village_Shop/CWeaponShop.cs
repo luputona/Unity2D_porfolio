@@ -15,7 +15,7 @@ public class CWeaponShop : CVillageManager
     private Text m_itemCost_Text = null;
     
     public Text m_itemDesc_Text = null;
-    public GameObject m_shopItem = null;
+   
     
     void Awake()
     {
@@ -28,7 +28,7 @@ public class CWeaponShop : CVillageManager
 
     void Update()
     {
-        TouchGetObj();        
+        //TouchGetObj();        
     }
 
     public void InitializeWeaponShop()
@@ -42,11 +42,12 @@ public class CWeaponShop : CVillageManager
     public override void InsertShopDictionary()
     {
         base.InsertShopDictionary();
+        m_itemDesc_Text = m_shopDictionary[ShopInfo.ItemDescription].gameObject.GetComponentInChildren<Text>();
     }
 
     protected override void TouchGetObj()
     {
-        base.TouchGetObj();           
+        
     }
 
     protected override void OpenShop()
@@ -55,10 +56,9 @@ public class CWeaponShop : CVillageManager
         if (m_shopinfo == ShopInfo.WeaponShop)
         {
             Debug.Log("웨폰샵");
-            //m_shopPanel.SetActive(true);
-            
-            //m_shop[4].SetActive(true);
-            //m_shopDictionary[ShopInfo.WeaponShop].SetActive(true);
+
+            WeaponShopMainText();
+
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
             
             m_cShopCategory.ChangeSlotObjNameIsWeaponShop();
@@ -66,11 +66,17 @@ public class CWeaponShop : CVillageManager
         }
     }
 
+    public void WeaponShopMainText()
+    {
+        //TODO : 추후 서버에 npc대사 모음으로 처리
+        m_itemDesc_Text.text = string.Format("아직도 그런 허접한 장비로 다닐 생각?");
+    }
+
     public void ShowItemDataText(int tStart,  string tName, int tCost)
     {
         m_itemName_Text = m_cItemShopManager.m_slots[tStart].transform.Find("ItemName_Text").GetComponent<Text>();
         m_itemCost_Text = m_cItemShopManager.m_slots[tStart].transform.Find("ItemCost_Text").GetComponent<Text>();
-        m_itemDesc_Text = m_shopDictionary[ShopInfo.ItemDescription].gameObject.GetComponentInChildren<Text>();
+        
         m_itemName_Text.text = string.Format("{0}", tName);
         m_itemCost_Text.text = string.Format("{0}", tCost);        
     }

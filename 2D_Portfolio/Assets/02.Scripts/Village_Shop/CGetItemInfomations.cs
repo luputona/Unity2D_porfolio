@@ -8,11 +8,13 @@ public class CGetItemInfomations : MonoBehaviour
     public int m_cost = 0;
     public string m_desc = null;
     public string m_name = null;
+    public string m_skill_desc = null;
+    public string m_skill_name = null;
     
     // Use this for initialization
     void Start ()
     {
-        this.gameObject.GetComponent<Button>().onClick.AddListener(()=>CItemShopSlotListManager.GetInstance.SetObejct(m_desc));
+        this.gameObject.GetComponent<Button>().onClick.AddListener(()=>CItemShopSlotListManager.GetInstance.SetObejct(m_desc, m_skill_name , m_skill_desc));
 	}
 
     void SetObject()

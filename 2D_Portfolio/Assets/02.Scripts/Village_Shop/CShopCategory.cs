@@ -28,6 +28,8 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
     [SerializeField]
     private CGoodsShop m_cGoodsShop;
     [SerializeField]
+    private CEntryDungeon m_cEntryDungeon;
+    [SerializeField]
     private CItemShopSlotListManager m_cItemShopManager;
     [SerializeField]
     private Text m_categoryText;
@@ -51,6 +53,7 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
         m_cWeaponShop = this.GetComponent<CWeaponShop>();
         m_cGoodsShop = this.GetComponent<CGoodsShop>();
         m_cItemShopManager = this.GetComponent<CItemShopSlotListManager>();
+        m_cEntryDungeon = this.GetComponent<CEntryDungeon>();
     }
 
     void Start()
@@ -115,6 +118,11 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
             Debug.Log("샵구분");
         }
     }
+
+    public void ShowDungeonInfomation(int index)
+    {
+        m_cEntryDungeon.ShowDungeonInfo(index);
+    }
     
     public void ChangeSlotObjNameIsWeaponShop()
     {
@@ -143,6 +151,23 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
             
         }
     }
+
+    public void ChangeSlotObjNameIsDungeonEntry()
+    {
+        //TODO : 추후 유저가 클리어한 층 만큼만 생성하게 변경
+        for(int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
+        {
+            string tempStr = string.Format("제 {0} 층 {1}", CDungeonData.GetInstance.m_dungeonList[i].m_floor, CDungeonData.GetInstance.m_dungeonList[i].m_bossTitle);
+            m_categorySlotList[i].SetActive(true);
+            m_categorySlotList[i].transform.name = CDungeonData.GetInstance.m_dungeonList[i].m_floor.ToString();
+            m_categorySlotList[i].GetComponent<CSelectCategory>().m_dungeonFloorIndex = CDungeonData.GetInstance.m_dungeonList[i].m_floor;
+            m_categoryText = m_categorySlotList[i].transform.GetChild(0).GetComponent<Text>();
+            m_categoryText.text = string.Format("{0}", tempStr);
+            
+
+        }
+    }
+
 
     //enum으로 체크 
     void WeaponCateogryList(CSelectCategory.ESelcetWeaponCategory tEselect)

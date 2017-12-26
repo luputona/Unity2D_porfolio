@@ -32,12 +32,16 @@ public class CSelectCategory :MonoBehaviour
         Default = 99            
     }
 
+    
+
     private Button m_btnColor;
 
     public CVillageManager m_cVillageManager;
     
     public ESelcetWeaponCategory m_eCategory = ESelcetWeaponCategory.Default;
     public ESelectGoodsShopCategory m_eItemShopCategory = ESelectGoodsShopCategory.Default;
+
+    public int m_dungeonFloorIndex = 0;
     public int m_categoryCount;
 
     public bool m_isColor = true;
@@ -66,6 +70,7 @@ public class CSelectCategory :MonoBehaviour
         this.gameObject.GetComponent<Button>().onClick.AddListener(()=> CShopCategory.GetInstance.OpenItemListInCategory(m_eCategory, m_eItemShopCategory));
         this.gameObject.GetComponent<Button>().onClick.AddListener(()=> SettingCategory());
         
+
     }
     
 
@@ -81,6 +86,19 @@ public class CSelectCategory :MonoBehaviour
             Debug.Log("샵 아이테 ㅁ목록의 이름,가격 설명 등 불러오는 함수 호출");
             CItemShopSlotListManager.GetInstance.SettingGoodsSlotListInfo(m_eItemShopCategory);
             
+        }
+        else if(m_cVillageManager.m_shopinfo == CSelectShop.ShopInfo.EntryDungeonDesk)
+        {
+            //직접 접속이므로 desc를 바로 갱신 
+            CShopCategory.GetInstance.ShowDungeonInfomation(m_dungeonFloorIndex);
+        }
+    }
+
+    public void InitializeDungeonIndex()
+    {
+        for(int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
+        {
+            m_dungeonFloorIndex = CDungeonData.GetInstance.m_dungeonList[i].m_floor;
         }
     }
     
@@ -164,6 +182,9 @@ public class CSelectCategory :MonoBehaviour
             //}
         }
     }
+
+
+
 
 
     //protected virtual void OpenItemListInCategory(ESelcetCategory eSelect)

@@ -31,7 +31,7 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
                 m_swordJsonData[i]["name"].ToString(),
                 m_swordJsonData[i]["description"].ToString(),
                 m_swordJsonData[i]["skill_name"].ToString(),
-                m_swordJsonData[i]["skill_Dis"].ToString(), 
+                m_swordJsonData[i]["skill_Desc"].ToString(), 
                 double.Parse(m_swordJsonData[i]["skill_effect_01"].ToString()),
                 double.Parse(m_swordJsonData[i]["skill_effect_02"].ToString()),
                 double.Parse(m_swordJsonData[i]["skill_effect_03"].ToString()),
@@ -73,7 +73,7 @@ public class SwordItem
     public string m_name;// { get; set; }
     public string m_description;// { get; set; }
     public string m_skill_name;// { get; set; }
-    public string m_skill_Dis;// { get; set; }
+    public string m_skill_Desc;// { get; set; }
     public double m_skill_effect_01;// { get; set; }
     public double m_skill_effect_02;// { get; set; }
     public double m_skill_effect_03;// { get; set; }
@@ -84,7 +84,7 @@ public class SwordItem
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
 
-    public SwordItem(int id, string name, string description, string skill_name, string skill_dis, 
+    public SwordItem(int id, string name, string description, string skill_name, string skill_desc, 
         double skill_effect_01, double skill_effect_02, 
         double skill_effect_03, double skill_effect_04, double damage,
         double def, double dodging, double hp, int cost)
@@ -93,7 +93,7 @@ public class SwordItem
         m_name = name;
         m_description = description;
         m_skill_name = skill_name;
-        m_skill_Dis = skill_dis;
+        m_skill_Desc = skill_desc;
         m_skill_effect_01 = skill_effect_01;
         m_skill_effect_02 = skill_effect_02;
         m_skill_effect_03 = skill_effect_03;
