@@ -47,3 +47,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: DG_BG_01
+    uniqueID: 491633909
+    locked: 0
+  - name: DG_BG_02
+    uniqueID: 975110831
+    locked: 0
+  - name: DG_BG_03
+    uniqueID: 3034098625
+    locked: 0
+  - name: DG_Front_01
+    uniqueID: 2227823337
+    locked: 0
+  - name: DG_Front_02
+    uniqueID: 1612620173
+    locked: 0

@@ -23,7 +23,8 @@ public class CLoadSceneManager : SingleTon<CLoadSceneManager>
     // Use this for initialization
     void Start ()
     {
-		
+        
+
 	}
 	
 
