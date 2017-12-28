@@ -6,15 +6,16 @@ using CnControls;
 public class CInputMovement : CMovement
 {
     [SerializeField]
-    private GameObject m_mapObj;
-    [SerializeField]
-    private CInputMovement m_mapMovement;   
-    [SerializeField]
-    private Rigidbody2D m_rigidbody;
-    [SerializeField]
     private CFollowCamera m_mainCamera;
+
     [SerializeField]
-    private float h = 0.0f;
+    protected GameObject m_mapObj;
+    [SerializeField]
+    protected CInputMovement m_mapMovement;   
+    [SerializeField]
+    protected Rigidbody2D m_rigidbody;   
+    [SerializeField]
+    protected float h = 0.0f;
 
     [SerializeField]
     private Transform m_fakePlayerPos;
@@ -76,6 +77,7 @@ public class CInputMovement : CMovement
         m_mainCamera.Init(m_fakePlayerPos);
        
     }
+
 	
 	// Update is called once per frame
 	void Update ()
@@ -101,6 +103,8 @@ public class CInputMovement : CMovement
         
         m_rigidbody.velocity = new Vector2(h * m_moveSpeed * -1, m_rigidbody.velocity.y);
 
+
+        //카메라 제어
         if (h < 0.0f ) //왼쪽
         {
             m_fakeFlip = 0.5f; 

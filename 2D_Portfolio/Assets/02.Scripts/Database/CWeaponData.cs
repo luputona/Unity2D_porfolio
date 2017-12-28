@@ -52,7 +52,7 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
 
         string serverDB = Encoding.UTF8.GetString(www.bytes);
 
-        m_weaponData = JsonMapper.ToObject(serverDB);
+        m_weaponData = LitJson.JsonMapper.ToObject(serverDB);
 
         if (www.isDone)
         {
@@ -65,7 +65,7 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
         TextAsset jdatatext = Resources.Load<TextAsset>("Data/WeaponData");
         m_localPath = jdatatext.text;
         //m_localData = JsonMapper.ToObject(File.ReadAllText(Application.streamingAssetsPath + "/WeaponData.json"));
-        m_localData = JsonMapper.ToObject(m_localPath);
+        m_localData = LitJson.JsonMapper.ToObject(m_localPath);
 
         ConstructLocalData();
     }
