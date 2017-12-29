@@ -27,7 +27,7 @@ public class RightSidCamCheck : MonoBehaviour {
         }
         else if(other.tag.Equals("Player") && m_inputMovement.Horizontal < 0)
         {
-            m_inputMovement.m_moveSpeed = 40.0f;
+            m_inputMovement.m_moveSpeed = m_inputMovement.m_defaultMoveSpeed;
             m_inputMovement.m_isSideColCheck = false;
         }
     }

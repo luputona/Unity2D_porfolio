@@ -13,7 +13,7 @@ public class CMaceData : SingleTon<CMaceData>, IItemData
     [SerializeField]
     private JsonData m_maceJsonData;
 
-    public List<SwordItem> m_maceItemList = new List<SwordItem>();
+    public List<MaceItem> m_maceItemList = new List<MaceItem>();
 
     public void Awake()
     {
@@ -27,7 +27,7 @@ public class CMaceData : SingleTon<CMaceData>, IItemData
     {
         for (int i = 0; i < m_maceJsonData.Count; i++)
         {
-            m_maceItemList.Add(new SwordItem(
+            m_maceItemList.Add(new MaceItem(
                 (int)m_maceJsonData[i]["id"],
                 m_maceJsonData[i]["name"].ToString(),
                 m_maceJsonData[i]["description"].ToString(),
@@ -41,7 +41,8 @@ public class CMaceData : SingleTon<CMaceData>, IItemData
                 double.Parse(m_maceJsonData[i]["def"].ToString()),
                 double.Parse(m_maceJsonData[i]["dodging"].ToString()),
                 double.Parse(m_maceJsonData[i]["hp"].ToString()),
-                (int)m_maceJsonData[i]["cost"]));
+                (int)m_maceJsonData[i]["cost"],
+                m_maceJsonData[i]["code"].ToString()));
         }
     }
 
@@ -86,11 +87,12 @@ public class MaceItem
     public double m_dodging;//{ get; set; }
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
+    public string m_itemCode;
 
     public MaceItem(int id, string name, string description, string skill_name, string skill_desc,
         double skill_effect_01, double skill_effect_02,
         double skill_effect_03, double skill_effect_04, double damage,
-        double def, double dodging, double hp, int cost)
+        double def, double dodging, double hp, int cost, string itemCode)
     {
         m_id = id;
         m_name = name;
@@ -106,6 +108,7 @@ public class MaceItem
         m_dodging = dodging;
         m_hp = hp;
         m_cost = cost;
+        m_itemCode = itemCode;
     }
 
 }

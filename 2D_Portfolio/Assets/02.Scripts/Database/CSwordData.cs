@@ -40,7 +40,8 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
                 double.Parse(m_swordJsonData[i]["def"].ToString()),
                 double.Parse(m_swordJsonData[i]["dodging"].ToString()),
                 double.Parse(m_swordJsonData[i]["hp"].ToString()), 
-                (int)m_swordJsonData[i]["cost"]));
+                (int)m_swordJsonData[i]["cost"],
+                m_swordJsonData[i]["code"].ToString()));
         }
     }
 
@@ -83,11 +84,12 @@ public class SwordItem
     public double m_dodging;//{ get; set; }
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
+    public string m_itemCode;
 
     public SwordItem(int id, string name, string description, string skill_name, string skill_desc, 
         double skill_effect_01, double skill_effect_02, 
         double skill_effect_03, double skill_effect_04, double damage,
-        double def, double dodging, double hp, int cost)
+        double def, double dodging, double hp, int cost, string itemCode)
     {
         m_id = id;
         m_name = name;
@@ -103,6 +105,7 @@ public class SwordItem
         m_dodging = dodging;
         m_hp = hp;
         m_cost = cost;
+        m_itemCode = itemCode;
     }
 
 }

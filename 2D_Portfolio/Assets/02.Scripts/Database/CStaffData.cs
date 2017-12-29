@@ -12,7 +12,7 @@ public class CStaffData : SingleTon<CStaffData>, IItemData
     [SerializeField]
     private JsonData m_staffJsonData;
 
-    public List<SwordItem> m_staffItemList = new List<SwordItem>();
+    public List<StaffItem> m_staffItemList = new List<StaffItem>();
 
     public  void Awake()
     {
@@ -26,7 +26,7 @@ public class CStaffData : SingleTon<CStaffData>, IItemData
     {
         for (int i = 0; i < m_staffJsonData.Count; i++)
         {
-            m_staffItemList.Add(new SwordItem(
+            m_staffItemList.Add(new StaffItem(
                 (int)m_staffJsonData[i]["id"],
                 m_staffJsonData[i]["name"].ToString(),
                 m_staffJsonData[i]["description"].ToString(),
@@ -40,7 +40,8 @@ public class CStaffData : SingleTon<CStaffData>, IItemData
                 double.Parse(m_staffJsonData[i]["def"].ToString()),
                 double.Parse(m_staffJsonData[i]["dodging"].ToString()),
                 double.Parse(m_staffJsonData[i]["hp"].ToString()),
-                (int)m_staffJsonData[i]["cost"]));
+                (int)m_staffJsonData[i]["cost"],
+                m_staffJsonData[i]["code"].ToString()));
         }
     }
 
@@ -86,11 +87,12 @@ public class StaffItem
     public double m_dodging;//{ get; set; }
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
+    public string m_itemCode;
 
     public StaffItem(int id, string name, string description, string skill_name, string skill_desc,
         double skill_effect_01, double skill_effect_02,
         double skill_effect_03, double skill_effect_04, double damage,
-        double def, double dodging, double hp, int cost)
+        double def, double dodging, double hp, int cost, string itemCode)
     {
         m_id = id;
         m_name = name;
@@ -106,6 +108,7 @@ public class StaffItem
         m_dodging = dodging;
         m_hp = hp;
         m_cost = cost;
+        m_itemCode = itemCode;
     }
 
 }

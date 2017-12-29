@@ -28,6 +28,7 @@ public class CInputMovement : CMovement
 
     public bool m_isSideColCheck;
     public float m_moveSpeed;
+    public float m_defaultMoveSpeed;
     public Vector2 m_fakePosX; // 페이크 오브젝트의 이동 좌표 제어
 
     public float FakeFlip
@@ -66,7 +67,7 @@ public class CInputMovement : CMovement
 
         m_fakePlayerPos = m_characterCtrl.transform.Find("FakePosition").GetComponent<Transform>();
         m_fakeDefaultPos = m_fakePlayerPos;
-        
+        m_moveSpeed = m_defaultMoveSpeed;
     }
 
     // Use this for initialization

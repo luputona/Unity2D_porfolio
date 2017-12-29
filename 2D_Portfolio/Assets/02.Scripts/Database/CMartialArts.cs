@@ -12,7 +12,7 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
     [SerializeField]
     private JsonData m_matialArtsJsonData;
 
-    public List<SwordItem> m_matialArtsItemList = new List<SwordItem>();
+    public List<MartialArtsItem> m_matialArtsItemList = new List<MartialArtsItem>();
 
     public void Awake()
     {
@@ -26,7 +26,7 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
     {
         for (int i = 0; i < m_matialArtsJsonData.Count; i++)
         {
-            m_matialArtsItemList.Add(new SwordItem(
+            m_matialArtsItemList.Add(new MartialArtsItem(
                 (int)m_matialArtsJsonData[i]["id"],
                 m_matialArtsJsonData[i]["name"].ToString(),
                 m_matialArtsJsonData[i]["description"].ToString(),
@@ -40,7 +40,8 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
                 double.Parse(m_matialArtsJsonData[i]["def"].ToString()),
                 double.Parse(m_matialArtsJsonData[i]["dodging"].ToString()),
                 double.Parse(m_matialArtsJsonData[i]["hp"].ToString()),
-                (int)m_matialArtsJsonData[i]["cost"]));
+                (int)m_matialArtsJsonData[i]["cost"],
+                m_matialArtsJsonData[i]["code"].ToString()));
         }
     }
 
@@ -87,11 +88,12 @@ public class MartialArtsItem
     public double m_dodging;//{ get; set; }
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
+    public string m_itemCode;
 
     public MartialArtsItem(int id, string name, string description, string skill_name, string skill_desc,
         double skill_effect_01, double skill_effect_02,
         double skill_effect_03, double skill_effect_04, double damage,
-        double def, double dodging, double hp, int cost)
+        double def, double dodging, double hp, int cost, string itemCode)
     {
         m_id = id;
         m_name = name;
@@ -107,6 +109,7 @@ public class MartialArtsItem
         m_dodging = dodging;
         m_hp = hp;
         m_cost = cost;
+        m_itemCode = itemCode;
     }
 
 }

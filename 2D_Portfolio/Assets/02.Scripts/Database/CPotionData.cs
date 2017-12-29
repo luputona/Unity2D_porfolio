@@ -31,7 +31,7 @@ public class CPotionData : SingleTon<CPotionData>, IItemData
             m_potionItemList.Add(new PotionItem( 
                 (int)m_postionJsonData[i]["id"] , m_postionJsonData[i]["name"].ToString() , m_postionJsonData[i]["description"].ToString(),
                 (int)m_postionJsonData[i]["use_effect_01"], (int)m_postionJsonData[i]["use_effect_02"], (int)m_postionJsonData[i]["use_effect_03"], 
-                (int)m_postionJsonData[i]["use_effect_04"], (int)m_postionJsonData[i]["cost"]));
+                (int)m_postionJsonData[i]["use_effect_04"], (int)m_postionJsonData[i]["cost"], m_postionJsonData[i]["code"].ToString()));
         }
     }
 
@@ -77,8 +77,9 @@ public class PotionItem
     public int m_useEffect_03;
     public int m_useEffect_04;
     public int m_cost;
+    public string m_itemCode;
 
-    public PotionItem(int id, string name, string desc, int useEffect_01, int useEffect_02, int useEffect_03, int useEffect_04, int cost)
+    public PotionItem(int id, string name, string desc, int useEffect_01, int useEffect_02, int useEffect_03, int useEffect_04, int cost, string itemCode)
     {
         m_id = id;
         m_name = name;
@@ -88,6 +89,7 @@ public class PotionItem
         m_useEffect_03 = useEffect_03;
         m_useEffect_04 = useEffect_04;
         m_cost = cost;
+        m_itemCode = itemCode;
     }
 
     

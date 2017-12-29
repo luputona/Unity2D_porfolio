@@ -20,6 +20,7 @@ public class CUserData : SingleTon<CUserData>
     public List<UserMainInfo> m_userDataList = new List<UserMainInfo>();
 
     public List<UserStatus> m_userStatusList = new List<UserStatus>();
+    public Dictionary<string, GameObject> m_weaponInventory = new Dictionary<string, GameObject>();
 
     
     private void Awake()
@@ -74,6 +75,7 @@ public class CUserData : SingleTon<CUserData>
                 (int)m_userJsonData[i]["id"], 
                 m_userJsonData[i]["nickname"].ToString(), 
                 m_userJsonData[i]["status"].ToString(),
+                m_userJsonData[i]["cur_set_itemcode"].ToString(),
                 (int)m_userJsonData[i]["gold"],
                 m_userJsonData[i]["weaponInventory"].ToString(), 
                 m_userJsonData[i]["goodsInventory"].ToString(),
@@ -109,6 +111,13 @@ public class CUserData : SingleTon<CUserData>
          double.Parse(tData[DataIndex][5].ToString()),
          double.Parse(tData[DataIndex][6].ToString())));
     }
+
+    public void WeaponInventoryToJson()
+    {
+        JsonData tData = JsonMapper.ToObject(m_userDataList[0].m_weaponInven);
+
+
+    }
     
     //void LoadLocalData();
     //void ConstructLocalData();
@@ -129,6 +138,8 @@ public class UserStatus
     public double str;
     public double dex;
     
+
+
     public UserStatus(int tUserCode, double tDamage, double tDef, double tDodge, double tHp, double tStr, double tDex)
     {
         userCode = tUserCode;
@@ -138,6 +149,7 @@ public class UserStatus
         hp = tHp;
         str = tStr;
         dex = tDex;
+        
     }
 
 }
@@ -154,17 +166,20 @@ public class UserMainInfo
     public string m_goodsInven; //json 을 텍스트로 변경해서 받아야함
     public string m_clearDungeon; //json 을 텍스트로 변경해서 받아야함
     public int m_userCode;
+    public string cur_set_itemcode;
 
-    public UserMainInfo(int id, string name, string status, int gold, string weaponInven, string goodsInven, string claerDungeon, int userCode)
+    public UserMainInfo(int id, string name, string status, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int userCode)
     {
         m_id = id;
         m_name = name;
         m_status = status;
+        cur_set_itemcode = tcur_set_itemcode;
         m_gold = gold;
         m_weaponInven = weaponInven;
         m_goodsInven = goodsInven;
         m_clearDungeon = claerDungeon;
         m_userCode = userCode;
+        
     }
 
 }

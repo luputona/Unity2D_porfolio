@@ -14,7 +14,7 @@ public class CSpearData : SingleTon<CSpearData>, IItemData
     [SerializeField]
     private JsonData m_spearJsonData;
 
-    public List<SwordItem> m_spearItemList = new List<SwordItem>();
+    public List<SpearItem> m_spearItemList = new List<SpearItem>();
 
     public void Awake()
     {
@@ -28,7 +28,7 @@ public class CSpearData : SingleTon<CSpearData>, IItemData
     {
         for (int i = 0; i < m_spearJsonData.Count; i++)
         {
-            m_spearItemList.Add(new SwordItem(
+            m_spearItemList.Add(new SpearItem(
                 (int)m_spearJsonData[i]["id"],
                 m_spearJsonData[i]["name"].ToString(),
                 m_spearJsonData[i]["description"].ToString(),
@@ -42,7 +42,8 @@ public class CSpearData : SingleTon<CSpearData>, IItemData
                 double.Parse(m_spearJsonData[i]["def"].ToString()),
                 double.Parse(m_spearJsonData[i]["dodging"].ToString()),
                 double.Parse(m_spearJsonData[i]["hp"].ToString()),
-                (int)m_spearJsonData[i]["cost"]));
+                (int)m_spearJsonData[i]["cost"],
+                m_spearJsonData[i]["code"].ToString()));
         }
     }
 
@@ -88,11 +89,12 @@ public class SpearItem
     public double m_dodging;//{ get; set; }
     public double m_hp;//{ get; set; }
     public int m_cost;// { get; set; }
+    public string m_itemCode;
 
     public SpearItem(int id, string name, string description, string skill_name, string skill_desc,
         double skill_effect_01, double skill_effect_02,
         double skill_effect_03, double skill_effect_04, double damage,
-        double def, double dodging, double hp, int cost)
+        double def, double dodging, double hp, int cost , string itemCode)
     {
         m_id = id;
         m_name = name;
@@ -108,6 +110,7 @@ public class SpearItem
         m_dodging = dodging;
         m_hp = hp;
         m_cost = cost;
+        m_itemCode = itemCode;
     }
 
 }
