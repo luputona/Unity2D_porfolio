@@ -6,15 +6,23 @@ public class CGetItemInfomations : MonoBehaviour
 {
     public int m_id = 0;
     public int m_cost = 0;
-    public string m_desc = null;
-    public string m_name = null;
-    public string m_skill_desc = null;
-    public string m_skill_name = null;
-    
+    public string m_desc = "";
+    public string m_name = "";
+    public string m_skill_desc = "";
+    public string m_skill_name = "";
+
+
+    //던전일경우
+    public int m_floor = 0;
+    public string m_bossName = "";
+    public string m_bossTitle = "";
+    public int m_clear = 0;
+
+
     // Use this for initialization
     void Start ()
     {
-        this.gameObject.GetComponent<Button>().onClick.AddListener(()=>CItemShopSlotListManager.GetInstance.SetObejct(m_desc, m_skill_name , m_skill_desc));
+        this.gameObject.GetComponent<Button>().onClick.AddListener(()=>CItemShopSlotListManager.GetInstance.SetObejct(m_desc, m_skill_name , m_skill_desc, m_floor));
 	}
 
     void SetObject()

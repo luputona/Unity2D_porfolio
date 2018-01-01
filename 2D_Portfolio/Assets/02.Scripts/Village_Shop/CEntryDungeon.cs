@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class CEntryDungeon : CVillageManager
 {
-    //[SerializeField]
-    //private CItemShopSlotListManager m_cItemShopManager = null;
+    [SerializeField]
+    private CItemShopSlotListManager m_ItemShopSlotListManager = null;
     [SerializeField]
     private CVillageManager m_cVillageManager = null;
-
+    [SerializeField]
+    private Text m_floorTitleText = null;
     public int m_curDungeonFloorIndex = 0;
     public Text m_itemDesc_Text = null;
 
@@ -32,7 +33,7 @@ public class CEntryDungeon : CVillageManager
 
     public void InitializeEntryDungeon()
     {
-        //m_cItemShopManager
+        m_ItemShopSlotListManager = this.GetComponent<CItemShopSlotListManager>();
         base.InitVillageManager();
     }
 
@@ -50,18 +51,46 @@ public class CEntryDungeon : CVillageManager
     {
 
         if (m_shopinfo == ShopInfo.EntryDungeonDesk)
-        {
-            Debug.Log("던전 카테고리 열려라좀");
+        {            
             m_itemDesc_Text = m_shopDictionary[ShopInfo.ItemDescription].gameObject.GetComponentInChildren<Text>();
 
             m_cShopCategory.m_eBackUiState = CSelectCategory.EBACKUISTATE.Closed;
             m_cShopCategory.ChangeSlotObjNameIsDungeonEntry();
 
-            m_cShopCategory.SlotCount(CDungeonData.GetInstance.m_dungeonList.Count);
+            m_cShopCategory.SlotCount(1);
 
             //TODO : 추후 서버에 npc대사 모음으로 처리
             m_itemDesc_Text.text = string.Format("어서와 던전은 처음이야?? ");
         }
+    }
+
+    public void ShowFloorDataText(int tStart)
+    {
+        m_floorTitleText = m_ItemShopSlotListManager.m_slots[tStart].transform.GetChild(4).Find("inst_Dungeon_titleText").GetComponent<Text>();
+
+        m_floorTitleText.text = string.Format(" 제 {0} 층", tStart + 1);
+       
+    }
+    public void InsertFloorData(int tStartFloorIndex, int tEndFloorIndex)
+    {
+        
+        for (int i = tStartFloorIndex; i < tEndFloorIndex; i++)
+        {
+            ShowFloorDataText(i);
+        }
+        ShowFloorInfo(tStartFloorIndex, tEndFloorIndex);
+    }
+
+    public void ShowFloorInfo(int tStartFloorIndex, int tEndFloorIndex)
+    {
+        m_itemDesc_Text.text = string.Format("해당 구역은 \n\n{0}층 부터 {1}층까지 \n\n이루어져 있어 \n\n몇 층을 공략 할래?", tStartFloorIndex, tEndFloorIndex);
+    
+    }
+
+    public void ExitDungeonDeskText()
+    {
+        m_shopDictionary[ShopInfo.EntryDungeonButton].SetActive(false);
+        m_itemDesc_Text.text = string.Format("던전 츄라이 츄라이");
     }
 
     public void ShowDungeonInfo(int index)

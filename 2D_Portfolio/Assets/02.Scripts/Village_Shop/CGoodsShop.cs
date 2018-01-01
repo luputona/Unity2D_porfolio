@@ -84,6 +84,7 @@ public class CGoodsShop : CVillageManager
 
     public void InsertPotionItemData()
     {
+        //TODO :임시 변수 , UI돌리기 제작 하면 DB의 리스트 갯수만큼 돌림
         int tEnd = 10;
         for (int i = 0; i < tEnd; i++)
         {

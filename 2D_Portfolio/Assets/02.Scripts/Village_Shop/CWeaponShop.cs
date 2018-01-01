@@ -82,6 +82,7 @@ public class CWeaponShop : CVillageManager
     }
     
     //생성된 슬롯 UI에 Json 데이터를 전달 
+    //TODO : tEnd부분 추후 변경 해야함 , 10개 초과되면 에러남 UI굴리기로 처리
     public void InsertSwordItemData()
     {
         int tEnd = CSwordData.GetInstance.m_swordItemList.Count;

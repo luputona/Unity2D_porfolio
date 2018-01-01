@@ -54,6 +54,6 @@ public class CDungeonManager : SingleTon<CDungeonManager>
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log("현재층 : " + m_floorIndex);
+
 	}
 }

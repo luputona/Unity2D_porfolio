@@ -33,10 +33,15 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
     private CItemShopSlotListManager m_cItemShopManager;
     [SerializeField]
     private Text m_categoryText;
- 
+
+    [SerializeField]
+    private string tCategoryDesc = "";
+    [SerializeField]
+    private string tObjname = "";
 
     public CSelectCategory.ESelcetWeaponCategory m_selectCategory = CSelectCategory.ESelcetWeaponCategory.Default; // 현재 선택한 카테고리 선별
     public CSelectCategory.ESelectGoodsShopCategory m_selectGoodsShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default; // 현재 선택한 카테고리 선별
+    public CSelectCategory.ESelectDungeonCategory m_selectDungeonCategory = CSelectCategory.ESelectDungeonCategory.Default;
     public CSelectCategory.EBACKUISTATE m_eBackUiState = CSelectCategory.EBACKUISTATE.Default;
     //public CSelectShop.ShopInfo m_eShopInfo = CSelectShop.ShopInfo.;
 
@@ -104,7 +109,9 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
     }
  
     //enum으로 체크
-    public void OpenItemListInCategory(CSelectCategory.ESelcetWeaponCategory tEWeaponSelect = CSelectCategory.ESelcetWeaponCategory.Default, CSelectCategory.ESelectGoodsShopCategory tEGoodsSelect = CSelectCategory.ESelectGoodsShopCategory.Default)
+    public void OpenItemListInCategory(CSelectCategory.ESelcetWeaponCategory tEWeaponSelect = CSelectCategory.ESelcetWeaponCategory.Default, 
+        CSelectCategory.ESelectGoodsShopCategory tEGoodsSelect = CSelectCategory.ESelectGoodsShopCategory.Default,
+        CSelectCategory.ESelectDungeonCategory tESelectDungeonCategory = CSelectCategory.ESelectDungeonCategory.Default)
     {
         if(m_shopcheck.m_shopinfo == CSelectShop.ShopInfo.WeaponShop)
         {            
@@ -117,6 +124,11 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
             GoodsShopCategoryList(tEGoodsSelect);
             Debug.Log("샵구분");
         }
+        else if(m_shopcheck.m_shopinfo == CSelectShop.ShopInfo.EntryDungeonDesk)
+        {
+            DungeonCategoryList(tESelectDungeonCategory);
+            Debug.Log("던전 구분");
+        }
     }
 
     public void ShowDungeonInfomation(int index)
@@ -128,9 +140,9 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
     {
         for (int i = 0; i < CWeaponData.GetInstance.m_categoryLocalList.Count; i++)
         {
-            string tempStr = CWeaponData.GetInstance.m_categoryLocalList[i].m_category;
+            string tempStr = CWeaponData.GetInstance.m_categoryLocalList[i].m_category; // TODO: 추후 m_categoryLocalList를 m_categoryList 로 변경
             m_categorySlotList[i].SetActive(true);
-            m_categorySlotList[i].transform.name = tempStr;              // TODO: 추후 m_categoryLocalList를 m_categoryList 로 변경
+            m_categorySlotList[i].transform.name = tempStr;              
             m_categorySlotList[i].GetComponent<CSelectCategory>().InitializeWeaponShopCategory();
             m_categoryText = m_categorySlotList[i].transform.GetChild(0).GetComponent<Text>();
             m_categoryText.text = string.Format("{0}", tempStr);        
@@ -142,9 +154,9 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
     {
         for (int i = 0; i < CGoodsShopData.GetInstance.m_localGoodsCategoryList.Count; i++)
         {
-            string tempStr = CGoodsShopData.GetInstance.m_localGoodsCategoryList[i].m_category;
+            string tempStr = CGoodsShopData.GetInstance.m_localGoodsCategoryList[i].m_category; // TODO: 추후 m_localGoodsCategoryList m_GoodsCategoryList 로 변경
             m_categorySlotList[i].SetActive(true);
-            m_categorySlotList[i].transform.name = tempStr;              // TODO: 추후 m_localGoodsCategoryList m_GoodsCategoryList 로 변경
+            m_categorySlotList[i].transform.name = tempStr;              
             m_categorySlotList[i].GetComponent<CSelectCategory>().InitializeGoodsShopCategory();
             m_categoryText = m_categorySlotList[i].transform.GetChild(0).GetComponent<Text>();
             m_categoryText.text = string.Format("{0}", tempStr);        
@@ -152,22 +164,98 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
         }
     }
 
-    public void ChangeSlotObjNameIsDungeonEntry()
+    void DungeonFloorToString(int startFloor, int endFloor)
     {
-        //TODO : 추후 유저가 클리어한 층 만큼만 생성하게 변경
-        for(int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
-        {
-            string tempStr = string.Format("제 {0} 층 {1}", CDungeonData.GetInstance.m_dungeonList[i].m_floor, CDungeonData.GetInstance.m_dungeonList[i].m_bossTitle);
-            m_categorySlotList[i].SetActive(true);
-            m_categorySlotList[i].transform.name = CDungeonData.GetInstance.m_dungeonList[i].m_floor.ToString();
-            m_categorySlotList[i].GetComponent<CSelectCategory>().m_dungeonFloorIndex = CDungeonData.GetInstance.m_dungeonList[i].m_floor;
-            m_categoryText = m_categorySlotList[i].transform.GetChild(0).GetComponent<Text>();
-            m_categoryText.text = string.Format("{0}", tempStr);
-            
-
-        }
+        tCategoryDesc = string.Format(" {0} ~ {1} 층 ",startFloor, endFloor);
+        tObjname = string.Format("{0}_{1}", startFloor , endFloor);
     }
 
+    public void ChangeSlotObjNameIsDungeonEntry()
+    {
+        int tFloorCount = (CDungeonData.GetInstance.m_dungeonList.Count < 11) ?  1 : CDungeonData.GetInstance.m_dungeonList.Count / 10;       
+
+        for (int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
+        {
+            if (i < 10)
+            {
+                DungeonFloorToString(1, 10);
+            }
+            else if (i >= 10 && i < 20)
+            {
+                DungeonFloorToString(11, 20);
+            }
+            else if (i >= 20 && i < 30)
+            {
+                DungeonFloorToString(21, 30);
+            }
+            else if (i >= 30 && i < 40)
+            {
+                DungeonFloorToString(31, 40);
+            }
+            else if (i >= 40 && i < 50)
+            {
+                DungeonFloorToString(41, 50);
+            }
+            //TODO : 층 늘어날때마다 계속 추가             
+        }
+
+        for (int i = 0; i < tFloorCount; i++)
+        {
+            m_categorySlotList[i].SetActive(true);
+            m_categorySlotList[i].transform.name = tObjname;
+            m_categorySlotList[i].GetComponent<CSelectCategory>().InitializeDungeonCategory();
+            m_categoryText = m_categorySlotList[i].transform.GetChild(0).GetComponent<Text>();
+            m_categoryText.text = string.Format("{0}", tCategoryDesc);
+        }
+        
+        //TODO : 추후 유저가 클리어한 층 만큼만 생성하게 변경
+        //for (int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
+        //{
+        //    string tempStr = string.Format("제 {0} 층 {1}", CDungeonData.GetInstance.m_dungeonList[i].m_floor, CDungeonData.GetInstance.m_dungeonList[i].m_bossTitle);
+        //    m_categorySlotList[i].SetActive(true);
+        //    m_categorySlotList[i].transform.name = CDungeonData.GetInstance.m_dungeonList[i].m_floor.ToString();
+        //    m_categorySlotList[i].GetComponent<CSelectCategory>().m_dungeonFloorIndex = CDungeonData.GetInstance.m_dungeonList[i].m_floor; //TODO: 슬롯리스트에 넣어야함
+            
+        //}
+    }
+
+    void DungeonCategoryList(CSelectCategory.ESelectDungeonCategory tEselect)
+    {
+        m_cEntryDungeon.m_shopDictionary[CSelectShop.ShopInfo.ShopContenItemList].SetActive(true);
+
+        m_selectDungeonCategory = tEselect;
+        m_shopcheck.m_shopDictionary[CSelectShop.ShopInfo.Category].SetActive(false);
+
+        if(CSelectCategory.ESelectDungeonCategory.Cave == tEselect)
+        {
+            m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
+            Debug.Log("동굴오픈");
+            m_cEntryDungeon.InsertFloorData(0,10);            
+        }
+        else if(CSelectCategory.ESelectDungeonCategory.Underworld == tEselect)
+        {
+            m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
+            m_cEntryDungeon.InsertFloorData(10, 20);
+            Debug.Log("지하세계오픈");
+           
+        }
+        else if (CSelectCategory.ESelectDungeonCategory.Forest == tEselect)
+        {
+            m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
+
+            m_cEntryDungeon.InsertFloorData(20, 30);
+            Debug.Log("숲오픈");
+        }
+        else if (CSelectCategory.ESelectDungeonCategory.Sky == tEselect)
+        {
+            m_eBackUiState = CSelectCategory.EBACKUISTATE.Disable;
+
+            m_cEntryDungeon.InsertFloorData(30, 40);
+            Debug.Log("하늘오픈");
+        }
+
+        
+    }
 
     //enum으로 체크 
     void WeaponCateogryList(CSelectCategory.ESelcetWeaponCategory tEselect)

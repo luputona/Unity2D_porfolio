@@ -24,6 +24,7 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
     
     public CSelectCategory.ESelcetWeaponCategory m_eSelectWeaponCategory = CSelectCategory.ESelcetWeaponCategory.Default;
     public CSelectCategory.ESelectGoodsShopCategory m_eSelectGoodsShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default;
+    public CSelectCategory.ESelectDungeonCategory m_eSelectDungeonCategory = CSelectCategory.ESelectDungeonCategory.Default;
 
 
     public int tempCount;
@@ -89,6 +90,7 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
             GameObject obj = Instantiate(shopSlotPrefab);
             m_slots.Add(obj);
             m_slots[i].transform.SetParent(m_itemList_Content.transform, false);
+            m_slots[i].transform.GetChild(4).gameObject.SetActive(false);
 
         }
     }
@@ -277,12 +279,51 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
         }
     }
 
+    public void SettingDungeonSlotListInfo(CSelectCategory.ESelectDungeonCategory tESelectDungeonCategory)
+    {
+        m_eSelectDungeonCategory = tESelectDungeonCategory;
 
+        if (CSelectCategory.ESelectDungeonCategory.Cave == m_eSelectDungeonCategory)
+        {
+            for(int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
+            {
+                m_slots[i].transform.GetChild(4).gameObject.SetActive(true);
+                m_slots[i].transform.name = CDungeonData.GetInstance.m_dungeonList[i].m_bossTitle;
+                m_slots[i].transform.GetChild(4).GetComponent<CGetItemInfomations>().m_floor = CDungeonData.GetInstance.m_dungeonList[i].m_floor;
+                m_slots[i].transform.GetChild(4).GetComponent<CGetItemInfomations>().m_bossName = CDungeonData.GetInstance.m_dungeonList[i].m_bossName;
+                m_slots[i].transform.GetChild(4).GetComponent<CGetItemInfomations>().m_bossTitle = CDungeonData.GetInstance.m_dungeonList[i].m_bossTitle;
+                m_slots[i].transform.GetChild(4).GetComponent<CGetItemInfomations>().m_clear = CDungeonData.GetInstance.m_dungeonList[i].m_clear;
 
+                if (i <= m_shopSlotCount)
+                {
+                    //TODO : 잉여 슬롯 가려주기 
+                    SlotCount(CDungeonData.GetInstance.m_dungeonList.Count);
+                }
+                else
+                {
+                    //TODO : 생성되어있는 슬롯보다 데이터의 수가 많을 경우 DB 저글링
+                    return;
+                }
+            }
 
+           
+        }
+        else if(CSelectCategory.ESelectDungeonCategory.Underworld == m_eSelectDungeonCategory)
+        {
+            Debug.Log("지하세계");
+        }
+        else if (CSelectCategory.ESelectDungeonCategory.Forest == m_eSelectDungeonCategory)
+        {
+            Debug.Log("숲");
+        }
+        else if (CSelectCategory.ESelectDungeonCategory.Sky == m_eSelectDungeonCategory)
+        {
+            Debug.Log("하늘구역");
+        }
+    }
 
-
-    public void SetObejct(string tItemDesc , string skillName, string skillDesc)
+    
+    public void SetObejct(string tItemDesc, string skillName, string skillDesc, int floor)
     {
         if(m_cWeaponShop.m_shopinfo == CSelectShop.ShopInfo.WeaponShop)
         {
@@ -291,7 +332,12 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
         else if(m_cGoodsShop.m_shopinfo == CSelectShop.ShopInfo.GoodsShop)
         {
             m_cGoodsShop.m_itemDesc_Text.text = string.Format("{0}", tItemDesc);
+        }       
+        else if(m_cEntryDungeon.m_shopinfo == CSelectShop.ShopInfo.EntryDungeonDesk)
+        {
+            CShopCategory.GetInstance.ShowDungeonInfomation(floor);
         }
+
         //m_slots[tIndex].GetComponent<CGetItemInfomations>().m_id = ;
         //m_slots[tIndex].GetComponent<CGetItemInfomations>().m_cost = ;
         //m_slots[tIndex].GetComponent<CGetItemInfomations>().m_name = ;
@@ -314,7 +360,16 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
     }
 
     
-
+    public void DisableDungeonSlot()
+    {
+        for(int i = 0; i < m_slots.Count; i++)
+        {
+            if(m_slots[i].transform.GetChild(4))
+            {
+                m_slots[i].transform.GetChild(4).gameObject.SetActive(false);
+            }
+        }
+    }
 
     public void ShowSlotList()
     {

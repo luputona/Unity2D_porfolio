@@ -20,7 +20,7 @@ public class CAccessoryData : SingleTon<CAccessoryData>, IItemData
     }
     public void Start()
     {
-
+        
     }
 
     public void ConstructData()

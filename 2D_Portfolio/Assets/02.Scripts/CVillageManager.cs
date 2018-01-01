@@ -256,6 +256,7 @@ public class CVillageManager : CSelectShop
             else if(m_shopinfo == CSelectShop.ShopInfo.EntryDungeonDesk)
             {
                 //TODO : 던전은 아직 나갈대 대사 없음
+                m_cEntryDungeon.ExitDungeonDeskText();
             }
             
 
@@ -270,6 +271,7 @@ public class CVillageManager : CSelectShop
             ResetItemCategory();
             //CItemShopSlotListManager.GetInstance.m_itemList_Content.transform.a = new Vector2(0.0f, 0.0f);
 
+            CItemShopSlotListManager.GetInstance.DisableDungeonSlot();
             for (int i = 0; i < m_childCount; i++)
             {
                 m_shop[i].SetActive(false);
@@ -286,13 +288,18 @@ public class CVillageManager : CSelectShop
 
     }
 
-
+    //각 상점의 카테고리 초기화
     void ResetItemCategory()
     {
         for(int i = 0; i < m_cShopCategory.m_categorySlotList.Count; i++)
         {
+            CItemShopSlotListManager.GetInstance.m_eSelectDungeonCategory = CSelectCategory.ESelectDungeonCategory.Default;
+            CItemShopSlotListManager.GetInstance.m_eSelectWeaponCategory = CSelectCategory.ESelcetWeaponCategory.Default;
+            CItemShopSlotListManager.GetInstance.m_eSelectGoodsShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default;
+
             m_cShopCategory.m_categorySlotList[i].GetComponent<CSelectCategory>().m_eCategory = CSelectCategory.ESelcetWeaponCategory.Default;
-            m_cShopCategory.m_categorySlotList[i].GetComponent<CSelectCategory>().m_eItemShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default;            
+            m_cShopCategory.m_categorySlotList[i].GetComponent<CSelectCategory>().m_eItemShopCategory = CSelectCategory.ESelectGoodsShopCategory.Default;
+            m_cShopCategory.m_categorySlotList[i].GetComponent<CSelectCategory>().m_eDungeonCategory = CSelectCategory.ESelectDungeonCategory.Default;
         }
         Debug.Log("스테이트 초기화 함수 호출");
     }

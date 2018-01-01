@@ -90,8 +90,8 @@ public class CUserData : SingleTon<CUserData>
 
         JsonData tData = JsonMapper.ToObject(m_userDataList[0].m_status);
 
-        Debug.Log(m_userDataList[0].m_status);
-        Debug.Log(tData[0][0].ToString());
+        //Debug.Log(m_userDataList[0].m_status);
+       // Debug.Log(tData[0][0].ToString());
 
         //m_userStatusList.Add(new UserStatus((int)tData[DataIndex]["userCode"],
         //    double.Parse(tData[DataIndex]["damage"].ToString()),

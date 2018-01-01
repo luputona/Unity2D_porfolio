@@ -32,6 +32,15 @@ public class CSelectCategory :MonoBehaviour
         Default = 99            
     }
 
+    public enum ESelectDungeonCategory
+    {
+        Cave,
+        Underworld,
+        Forest,
+        Sky,
+        Default = 99
+    }
+
     
 
     private Button m_btnColor;
@@ -40,6 +49,7 @@ public class CSelectCategory :MonoBehaviour
     
     public ESelcetWeaponCategory m_eCategory = ESelcetWeaponCategory.Default;
     public ESelectGoodsShopCategory m_eItemShopCategory = ESelectGoodsShopCategory.Default;
+    public ESelectDungeonCategory m_eDungeonCategory = ESelectDungeonCategory.Default;
 
     public int m_dungeonFloorIndex = 0;
     public int m_categoryCount;
@@ -52,6 +62,7 @@ public class CSelectCategory :MonoBehaviour
 
     void Start()
     {
+       
 
         //if (m_eCategory == ESelcetCategory.Sword  && m_isColor)
         //{
@@ -67,7 +78,7 @@ public class CSelectCategory :MonoBehaviour
         //}
         //SettingCategory();
 
-        this.gameObject.GetComponent<Button>().onClick.AddListener(()=> CShopCategory.GetInstance.OpenItemListInCategory(m_eCategory, m_eItemShopCategory));
+        this.gameObject.GetComponent<Button>().onClick.AddListener(()=> CShopCategory.GetInstance.OpenItemListInCategory(m_eCategory, m_eItemShopCategory, m_eDungeonCategory));
         this.gameObject.GetComponent<Button>().onClick.AddListener(()=> SettingCategory());
         
 
@@ -89,22 +100,52 @@ public class CSelectCategory :MonoBehaviour
         }
         else if(m_cVillageManager.m_shopinfo == CSelectShop.ShopInfo.EntryDungeonDesk)
         {
-            //직접 접속이므로 desc를 바로 갱신 
-            CShopCategory.GetInstance.ShowDungeonInfomation(m_dungeonFloorIndex);
+            CItemShopSlotListManager.GetInstance.SettingDungeonSlotListInfo(m_eDungeonCategory);
+            //CShopCategory.GetInstance.ShowDungeonInfomation(m_dungeonFloorIndex);
         }
     }
 
-    public void InitializeDungeonIndex()
+    public void InitializeDungeonCategory()
     {
-        for(int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
+        m_categoryCount = CDungeonData.GetInstance.m_dungeonList.Count / 10;
+        if( m_categoryCount < 10)
         {
-            m_dungeonFloorIndex = CDungeonData.GetInstance.m_dungeonList[i].m_floor;
+            m_categoryCount = 10;
         }
+
+        for(int i = 0; i < m_categoryCount; i++)
+        {
+            if (this.transform.name.Equals("1_10"))
+            {
+                m_eDungeonCategory = ESelectDungeonCategory.Cave;
+            }
+            else if(this.transform.name.Equals("11_20"))
+            {
+                m_eDungeonCategory = ESelectDungeonCategory.Underworld;
+            }
+            else if(this.transform.name.Equals("21_30"))
+            {
+                m_eDungeonCategory = ESelectDungeonCategory.Forest;
+            }
+            else if(this.transform.name.Equals("31_40"))
+            {
+                m_eDungeonCategory = ESelectDungeonCategory.Sky;
+            }
+            //TODO : 추가될때마다 조건문 추가 
+
+        }
+
+
+        //for(int i = 0; i < CDungeonData.GetInstance.m_dungeonList.Count; i++)
+        //{
+        //    m_dungeonFloorIndex = CDungeonData.GetInstance.m_dungeonList[i].m_floor;
+        //}
     }
     
     public void InitializeGoodsShopCategory()
     {
-        m_categoryCount = 2;
+        Debug.Log("카테고리 변경 호출이안되 : "+ CGoodsShopData.GetInstance.m_localGoodsCategoryList.Count); //TODO : 추후 서버쪽으로 변경
+        m_categoryCount = CGoodsShopData.GetInstance.m_localGoodsCategoryList.Count;
         for (int i = 0; i < m_categoryCount; i++)
         {
             if (this.transform.name.Equals("Potion"))
