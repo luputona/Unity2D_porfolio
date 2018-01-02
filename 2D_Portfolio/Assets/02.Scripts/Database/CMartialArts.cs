@@ -14,6 +14,11 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
 
     public List<MartialArtsItem> m_matialArtsItemList = new List<MartialArtsItem>();
 
+    public List<List<DefaultMartialArtsSkill>> m_defaultSkillList = new List<List<DefaultMartialArtsSkill>>();
+
+    public Dictionary<string, MartialArtsItem> m_martialItemDic = new Dictionary<string, MartialArtsItem>();
+    public Dictionary<string, Dictionary<int, DefaultMartialArtsSkill>> m_martialDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultMartialArtsSkill>>();
+
     public void Awake()
     {
         StartCoroutine(LoadData());
@@ -36,13 +41,46 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
                 double.Parse(m_matialArtsJsonData[i]["skill_effect_02"].ToString()),
                 double.Parse(m_matialArtsJsonData[i]["skill_effect_03"].ToString()),
                 double.Parse(m_matialArtsJsonData[i]["skill_effect_04"].ToString()),
+                m_matialArtsJsonData[i]["default_skill"].ToString(),
                 double.Parse(m_matialArtsJsonData[i]["damage"].ToString()),
                 double.Parse(m_matialArtsJsonData[i]["def"].ToString()),
                 double.Parse(m_matialArtsJsonData[i]["dodging"].ToString()),
                 double.Parse(m_matialArtsJsonData[i]["hp"].ToString()),
                 (int)m_matialArtsJsonData[i]["cost"],
                 m_matialArtsJsonData[i]["code"].ToString()));
+
+            m_martialItemDic.Add(m_matialArtsItemList[i].m_itemCode, m_matialArtsItemList[i]);
         }
+    }
+
+    public void DefaultSkillToJson()
+    {
+
+        for (int i = 0; i < m_matialArtsItemList.Count; i++)
+        {
+            m_defaultSkillList.Add(new List<DefaultMartialArtsSkill>());
+
+            m_martialDefaultSkillDic.Add(m_matialArtsItemList[i].m_itemCode, new Dictionary<int, DefaultMartialArtsSkill>());
+
+            JsonData tData = JsonMapper.ToObject(m_matialArtsItemList[i].m_default_skill);
+            //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
+
+            for (int j = 0; j < tData.Count; j++)
+            {
+                m_defaultSkillList[i].Add(new DefaultMartialArtsSkill(
+                (int)tData[j]["id"],
+                tData[j]["skill_name"].ToString(),
+                tData[j]["skill_desc"].ToString(),
+                tData[j]["skill_effect"].ToString(),
+                (int)tData[j]["count"]));
+                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
+
+                m_martialDefaultSkillDic[m_matialArtsItemList[i].m_itemCode].Add(j, m_defaultSkillList[i][j]);
+            }
+        }
+
+        //Debug.Log(m_martialDefaultSkillDic["w060001"][0].m_skill_name);
+
     }
 
     public IEnumerator LoadData()
@@ -59,6 +97,7 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
         if (www.isDone)
         {
             ConstructData();
+            DefaultSkillToJson();
         }
         
 
@@ -68,6 +107,24 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
     { }
     public void ConstructLocalData() { }
 
+}
+[System.Serializable]
+public class DefaultMartialArtsSkill
+{
+    public int m_id;
+    public string m_skill_name;
+    public string m_skill_desc;
+    public string m_skill_effect;
+    public int m_count;
+
+    public DefaultMartialArtsSkill(int id, string skill_name, string skill_desc, string skill_effect, int count)
+    {
+        m_id = id;
+        m_skill_name = skill_name;
+        m_skill_desc = skill_desc;
+        m_skill_effect = skill_effect;
+        m_count = count;
+    }
 }
 
 
@@ -83,6 +140,7 @@ public class MartialArtsItem
     public double m_skill_effect_02;// { get; set; }
     public double m_skill_effect_03;// { get; set; }
     public double m_skill_effect_04;// { get; set; }
+    public string m_default_skill;
     public double m_damage;// { get; set; }
     public double m_def;// { get; set; }
     public double m_dodging;//{ get; set; }
@@ -92,7 +150,8 @@ public class MartialArtsItem
 
     public MartialArtsItem(int id, string name, string description, string skill_name, string skill_desc,
         double skill_effect_01, double skill_effect_02,
-        double skill_effect_03, double skill_effect_04, double damage,
+        double skill_effect_03, double skill_effect_04, 
+        string default_skill, double damage,
         double def, double dodging, double hp, int cost, string itemCode)
     {
         m_id = id;
@@ -104,6 +163,7 @@ public class MartialArtsItem
         m_skill_effect_02 = skill_effect_02;
         m_skill_effect_03 = skill_effect_03;
         m_skill_effect_04 = skill_effect_04;
+        m_default_skill = default_skill;
         m_damage = damage;
         m_def = def;
         m_dodging = dodging;

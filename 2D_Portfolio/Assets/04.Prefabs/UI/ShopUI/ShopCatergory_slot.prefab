@@ -81,6 +81,8 @@ MonoBehaviour:
   m_cVillageManager: {fileID: 0}
   m_eCategory: 99
   m_eItemShopCategory: 99
+  m_eDungeonCategory: 99
+  m_dungeonFloorIndex: 0
   m_categoryCount: 0
   m_isColor: 1
 --- !u!114 &114313899768605512
@@ -103,11 +105,11 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: 25bf898855eafae45862a1602e9fed52, type: 3}
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0

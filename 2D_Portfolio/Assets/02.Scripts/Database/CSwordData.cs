@@ -13,6 +13,11 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
     private JsonData m_swordJsonData;
 
     public List<SwordItem> m_swordItemList = new List<SwordItem>();
+    public List<List<DefaultSwordSkill>> m_defaultSkillList = new List<List<DefaultSwordSkill>>();
+
+    public Dictionary<string, SwordItem> m_swordItemDic = new Dictionary<string, SwordItem>();
+    public Dictionary<string, Dictionary<int ,DefaultSwordSkill>> m_swordDefaultSkillDic = new Dictionary<string,Dictionary<int ,DefaultSwordSkill>>();
+
     
     public void Awake()
     {
@@ -20,6 +25,7 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
     }
     public void Start()
     {
+
     }
 
     public void ConstructData()
@@ -36,13 +42,46 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
                 double.Parse(m_swordJsonData[i]["skill_effect_02"].ToString()),
                 double.Parse(m_swordJsonData[i]["skill_effect_03"].ToString()),
                 double.Parse(m_swordJsonData[i]["skill_effect_04"].ToString()),
+                m_swordJsonData[i]["default_skill"].ToString(),
                 double.Parse(m_swordJsonData[i]["damage"].ToString()),
                 double.Parse(m_swordJsonData[i]["def"].ToString()),
                 double.Parse(m_swordJsonData[i]["dodging"].ToString()),
                 double.Parse(m_swordJsonData[i]["hp"].ToString()), 
                 (int)m_swordJsonData[i]["cost"],
                 m_swordJsonData[i]["code"].ToString()));
+
+            m_swordItemDic.Add(m_swordItemList[i].m_itemCode, m_swordItemList[i]);
         }
+    }
+
+    public void DefaultSkillToJson()
+    {        
+
+        for(int i = 0; i < m_swordItemList.Count; i++)
+        {
+            m_defaultSkillList.Add(new List<DefaultSwordSkill>());
+
+            m_swordDefaultSkillDic.Add(m_swordItemList[i].m_itemCode ,new Dictionary<int, DefaultSwordSkill>());
+
+            JsonData tData = JsonMapper.ToObject(m_swordItemList[i].m_default_skill);
+            //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
+            
+            for (int j = 0; j < tData.Count; j++)
+            {
+                m_defaultSkillList[i].Add(new DefaultSwordSkill(
+                (int)tData[j]["id"],
+                tData[j]["skill_name"].ToString(),
+                tData[j]["skill_desc"].ToString(),
+                tData[j]["skill_effect"].ToString(),
+                (int)tData[j]["count"]));
+                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
+
+                m_swordDefaultSkillDic[m_swordItemList[i].m_itemCode].Add( j , m_defaultSkillList[i][j]);
+            }
+        }
+
+        //Debug.Log(m_swordDefaultSkillDic["w000001"][0].m_skill_name);
+        
     }
 
     public IEnumerator LoadData()
@@ -59,12 +98,33 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
         if(www.isDone)
         {
             this.ConstructData();
+            DefaultSkillToJson();
         }
     }
 
     public void LoadLocalData()
     { }
     public void ConstructLocalData() { }
+}
+[System.Serializable]
+public class DefaultSwordSkill
+{
+    public int m_id;
+    public string m_skill_name;
+    public string m_skill_desc;
+    public string m_skill_effect;
+    public int m_count;
+
+    public DefaultSwordSkill(int id, string skill_name, string skill_desc, string skill_effect, int count )
+    {
+        m_id = id;
+        m_skill_name = skill_name;
+        m_skill_desc = skill_desc;
+        m_skill_effect = skill_effect;
+        m_count = count;
+    }
+
+
 }
 
 [System.Serializable]
@@ -79,6 +139,7 @@ public class SwordItem
     public double m_skill_effect_02;// { get; set; }
     public double m_skill_effect_03;// { get; set; }
     public double m_skill_effect_04;// { get; set; }
+    public string m_default_skill;
     public double m_damage;// { get; set; }
     public double m_def;// { get; set; }
     public double m_dodging;//{ get; set; }
@@ -88,7 +149,8 @@ public class SwordItem
 
     public SwordItem(int id, string name, string description, string skill_name, string skill_desc, 
         double skill_effect_01, double skill_effect_02, 
-        double skill_effect_03, double skill_effect_04, double damage,
+        double skill_effect_03, double skill_effect_04, 
+        string default_skill, double damage,
         double def, double dodging, double hp, int cost, string itemCode)
     {
         m_id = id;
@@ -100,6 +162,7 @@ public class SwordItem
         m_skill_effect_02 = skill_effect_02;
         m_skill_effect_03 = skill_effect_03;
         m_skill_effect_04 = skill_effect_04;
+        m_default_skill = default_skill;
         m_damage = damage;
         m_def = def;
         m_dodging = dodging;

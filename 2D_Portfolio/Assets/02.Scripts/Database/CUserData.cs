@@ -75,6 +75,7 @@ public class CUserData : SingleTon<CUserData>
                 (int)m_userJsonData[i]["id"], 
                 m_userJsonData[i]["nickname"].ToString(), 
                 m_userJsonData[i]["status"].ToString(),
+                (int)m_userJsonData[i]["rank"],
                 m_userJsonData[i]["cur_set_itemcode"].ToString(),
                 (int)m_userJsonData[i]["gold"],
                 m_userJsonData[i]["weaponInventory"].ToString(), 
@@ -102,14 +103,14 @@ public class CUserData : SingleTon<CUserData>
         //    double.Parse(tData[DataIndex]["dex"].ToString())));
 
 
-        m_userStatusList.Add(new UserStatus(
-            (int)tData[DataIndex][0],
+        m_userStatusList.Add(new UserStatus(            
+         double.Parse(tData[DataIndex][0].ToString()),
          double.Parse(tData[DataIndex][1].ToString()),
          double.Parse(tData[DataIndex][2].ToString()),
          double.Parse(tData[DataIndex][3].ToString()),
          double.Parse(tData[DataIndex][4].ToString()),
          double.Parse(tData[DataIndex][5].ToString()),
-         double.Parse(tData[DataIndex][6].ToString())));
+         (int)tData[DataIndex][6]));
     }
 
     public void WeaponInventoryToJson()
@@ -130,17 +131,15 @@ public class CUserData : SingleTon<CUserData>
 [System.Serializable]
 public class UserStatus
 {
-    public int userCode;
     public double damage;
     public double def;
     public double dodge;
     public double hp;
     public double str;
     public double dex;
-    
+    public int userCode;
 
-
-    public UserStatus(int tUserCode, double tDamage, double tDef, double tDodge, double tHp, double tStr, double tDex)
+    public UserStatus( double tDamage, double tDef, double tDodge, double tHp, double tStr, double tDex, int tUserCode)
     {
         userCode = tUserCode;
         damage = tDamage;
@@ -161,6 +160,7 @@ public class UserMainInfo
     public int m_id;
     public string m_name;
     public string m_status; //json 을 텍스트로 변경해서 받아야함
+    public int m_rank;
     public int m_gold;
     public string m_weaponInven; //json 을 텍스트로 변경해서 받아야함
     public string m_goodsInven; //json 을 텍스트로 변경해서 받아야함
@@ -168,11 +168,12 @@ public class UserMainInfo
     public int m_userCode;
     public string cur_set_itemcode;
 
-    public UserMainInfo(int id, string name, string status, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int userCode)
+    public UserMainInfo(int id, string name,  string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int userCode)
     {
         m_id = id;
         m_name = name;
         m_status = status;
+        m_rank = rank;
         cur_set_itemcode = tcur_set_itemcode;
         m_gold = gold;
         m_weaponInven = weaponInven;

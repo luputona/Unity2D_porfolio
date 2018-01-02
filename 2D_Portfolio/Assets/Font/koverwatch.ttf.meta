@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 89f17fc07db635d4aa0b05a72b895456
+timeCreated: 1514859118
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -1
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Koverwatch
+  fontNames:
+  - Koverwatch
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

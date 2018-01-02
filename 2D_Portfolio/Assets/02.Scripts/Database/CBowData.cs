@@ -15,6 +15,11 @@ public class CBowData : SingleTon<CBowData>, IItemData
 
     public List<BowItem> m_bowItemList = new List<BowItem>();
 
+    public List<List<DefaultBowSkill>> m_defaultSkillList = new List<List<DefaultBowSkill>>();
+
+    public Dictionary<string, BowItem> m_bowItemDic = new Dictionary<string, BowItem>();
+    public Dictionary<string, Dictionary<int, DefaultBowSkill>> m_bowDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultBowSkill>>();
+
     public void Awake()
     {
         StartCoroutine(LoadData());
@@ -37,6 +42,7 @@ public class CBowData : SingleTon<CBowData>, IItemData
                 double.Parse(m_bowJsonData[i]["skill_effect_02"].ToString()),
                 double.Parse(m_bowJsonData[i]["skill_effect_03"].ToString()),
                 double.Parse(m_bowJsonData[i]["skill_effect_04"].ToString()),
+                m_bowJsonData[i]["default_skill"].ToString(),
                 double.Parse(m_bowJsonData[i]["damage"].ToString()),
                 double.Parse(m_bowJsonData[i]["def"].ToString()),
                 double.Parse(m_bowJsonData[i]["dodging"].ToString()),
@@ -44,6 +50,35 @@ public class CBowData : SingleTon<CBowData>, IItemData
                 (int)m_bowJsonData[i]["cost"],
                 m_bowJsonData[i]["code"].ToString()));
         }
+    }
+
+    public void DefaultSkillToJson()
+    {
+        for (int i = 0; i < m_bowItemList.Count; i++)
+        {
+            m_defaultSkillList.Add(new List<DefaultBowSkill>());
+
+            m_bowDefaultSkillDic.Add(m_bowItemList[i].m_itemCode, new Dictionary<int, DefaultBowSkill>());
+
+            JsonData tData = JsonMapper.ToObject(m_bowItemList[i].m_default_skill);
+            //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
+
+            for (int j = 0; j < tData.Count; j++)
+            {
+                m_defaultSkillList[i].Add(new DefaultBowSkill(
+                (int)tData[j]["id"],
+                tData[j]["skill_name"].ToString(),
+                tData[j]["skill_desc"].ToString(),
+                tData[j]["skill_effect"].ToString(),
+                (int)tData[j]["count"]));
+                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
+
+                m_bowDefaultSkillDic[m_bowItemList[i].m_itemCode].Add(j, m_defaultSkillList[i][j]);
+            }
+        }
+
+        //Debug.Log(m_bowDefaultSkillDic["w010001"][0].m_skill_name);
+
     }
 
     public IEnumerator LoadData()
@@ -60,6 +95,7 @@ public class CBowData : SingleTon<CBowData>, IItemData
         if (www.isDone)
         {
             ConstructData();
+            DefaultSkillToJson();
         }
         
 
@@ -72,6 +108,28 @@ public class CBowData : SingleTon<CBowData>, IItemData
     }
 
 }
+
+[System.Serializable]
+public class DefaultBowSkill
+{
+    public int m_id;
+    public string m_skill_name;
+    public string m_skill_desc;
+    public string m_skill_effect;
+    public int m_count;
+
+    public DefaultBowSkill(int id, string skill_name, string skill_desc, string skill_effect, int count)
+    {
+        m_id = id;
+        m_skill_name = skill_name;
+        m_skill_desc = skill_desc;
+        m_skill_effect = skill_effect;
+        m_count = count;
+    }
+}
+
+
+
 [System.Serializable]
 public class BowItem
 {
@@ -84,6 +142,7 @@ public class BowItem
     public double m_skill_effect_02;// { get; set; }
     public double m_skill_effect_03;// { get; set; }
     public double m_skill_effect_04;// { get; set; }
+    public string m_default_skill;
     public double m_damage;// { get; set; }
     public double m_def;// { get; set; }
     public double m_dodging;//{ get; set; }
@@ -93,7 +152,8 @@ public class BowItem
 
     public BowItem(int id, string name, string description, string skill_name, string skill_desc,
         double skill_effect_01, double skill_effect_02,
-        double skill_effect_03, double skill_effect_04, double damage,
+        double skill_effect_03, double skill_effect_04, 
+        string default_skill, double damage,
         double def, double dodging, double hp, int cost, string itemCode)
     {
         m_id = id;
@@ -105,6 +165,7 @@ public class BowItem
         m_skill_effect_02 = skill_effect_02;
         m_skill_effect_03 = skill_effect_03;
         m_skill_effect_04 = skill_effect_04;
+        m_default_skill = default_skill;
         m_damage = damage;
         m_def = def;
         m_dodging = dodging;
