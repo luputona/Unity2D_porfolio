@@ -83,6 +83,7 @@ public class CInputMovement : CMovement
 	// Update is called once per frame
 	void Update ()
     {
+        CStatus.GetInstance.TEST();
         InputMove();
         
 	}

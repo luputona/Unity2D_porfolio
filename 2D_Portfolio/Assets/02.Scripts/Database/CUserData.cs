@@ -7,7 +7,7 @@ using LitJson;
 
 public class CUserData : SingleTon<CUserData>
 {
-    private const int DataIndex = 0;
+    private const int DataIndex = 0; // TODO : 테스트로 DB에 있는 0번 유저 정보만 불러오게 고정 추후 클라에 있는 유저 코드랑 서버DB랑 비교해서 해당 유저걸로 불러오게 변경
     private static CUserData Instance = null;
 
     [SerializeField]
@@ -16,6 +16,11 @@ public class CUserData : SingleTon<CUserData>
     private UserMainInfo m_userData;
     [SerializeField]
     private JsonData m_userJsonData;
+    [SerializeField]
+    private string m_searchUserCodeURL;
+    
+    public JsonData m_statusData;
+
 
     public List<UserMainInfo> m_userDataList = new List<UserMainInfo>();
 
@@ -34,8 +39,12 @@ public class CUserData : SingleTon<CUserData>
             GameObject.DontDestroyOnLoad(gameObject);
         }
 
+        //TODO : 임시로 유저코드 강제 고정  추후 변경
+        PlayerPrefs.SetInt("usercode",12345678);
 
         StartCoroutine(LoadData());
+
+
     }
     // Use this for initialization
     void Start ()
@@ -45,34 +54,54 @@ public class CUserData : SingleTon<CUserData>
 
     private void Update()
     {
-        
-
+        UserCodeCheck();
+        StartCoroutine(LoadData());
     }
 
 
-    IEnumerator LoadData()
+    public IEnumerator LoadData()
     {
-        WWW www = new WWW(m_userInfoUrl);
+        //WWWForm form = new WWWForm();
+        //form.AddField("userCode", 12345678);
+
+
+        WWW www = new WWW(m_searchUserCodeURL);
+
+        //WWW www = new WWW(m_userInfoUrl);
 
         yield return www;
+        Debug.Log("text : " + www.text);
 
-        string severDB = Encoding.UTF8.GetString(www.bytes);
-        m_userJsonData = JsonMapper.ToObject(severDB);
+        //string severDB = Encoding.UTF8.GetString(www.bytes);
+        //m_userJsonData = JsonMapper.ToObject(severDB);
 
-        if(www.isDone)
-        {
-            ConstructData();
-            StatusToJson();
-        }
+        
+        //if(www.error == null)
+        //{
+        //    ConstructData();
+        //    StatusToObject();
+        //}
+        //else
+        //{
+        //    Debug.Log("ERRor : " + www.error);
+        //}
         
     }
     
+    void UserCodeCheck()
+    {
+        WWWForm form = new WWWForm();
+
+        form.AddField("userCode", 12345678);
+
+        WWW www = new WWW(m_searchUserCodeURL);
+    }
+
     void ConstructData()
     {
         for(int i =0; i< m_userJsonData.Count; i++)
         {
-            m_userDataList.Add(new UserMainInfo(
-                (int)m_userJsonData[i]["id"], 
+            m_userDataList.Add(new UserMainInfo(                
                 m_userJsonData[i]["nickname"].ToString(), 
                 m_userJsonData[i]["status"].ToString(),
                 (int)m_userJsonData[i]["rank"],
@@ -81,36 +110,37 @@ public class CUserData : SingleTon<CUserData>
                 m_userJsonData[i]["weaponInventory"].ToString(), 
                 m_userJsonData[i]["goodsInventory"].ToString(),
                 m_userJsonData[i]["clearDungeon"].ToString(), 
+                (int)m_userJsonData[i]["point"],
                 (int)m_userJsonData[i]["userCode"] ));
 
         }
     }
 
-    public void StatusToJson()
+    public void StatusToObject()
     {
 
-        JsonData tData = JsonMapper.ToObject(m_userDataList[0].m_status);
+        m_statusData = JsonMapper.ToObject(m_userDataList[0].m_status);
 
         //Debug.Log(m_userDataList[0].m_status);
-       // Debug.Log(tData[0][0].ToString());
+       // Debug.Log(m_statusData[0][0].ToString());
 
-        //m_userStatusList.Add(new UserStatus((int)tData[DataIndex]["userCode"],
-        //    double.Parse(tData[DataIndex]["damage"].ToString()),
-        //    double.Parse(tData[DataIndex]["def"].ToString()),
-        //    double.Parse(tData[DataIndex]["dodge"].ToString()),
-        //    double.Parse(tData[DataIndex]["hp"].ToString()),
-        //    double.Parse(tData[DataIndex]["str"].ToString()),
-        //    double.Parse(tData[DataIndex]["dex"].ToString())));
+        //m_userStatusList.Add(new UserStatus((int)m_statusData[DataIndex]["userCode"],
+        //    double.Parse(m_statusData[DataIndex]["damage"].ToString()),
+        //    double.Parse(m_statusData[DataIndex]["def"].ToString()),
+        //    double.Parse(m_statusData[DataIndex]["dodge"].ToString()),
+        //    double.Parse(m_statusData[DataIndex]["hp"].ToString()),
+        //    double.Parse(m_statusData[DataIndex]["str"].ToString()),
+        //    double.Parse(m_statusData[DataIndex]["dex"].ToString())));
 
 
         m_userStatusList.Add(new UserStatus(            
-         double.Parse(tData[DataIndex][0].ToString()),
-         double.Parse(tData[DataIndex][1].ToString()),
-         double.Parse(tData[DataIndex][2].ToString()),
-         double.Parse(tData[DataIndex][3].ToString()),
-         double.Parse(tData[DataIndex][4].ToString()),
-         double.Parse(tData[DataIndex][5].ToString()),
-         (int)tData[DataIndex][6]));
+         double.Parse(m_statusData[DataIndex][0].ToString()),
+         double.Parse(m_statusData[DataIndex][1].ToString()),
+         double.Parse(m_statusData[DataIndex][2].ToString()),
+         double.Parse(m_statusData[DataIndex][3].ToString()),
+         double.Parse(m_statusData[DataIndex][4].ToString()),
+         double.Parse(m_statusData[DataIndex][5].ToString()),
+         (int)m_statusData[DataIndex][6]));
     }
 
     public void WeaponInventoryToJson()
@@ -156,8 +186,7 @@ public class UserStatus
 
 [System.Serializable]
 public class UserMainInfo
-{
-    public int m_id;
+{    
     public string m_name;
     public string m_status; //json 을 텍스트로 변경해서 받아야함
     public int m_rank;
@@ -165,12 +194,13 @@ public class UserMainInfo
     public string m_weaponInven; //json 을 텍스트로 변경해서 받아야함
     public string m_goodsInven; //json 을 텍스트로 변경해서 받아야함
     public string m_clearDungeon; //json 을 텍스트로 변경해서 받아야함
+    public int m_point;
     public int m_userCode;
     public string cur_set_itemcode;
 
-    public UserMainInfo(int id, string name,  string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int userCode)
+    public UserMainInfo(string name,  string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int point ,int userCode)
     {
-        m_id = id;
+       
         m_name = name;
         m_status = status;
         m_rank = rank;
@@ -179,6 +209,7 @@ public class UserMainInfo
         m_weaponInven = weaponInven;
         m_goodsInven = goodsInven;
         m_clearDungeon = claerDungeon;
+        m_point = point;
         m_userCode = userCode;
         
     }

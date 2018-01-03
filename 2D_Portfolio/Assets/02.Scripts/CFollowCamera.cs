@@ -20,8 +20,9 @@ public class CFollowCamera : MonoBehaviour
 
 	// Update is called once per frame
 	void LateUpdate ()
-    {
-		if(m_target == null)
+    {       
+
+        if (m_target == null)
         {
             return;
         }

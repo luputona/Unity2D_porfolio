@@ -51,6 +51,7 @@ public class CUserInfoUIManager : CStatus
 
         m_eStatus = ESTATUS.Default;
 
+        
     }
     private void Update()
     {
@@ -59,6 +60,20 @@ public class CUserInfoUIManager : CStatus
         ShowUserCurrentSettingWeapon();
         ShowUserCurrentSettingWeaponSkill();
         ElementsUserInfo();
+
+        SetStatus();
+    }
+
+    public void SetStatus()
+    {
+        //공 방 회 피 힘 덱
+        base.m_damage = CUserData.GetInstance.m_userStatusList[0].damage;
+        base.m_defence = CUserData.GetInstance.m_userStatusList[0].def;
+        base.m_dodge = CUserData.GetInstance.m_userStatusList[0].dodge;
+        base.m_hp = CUserData.GetInstance.m_userStatusList[0].hp;
+        base.m_str = CUserData.GetInstance.m_userStatusList[0].str;
+        base.m_dex = CUserData.GetInstance.m_userStatusList[0].dex;
+        
     }
 
     public void InitializeComponent()
@@ -97,17 +112,19 @@ public class CUserInfoUIManager : CStatus
 
     public void ShowUserStatusInText()
     {
+        //TODO : 
         m_statusUp_text[(int)ESTATUS.Damage].text = string.Format("{0}", CUserData.GetInstance.m_userStatusList[0].damage);
         m_statusUp_text[(int)ESTATUS.Defence].text = string.Format("{0}", CUserData.GetInstance.m_userStatusList[0].def);
         m_statusUp_text[(int)ESTATUS.Dodge].text = string.Format("{0}", CUserData.GetInstance.m_userStatusList[0].dodge);
         m_statusUp_text[(int)ESTATUS.Hp].text = string.Format("{0}", CUserData.GetInstance.m_userStatusList[0].hp);
         m_statusUp_text[(int)ESTATUS.Str].text = string.Format("{0}", CUserData.GetInstance.m_userStatusList[0].str);
         m_statusUp_text[(int)ESTATUS.Dex].text = string.Format("{0}", CUserData.GetInstance.m_userStatusList[0].dex);
+                
     }
 
     public void ShowUserCurrentSettingWeapon()
     {
-        string tCurSetWeapon = CUserData.GetInstance.m_userDataList[0].cur_set_itemcode;
+        string tCurSetWeapon = CUserData.GetInstance.m_userDataList[0].cur_set_itemcode; // TODO : UpdateuserInfo 에서 받아오게 변경 
         string tShowWeaponInfoName = "";
         string tShowWeaponInfoSkillDesc = "";
 
@@ -219,6 +236,6 @@ public class CUserInfoUIManager : CStatus
         m_cur_User_Elements_Info[2].text = string.Format("{0}", CUserData.GetInstance.m_userDataList[0].m_gold);
     }
     
-        
+    
 
 }
