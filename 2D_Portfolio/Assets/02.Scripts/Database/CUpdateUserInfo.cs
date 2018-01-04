@@ -9,21 +9,12 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
 {
     private static CUpdateUserInfo Instance = null;
 
-    private void Awake()
-    {
-        if(Instance != null)
-        {
-            GameObject.Destroy(this);
-        }
-        else
-        {
-            GameObject.DontDestroyOnLoad(gameObject);
-        }
-    }
+    //public List<>
     
 
     public GameObject m_characterObject = null;
     public Image m_characterMainImage = null;
+    public Image m_weaponThumbnail = null;
 
     public string m_statusString;// { get; set; }
     public string m_name;// { get; set; }
@@ -45,7 +36,17 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
     public double m_str;
     public double m_dex;
 
-
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            GameObject.Destroy(this);
+        }
+        else
+        {
+            GameObject.DontDestroyOnLoad(gameObject);
+        }        
+    }
 
     // Use this for initialization
     void Start ()
@@ -56,23 +57,57 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
 	// Update is called once per frame
 	void Update ()
     {
-		
-	}
+        SetWeaponToChangeCharacterObject();
+        UpdateStatus();
+    }
 
-  
+    public void InitUserInfo(int point, int userCode, string name, int rank, int gold, string cur_set_ItemCode)
+    {
+        //유저 정보 대입
+        m_point = point;
+        m_userCode = userCode;
+        m_name = name;
+        m_rank = rank;
+        m_gold = gold;
+        m_cur_Set_ItemCode = cur_set_ItemCode;
+    }
+
+    public void UpdateStatus()
+    {
+        // 연산이 완료된 스테이터스 대입 
+        m_damage = CStatus.GetInstance.DefDamage;
+        m_defence = CStatus.GetInstance.DefDefence;
+        m_dodge = CStatus.GetInstance.DefDodge;
+        m_hp = CStatus.GetInstance.DefHp;
+        m_str = CStatus.GetInstance.DefStr;
+        m_dex = CStatus.GetInstance.DefDex;
+        
+    }
 
     void SetWeaponToChangeCharacterObject()
     {
-        string tCurSetWeapon = CUserData.GetInstance.m_userDataList[0].cur_set_itemcode;
-
+        string tCurSetWeapon = m_cur_Set_ItemCode;       
+        
         // TODO : 무기의 키값에 따라서 캐릭터 외형 변경 및 스테이터스 갱신 , 유저정보창 일러 변경
         if (CSwordData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))
         {
-            
+            // 무기의 데미지를 넘김
+            CStatus.GetInstance.SetWeaponDamage = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_damage;
+            CStatus.GetInstance.SetWeaponDef    = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_def;  //무기의 방어
+            CStatus.GetInstance.SetWeaponDodge  = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_dodging; //무기의 회피
+            CStatus.GetInstance.SetWeaponHP     = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_hp;
+
+            //m_characterMainImage.sprite = 
+            //
+
         }
         else if (CStaffData.GetInstance.m_staffItemDic.ContainsKey(tCurSetWeapon))
         {
-            
+            CStatus.GetInstance.SetWeaponDamage = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_damage;
+            CStatus.GetInstance.SetWeaponDef    = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_def;
+            CStatus.GetInstance.SetWeaponDodge  = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_dodging;
+            CStatus.GetInstance.SetWeaponHP     = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_hp;
+
         }
         else if (CSpearData.GetInstance.m_spearItemDic.ContainsKey(tCurSetWeapon))
         {
@@ -109,16 +144,19 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
 
     public string GetWeaponInventoryToJson()
     {
+        //TODO : 인벤토리 클래스 필요 
         return null;
     }
 
     public string GetGoodsInventoryToJson()
     {
+        //TODO : 인벤토리 클래스 필요 
         return null;
     }
 
     public string GetClearDungeonToJson()
     {
+        //TODO :  전용 클래스 필요 
         return null;
     }
 

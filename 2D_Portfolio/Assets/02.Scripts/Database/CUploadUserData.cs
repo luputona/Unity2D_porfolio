@@ -15,6 +15,8 @@ public class CUploadUserData : SingleTon<CUploadUserData>
     private string m_uploadGoodsInvenURL;
     [SerializeField]
     private string m_uploadUserSimpleDataURL;
+    [SerializeField]
+    private string m_uploadUserStatusDataURL;
 
     private static CUpdateUserInfo Instance = null;
 
@@ -40,7 +42,7 @@ public class CUploadUserData : SingleTon<CUploadUserData>
     // Update is called once per frame
     void Update ()
     {
-
+       
 
     }
 
@@ -94,7 +96,17 @@ public class CUploadUserData : SingleTon<CUploadUserData>
         form.AddField("point", CUpdateUserInfo.GetInstance.m_point);
         form.AddField("userCode", CUpdateUserInfo.GetInstance.m_userCode);
 
-        WWW www = new WWW(m_uploadUserAllDataURL, form);
+        WWW www = new WWW(m_uploadUserSimpleDataURL, form);
+    }
+
+    public void UploadUserStatus()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("status", CUpdateUserInfo.GetInstance.GetStatusToJson());
+        form.AddField("point", CUpdateUserInfo.GetInstance.m_point);
+        form.AddField("userCode", CUpdateUserInfo.GetInstance.m_userCode);
+
+        WWW www = new WWW(m_uploadUserStatusDataURL, form);
     }
 
     // 이름 변경ㅇ 전용
