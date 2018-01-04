@@ -86,7 +86,7 @@ public class CUserData : SingleTon<CUserData>
         {
             Debug.Log("ERRor : " + www.error);
         }
-        //CStatus.GetInstance.InitSetStatus(m_userStatusList[0].damage, m_userStatusList[0].def, m_userStatusList[0].dodge, m_userStatusList[0].hp, m_userStatusList[0].str, m_userStatusList[0].dex);
+        CStatus.GetInstance.InitSetStatus(m_userStatusList[0].damage, m_userStatusList[0].def, m_userStatusList[0].dodge, m_userStatusList[0].hp, m_userStatusList[0].str, m_userStatusList[0].dex);
 
     }
 

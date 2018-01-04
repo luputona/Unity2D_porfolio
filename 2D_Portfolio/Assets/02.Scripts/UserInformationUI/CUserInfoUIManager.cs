@@ -50,8 +50,8 @@ public class CUserInfoUIManager : CStatus
     void Start ()
     {
         //m_eStatus = ESTATUS.Default;
-        
 
+        m_main_UserInformation_Panel.SetActive(false);
     }
     void Update()
     {
@@ -102,7 +102,7 @@ public class CUserInfoUIManager : CStatus
         }
 
 
-        m_main_UserInformation_Panel.SetActive(false);
+        
     }
 
     public void ShowUserStatusInText()
@@ -235,10 +235,16 @@ public class CUserInfoUIManager : CStatus
     
     public void OpenUserInfomation()
     {        
+        // TODO : 추후 인벤토리 갱신도 추가
         CStatus.GetInstance.CalculateStatus(); 
 
         m_main_UserInformation_Panel.SetActive(true);
     }
     
-
+    public void DisableInfoUI()
+    {
+        //TODO : 추후 인벤토리 갱신도 추가 
+        CStatus.GetInstance.CalculateStatus();
+        m_main_UserInformation_Panel.SetActive(false);
+    }
 }

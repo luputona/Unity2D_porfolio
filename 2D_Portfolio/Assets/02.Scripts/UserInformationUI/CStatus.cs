@@ -113,9 +113,11 @@ public class CStatus : SingleTon<CStatus>
     
 
     void Start()
-    {
-        
+    {       
+
+
     }
+
     
     //DB에서 바로 받아오는 초기 셋팅값
     public void InitSetStatus(double damage, double def, double dodge, double hp, double str, double dex)
@@ -131,14 +133,16 @@ public class CStatus : SingleTon<CStatus>
         Debug.Log("???????");
     }
 
-    public void RecordStatus()
+    public void RecordStatus( )
     {
+        Debug.Log("eeee");
         if (ESTATUS.Hp == m_eStatus)
         {            
             if (CUpdateUserInfo.GetInstance.m_point >= 0)
             {
                 m_defHp += 1;
-                CUpdateUserInfo.GetInstance.m_point -= 1;                
+                CUpdateUserInfo.GetInstance.m_point -= 1;
+                Debug.Log("11111111111");
             }
             else
             {
@@ -150,7 +154,8 @@ public class CStatus : SingleTon<CStatus>
             if (CUpdateUserInfo.GetInstance.m_point >= 0)
             {
                 m_defStr += 1;
-                CUpdateUserInfo.GetInstance.m_point -= 1;               
+                CUpdateUserInfo.GetInstance.m_point -= 1;
+                Debug.Log("22222222");
             }
             else
             {
@@ -162,7 +167,8 @@ public class CStatus : SingleTon<CStatus>
             if (CUpdateUserInfo.GetInstance.m_point >= 0)
             {
                 m_defDex += 1;
-                CUpdateUserInfo.GetInstance.m_point -= 1;                          
+                CUpdateUserInfo.GetInstance.m_point -= 1;
+                Debug.Log("333333333");
             }
             else
             {
