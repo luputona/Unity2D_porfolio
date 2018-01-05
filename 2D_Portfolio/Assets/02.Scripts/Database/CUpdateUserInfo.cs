@@ -111,23 +111,23 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
         }
         else if (CSpearData.GetInstance.m_spearItemDic.ContainsKey(tCurSetWeapon))
         {
-          
+          //TODO : 
         }
         else if (CMartialArts.GetInstance.m_martialItemDic.ContainsKey(tCurSetWeapon))
         {
-            
+            //TODO :   
         }
         else if (CMaceData.GetInstance.m_maceItemDic.ContainsKey(tCurSetWeapon))
         {
-          
+            //TODO : 
         }
         else if (CBowData.GetInstance.m_bowItemDic.ContainsKey(tCurSetWeapon))
         {
-           
+            //TODO : 
         }
         else if (CAccessoryData.GetInstance.m_accessoryItemDic.ContainsKey(tCurSetWeapon))
         {
-           
+            //TODO : 
         }
     }
 

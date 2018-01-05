@@ -130,19 +130,18 @@ public class CStatus : SingleTon<CStatus>
         m_defStr = str;
         m_defDex = dex;
         
-        Debug.Log("???????");
+        
     }
 
     public void RecordStatus( )
-    {
-        Debug.Log("eeee");
+    {        
         if (ESTATUS.Hp == m_eStatus)
         {            
             if (CUpdateUserInfo.GetInstance.m_point >= 0)
             {
                 m_defHp += 1;
                 CUpdateUserInfo.GetInstance.m_point -= 1;
-                Debug.Log("11111111111");
+                Debug.Log(CUpdateUserInfo.GetInstance.m_point);
             }
             else
             {
@@ -155,7 +154,7 @@ public class CStatus : SingleTon<CStatus>
             {
                 m_defStr += 1;
                 CUpdateUserInfo.GetInstance.m_point -= 1;
-                Debug.Log("22222222");
+                
             }
             else
             {
@@ -168,7 +167,7 @@ public class CStatus : SingleTon<CStatus>
             {
                 m_defDex += 1;
                 CUpdateUserInfo.GetInstance.m_point -= 1;
-                Debug.Log("333333333");
+                
             }
             else
             {
