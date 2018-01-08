@@ -12,14 +12,7 @@ public class CBowData : SingleTon<CBowData>, IItemData
     private string m_serverUrl;
     [SerializeField]
     private JsonData m_bowJsonData;
-
-    public List<BowItem> m_bowItemList = new List<BowItem>();
-
-    public List<List<DefaultBowSkill>> m_defaultSkillList = new List<List<DefaultBowSkill>>();
-
-    public Dictionary<string, BowItem> m_bowItemDic = new Dictionary<string, BowItem>();
-    public Dictionary<string, Dictionary<int, DefaultBowSkill>> m_bowDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultBowSkill>>();
-
+    
     public void Awake()
     {
         StartCoroutine(LoadData());
@@ -32,7 +25,7 @@ public class CBowData : SingleTon<CBowData>, IItemData
     {
         for (int i = 0; i < m_bowJsonData.Count; i++)
         {
-            m_bowItemList.Add(new BowItem(
+            CWeaponData.GetInstance.m_bowItemList.Add(new BowItem(
                 (int)m_bowJsonData[i]["id"],
                 m_bowJsonData[i]["name"].ToString(),
                 m_bowJsonData[i]["description"].ToString(),
@@ -54,31 +47,20 @@ public class CBowData : SingleTon<CBowData>, IItemData
 
     public void DefaultSkillToJson()
     {
-        for (int i = 0; i < m_bowItemList.Count; i++)
+        for (int i = 0; i < CWeaponData.GetInstance.m_bowItemList.Count; i++)
         {
-            m_defaultSkillList.Add(new List<DefaultBowSkill>());
+            CWeaponData.GetInstance.m_bowDefaultSkillDic.Add(CWeaponData.GetInstance.m_bowItemList[i].m_itemCode, new Dictionary<int, DefaultBowSkill>());
 
-            m_bowDefaultSkillDic.Add(m_bowItemList[i].m_itemCode, new Dictionary<int, DefaultBowSkill>());
-
-            JsonData tData = JsonMapper.ToObject(m_bowItemList[i].m_default_skill);
+            JsonData tData = JsonMapper.ToObject(CWeaponData.GetInstance.m_bowItemList[i].m_default_skill);
             //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
 
             for (int j = 0; j < tData.Count; j++)
             {
-                m_defaultSkillList[i].Add(new DefaultBowSkill(
-                (int)tData[j]["id"],
-                tData[j]["skill_name"].ToString(),
-                tData[j]["skill_desc"].ToString(),
-                tData[j]["skill_effect"].ToString(),
-                (int)tData[j]["count"]));
-                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
-
-                m_bowDefaultSkillDic[m_bowItemList[i].m_itemCode].Add(j, m_defaultSkillList[i][j]);
+                CWeaponData.GetInstance.m_bowDefaultSkillDic[CWeaponData.GetInstance.m_bowItemList[i].m_itemCode].Add(j, 
+                    new DefaultBowSkill((int)tData[j]["id"], tData[j]["skill_name"].ToString(), tData[j]["skill_desc"].ToString(), tData[j]["skill_effect"].ToString(), (int)tData[j]["count"]));
             }
         }
-
         //Debug.Log(m_bowDefaultSkillDic["w010001"][0].m_skill_name);
-
     }
 
     public IEnumerator LoadData()
@@ -97,8 +79,6 @@ public class CBowData : SingleTon<CBowData>, IItemData
             ConstructData();
             DefaultSkillToJson();
         }
-        
-
     }
     public void LoadLocalData()
     {

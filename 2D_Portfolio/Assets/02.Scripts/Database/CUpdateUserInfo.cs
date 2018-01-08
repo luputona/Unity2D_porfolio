@@ -21,9 +21,9 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
     public int m_rank;// { get; set; }
     public string m_cur_Set_ItemCode;
     public int m_gold;
-    public string m_weaponInven;
-    public string m_goodsInven;
-    public string m_clearDungeon;
+    public string m_weaponInvenString;
+    public string m_goodsInvenString;
+    public string m_clearDungeonString;
     public int m_point;
     public int m_userCode;
 
@@ -35,6 +35,12 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
     public double m_hp;
     public double m_str;
     public double m_dex;
+
+    //무기 인벤토리
+    public string m_category;
+    public string m_itemCode;
+    public int m_invenSize;
+    
 
     void Awake()
     {
@@ -51,8 +57,8 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
     // Use this for initialization
     void Start ()
     {
-		
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -84,48 +90,51 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
         
     }
 
+   
+
+
     void SetWeaponToChangeCharacterObject()
     {
         string tCurSetWeapon = m_cur_Set_ItemCode;       
         
         // TODO : 무기의 키값에 따라서 캐릭터 외형 변경 및 스테이터스 갱신 , 유저정보창 일러 변경
-        if (CSwordData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))
+        if (CWeaponData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))
         {
             // 무기의 데미지를 넘김
-            CStatus.GetInstance.SetWeaponDamage = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_damage;
-            CStatus.GetInstance.SetWeaponDef    = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_def;  //무기의 방어
-            CStatus.GetInstance.SetWeaponDodge  = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_dodging; //무기의 회피
-            CStatus.GetInstance.SetWeaponHP     = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_hp;
+            CStatus.GetInstance.SetWeaponDamage = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_damage;
+            CStatus.GetInstance.SetWeaponDef    = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_def;  //무기의 방어
+            CStatus.GetInstance.SetWeaponDodge  = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_dodging; //무기의 회피
+            CStatus.GetInstance.SetWeaponHP     = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_hp;
 
             //m_characterMainImage.sprite = 
             //
 
         }
-        else if (CStaffData.GetInstance.m_staffItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_staffItemDic.ContainsKey(tCurSetWeapon))
         {
-            CStatus.GetInstance.SetWeaponDamage = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_damage;
-            CStatus.GetInstance.SetWeaponDef    = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_def;
-            CStatus.GetInstance.SetWeaponDodge  = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_dodging;
-            CStatus.GetInstance.SetWeaponHP     = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_hp;
+            CStatus.GetInstance.SetWeaponDamage = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_damage;
+            CStatus.GetInstance.SetWeaponDef    = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_def;
+            CStatus.GetInstance.SetWeaponDodge  = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_dodging;
+            CStatus.GetInstance.SetWeaponHP     = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_hp;
 
         }
-        else if (CSpearData.GetInstance.m_spearItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_spearItemDic.ContainsKey(tCurSetWeapon))
         {
           //TODO : 
         }
-        else if (CMartialArts.GetInstance.m_martialItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_martialItemDic.ContainsKey(tCurSetWeapon))
         {
             //TODO :   
         }
-        else if (CMaceData.GetInstance.m_maceItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_maceItemDic.ContainsKey(tCurSetWeapon))
         {
             //TODO : 
         }
-        else if (CBowData.GetInstance.m_bowItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_bowItemDic.ContainsKey(tCurSetWeapon))
         {
             //TODO : 
         }
-        else if (CAccessoryData.GetInstance.m_accessoryItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_accessoryItemDic.ContainsKey(tCurSetWeapon))
         {
             //TODO : 
         }
@@ -145,7 +154,12 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
     public string GetWeaponInventoryToJson()
     {
         //TODO : 인벤토리 클래스 필요 
-        return null;
+
+        WeaponInventory weaponInventory = new WeaponInventory(m_category, m_itemCode);
+
+        m_weaponInvenString = JsonMapper.ToJson(weaponInventory);
+
+        return m_weaponInvenString;
     }
 
     public string GetGoodsInventoryToJson()

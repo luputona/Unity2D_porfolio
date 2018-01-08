@@ -20,11 +20,15 @@ public class CUserData : SingleTon<CUserData>
     private string m_searchUserCodeURL;
     
     public JsonData m_statusData;
-
-
+    public JsonData m_weaponInvenData;
+    public JsonData m_potionInvenData;
+    
     public List<UserMainInfo> m_userDataList = new List<UserMainInfo>();
 
     public List<UserStatus> m_userStatusList = new List<UserStatus>();
+    public List<WeaponInventory> m_weaponInvenList = new List<WeaponInventory>();    
+    
+    public Dictionary<string, PotionInventory> m_potionInvenDic = new Dictionary<string, PotionInventory>();
     public Dictionary<string, GameObject> m_weaponInventory = new Dictionary<string, GameObject>();
 
     
@@ -78,8 +82,9 @@ public class CUserData : SingleTon<CUserData>
         {
             ConstructData();
             StatusToObject();
-           
-            
+            WeaponInventoryToObject();
+            PotionInventoryToObject();
+
             //CUpdateUserInfo.GetInstance.InitUserStatus();
         }
         else
@@ -110,6 +115,7 @@ public class CUserData : SingleTon<CUserData>
                 m_userJsonData[i]["cur_set_itemcode"].ToString(),
                 (int)m_userJsonData[i]["gold"],
                 m_userJsonData[i]["weaponInventory"].ToString(), 
+                m_userJsonData[i]["potionInventory"].ToString(),
                 m_userJsonData[i]["goodsInventory"].ToString(),
                 m_userJsonData[i]["clearDungeon"].ToString(), 
                 (int)m_userJsonData[i]["point"],
@@ -147,9 +153,22 @@ public class CUserData : SingleTon<CUserData>
 
     public void WeaponInventoryToObject()
     {
-        JsonData tData = JsonMapper.ToObject(m_userDataList[0].m_weaponInven);
+        m_weaponInvenData = JsonMapper.ToObject(m_userDataList[0].m_weaponInven);
 
+        for(int i = 0; i < m_weaponInvenData.Count; i++ )
+        {
+            m_weaponInvenList.Add(new WeaponInventory(m_weaponInvenData[i][0].ToString(), m_weaponInvenData[i][1].ToString()));
+        }
+    }
+    public void PotionInventoryToObject()
+    {
+        m_potionInvenData = JsonMapper.ToObject(m_userDataList[0].m_potionInven);
 
+        for(int i = 0; i < m_potionInvenData.Count; i++)
+        {
+            m_potionInvenDic.Add(m_potionInvenData[i][0].ToString() ,new PotionInventory(m_potionInvenData[i][0].ToString(), (int)m_potionInvenData[i][1]));
+        }
+        
     }
     
     //void LoadLocalData();
@@ -159,8 +178,26 @@ public class CUserData : SingleTon<CUserData>
 [System.Serializable]
 public class WeaponInventory
 {
+    public string m_category;
+    public string m_itemCode;
 
+    public WeaponInventory(string category, string itemCode)
+    {
+        m_category = category;
+        m_itemCode = itemCode;
+    }
+}
+[System.Serializable]
+public class PotionInventory
+{
+    public string m_itemCode;
+    public int m_count;
 
+    public PotionInventory(string itemCode, int count)
+    {
+        m_itemCode = itemCode;
+        m_count = count;
+    }
 }
 
 
@@ -200,13 +237,14 @@ public class UserMainInfo
     public int m_rank;
     public int m_gold;
     public string m_weaponInven; //json 을 텍스트로 변경해서 받아야함
+    public string m_potionInven;
     public string m_goodsInven; //json 을 텍스트로 변경해서 받아야함
     public string m_clearDungeon; //json 을 텍스트로 변경해서 받아야함
     public int m_point;
     public int m_userCode;
     public string m_cur_set_itemcode;
 
-    public UserMainInfo(string name,  string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int point ,int userCode)
+    public UserMainInfo(string name,  string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string potionInven,string goodsInven, string claerDungeon, int point ,int userCode)
     {
        
         m_name = name;
@@ -215,6 +253,7 @@ public class UserMainInfo
         m_cur_set_itemcode = tcur_set_itemcode;
         m_gold = gold;
         m_weaponInven = weaponInven;
+        m_potionInven = potionInven;
         m_goodsInven = goodsInven;
         m_clearDungeon = claerDungeon;
         m_point = point;

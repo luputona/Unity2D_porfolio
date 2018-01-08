@@ -22,8 +22,43 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
     [SerializeField]
     private string m_localPath;
     public List<WeaponCategory> m_categoryLocalList = new List<WeaponCategory>();
-   
+
+    //검
+    public List<SwordItem> m_swordItemList = new List<SwordItem>();
+    public Dictionary<string, SwordItem> m_swordItemDic = new Dictionary<string, SwordItem>();
+    public Dictionary<string, Dictionary<int, DefaultSwordSkill>> m_swordDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultSwordSkill>>();
     
+    //스태프
+    public List<StaffItem> m_staffItemList = new List<StaffItem>();
+    public Dictionary<string, StaffItem> m_staffItemDic = new Dictionary<string, StaffItem>();
+    public Dictionary<string, Dictionary<int, DefaultStaffSkill>> m_staffDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultStaffSkill>>();
+    
+    //창
+    public List<SpearItem> m_spearItemList = new List<SpearItem>();
+    public Dictionary<string, SpearItem> m_spearItemDic = new Dictionary<string, SpearItem>();
+    public Dictionary<string, Dictionary<int, DefaultSpearSkill>> m_spearDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultSpearSkill>>();
+
+    //격투
+    public List<MartialArtsItem> m_matialArtsItemList = new List<MartialArtsItem>();
+    public Dictionary<string, MartialArtsItem> m_martialItemDic = new Dictionary<string, MartialArtsItem>();
+    public Dictionary<string, Dictionary<int, DefaultMartialArtsSkill>> m_martialDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultMartialArtsSkill>>();
+
+    //메이스
+    public List<MaceItem> m_maceItemList = new List<MaceItem>();
+    public Dictionary<string, MaceItem> m_maceItemDic = new Dictionary<string, MaceItem>();
+    public Dictionary<string, Dictionary<int, DefaultMaceSkill>> m_maceDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultMaceSkill>>();
+
+    //활
+    public List<BowItem> m_bowItemList = new List<BowItem>();
+    public Dictionary<string, BowItem> m_bowItemDic = new Dictionary<string, BowItem>();
+    public Dictionary<string, Dictionary<int, DefaultBowSkill>> m_bowDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultBowSkill>>();
+
+    //악세사리
+    public List<AccessoryItem> m_accessoryItemList = new List<AccessoryItem>();
+    public Dictionary<string, AccessoryItem> m_accessoryItemDic = new Dictionary<string, AccessoryItem>();
+    public Dictionary<string, Dictionary<int, DefaultAccessorySkill>> m_accessoryDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultAccessorySkill>>();
+        
+
     public void Awake()
     {
         if (_instance != null)

@@ -5,19 +5,12 @@ using System.IO;
 using LitJson;
 using System.Text;
 
-public class CSwordData : SingleTon<CSwordData>, IItemData
+public class CSwordData : MonoBehaviour, IItemData
 {
     [SerializeField]
     private string m_serverUrl;
     [SerializeField]
     private JsonData m_swordJsonData;
-
-    public List<SwordItem> m_swordItemList = new List<SwordItem>();
-    public List<List<DefaultSwordSkill>> m_defaultSkillList = new List<List<DefaultSwordSkill>>();
-
-    public Dictionary<string, SwordItem> m_swordItemDic = new Dictionary<string, SwordItem>();
-    public Dictionary<string, Dictionary<int ,DefaultSwordSkill>> m_swordDefaultSkillDic = new Dictionary<string,Dictionary<int ,DefaultSwordSkill>>();
-
     
     public void Awake()
     {
@@ -32,7 +25,7 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
     {
         for(int i = 0; i < m_swordJsonData.Count; i++)
         {
-            m_swordItemList.Add(new SwordItem(
+            CWeaponData.GetInstance.m_swordItemList.Add(new SwordItem(
                 (int)m_swordJsonData[i]["id"],
                 m_swordJsonData[i]["name"].ToString(),
                 m_swordJsonData[i]["description"].ToString(),
@@ -50,38 +43,24 @@ public class CSwordData : SingleTon<CSwordData>, IItemData
                 (int)m_swordJsonData[i]["cost"],
                 m_swordJsonData[i]["code"].ToString()));
 
-            m_swordItemDic.Add(m_swordItemList[i].m_itemCode, m_swordItemList[i]);
+            CWeaponData.GetInstance.m_swordItemDic.Add(CWeaponData.GetInstance.m_swordItemList[i].m_itemCode, CWeaponData.GetInstance.m_swordItemList[i]);
         }
     }
 
     public void DefaultSkillToJson()
-    {        
-
-        for(int i = 0; i < m_swordItemList.Count; i++)
+    {
+        for(int i = 0; i < CWeaponData.GetInstance.m_swordItemList.Count; i++)
         {
-            m_defaultSkillList.Add(new List<DefaultSwordSkill>());
+            CWeaponData.GetInstance.m_swordDefaultSkillDic.Add(CWeaponData.GetInstance.m_swordItemList[i].m_itemCode ,new Dictionary<int, DefaultSwordSkill>());
 
-            m_swordDefaultSkillDic.Add(m_swordItemList[i].m_itemCode ,new Dictionary<int, DefaultSwordSkill>());
-
-            JsonData tData = JsonMapper.ToObject(m_swordItemList[i].m_default_skill);
-            //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
-            
+            JsonData tData = JsonMapper.ToObject(CWeaponData.GetInstance.m_swordItemList[i].m_default_skill);
+                        
             for (int j = 0; j < tData.Count; j++)
             {
-                m_defaultSkillList[i].Add(new DefaultSwordSkill(
-                (int)tData[j]["id"],
-                tData[j]["skill_name"].ToString(),
-                tData[j]["skill_desc"].ToString(),
-                tData[j]["skill_effect"].ToString(),
-                (int)tData[j]["count"]));
-                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
-
-                m_swordDefaultSkillDic[m_swordItemList[i].m_itemCode].Add( j , m_defaultSkillList[i][j]);
+                CWeaponData.GetInstance.m_swordDefaultSkillDic[CWeaponData.GetInstance.m_swordItemList[i].m_itemCode].Add( j , 
+                    new DefaultSwordSkill((int)tData[j]["id"], tData[j]["skill_name"].ToString(), tData[j]["skill_desc"].ToString(), tData[j]["skill_effect"].ToString(),  (int)tData[j]["count"]));
             }
         }
-
-        //Debug.Log(m_swordDefaultSkillDic["w000001"][0].m_skill_name);
-        
     }
 
     public IEnumerator LoadData()

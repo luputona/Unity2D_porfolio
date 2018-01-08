@@ -123,6 +123,11 @@ public class CUploadUserData : SingleTon<CUploadUserData>
     //무기 인벤토리 전용
     public void UploadWeaponInventory()
     {
+        WWWForm form = new WWWForm();
+        form.AddField("weaponInventory",CUpdateUserInfo.GetInstance.GetWeaponInventoryToJson());
+        form.AddField("userCode", CUpdateUserInfo.GetInstance.m_userCode);
+
+        WWW www = new WWW(m_uploadWeaponInvenURL, form);
 
     }
 

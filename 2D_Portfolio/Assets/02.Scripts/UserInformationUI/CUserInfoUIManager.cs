@@ -124,40 +124,40 @@ public class CUserInfoUIManager : CStatus
         string tShowWeaponInfoName = "";
         string tShowWeaponInfoSkillDesc = "";
 
-        if (CSwordData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))
+        if (CWeaponData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CSwordData.GetInstance.m_swordItemDic[tCurSetWeapon].m_skill_Desc;
+            tShowWeaponInfoName = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_name;
+            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_skill_Desc;
         }
-        else if(CStaffData.GetInstance.m_staffItemDic.ContainsKey(tCurSetWeapon))
+        else if(CWeaponData.GetInstance.m_staffItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CStaffData.GetInstance.m_staffItemDic[tCurSetWeapon].m_skill_Desc;
+            tShowWeaponInfoName = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_name;
+            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_skill_Desc;
         }
-        else if(CSpearData.GetInstance.m_spearItemDic.ContainsKey(tCurSetWeapon))
+        else if(CWeaponData.GetInstance.m_spearItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CSpearData.GetInstance.m_spearItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CSpearData.GetInstance.m_spearItemDic[tCurSetWeapon].m_skill_Desc;
+            tShowWeaponInfoName = CWeaponData.GetInstance.m_spearItemDic[tCurSetWeapon].m_name;
+            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_spearItemDic[tCurSetWeapon].m_skill_Desc;
         }
-        else if (CMartialArts.GetInstance.m_martialItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_martialItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CMartialArts.GetInstance.m_martialItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CMartialArts.GetInstance.m_martialItemDic[tCurSetWeapon].m_skill_Desc;
+            tShowWeaponInfoName = CWeaponData.GetInstance.m_martialItemDic[tCurSetWeapon].m_name;
+            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_martialItemDic[tCurSetWeapon].m_skill_Desc;
         }
-        else if (CMaceData.GetInstance.m_maceItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_maceItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CMaceData.GetInstance.m_maceItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CMaceData.GetInstance.m_maceItemDic[tCurSetWeapon].m_skill_Desc;
+            tShowWeaponInfoName = CWeaponData.GetInstance.m_maceItemDic[tCurSetWeapon].m_name;
+            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_maceItemDic[tCurSetWeapon].m_skill_Desc;
         }
-        else if (CBowData.GetInstance.m_bowItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_bowItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CBowData.GetInstance.m_bowItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CBowData.GetInstance.m_bowItemDic[tCurSetWeapon].m_skill_Desc;
+            tShowWeaponInfoName = CWeaponData.GetInstance.m_bowItemDic[tCurSetWeapon].m_name;
+            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_bowItemDic[tCurSetWeapon].m_skill_Desc;
         }
-        else if (CAccessoryData.GetInstance.m_accessoryItemDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_accessoryItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CAccessoryData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CAccessoryData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_skill_Desc;
+            tShowWeaponInfoName = CWeaponData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_name;
+            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_skill_Desc;
         }
         m_cur_WeaponName_Text.text = string.Format("{0}", tShowWeaponInfoName);
         m_cur_WeaponDesc_Text.text = string.Format("{0}", tShowWeaponInfoSkillDesc);
@@ -167,60 +167,60 @@ public class CUserInfoUIManager : CStatus
     {
         string tCurSetWeapon = CUpdateUserInfo.GetInstance.m_cur_Set_ItemCode;
     
-        if (CSwordData.GetInstance.m_swordDefaultSkillDic.ContainsKey(tCurSetWeapon))
+        if (CWeaponData.GetInstance.m_swordDefaultSkillDic.ContainsKey(tCurSetWeapon))
         {
             for (int i = 0; i < m_defaultSkill_Count; i++)
             {
-                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CSwordData.GetInstance.m_swordDefaultSkillDic[tCurSetWeapon][i].m_skill_name);               
-                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CSwordData.GetInstance.m_swordDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
+                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CWeaponData.GetInstance.m_swordDefaultSkillDic[tCurSetWeapon][i].m_skill_name);               
+                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CWeaponData.GetInstance.m_swordDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
             }
         }
-        else if (CStaffData.GetInstance.m_staffDefaultSkillDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_staffDefaultSkillDic.ContainsKey(tCurSetWeapon))
         {
             for (int i = 0; i < m_defaultSkill_Count; i++)
             {               
-                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CStaffData.GetInstance.m_staffDefaultSkillDic[tCurSetWeapon][i].m_skill_name);
-                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CStaffData.GetInstance.m_staffDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
+                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CWeaponData.GetInstance.m_staffDefaultSkillDic[tCurSetWeapon][i].m_skill_name);
+                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CWeaponData.GetInstance.m_staffDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
             }
         }
-        else if (CSpearData.GetInstance.m_spearDefaultSkillDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_spearDefaultSkillDic.ContainsKey(tCurSetWeapon))
         {
             for (int i = 0; i < m_defaultSkill_Count; i++)
             {               
-                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CSpearData.GetInstance.m_spearDefaultSkillDic[tCurSetWeapon][i].m_skill_name);                
-                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CSpearData.GetInstance.m_spearDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
+                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CWeaponData.GetInstance.m_spearDefaultSkillDic[tCurSetWeapon][i].m_skill_name);                
+                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CWeaponData.GetInstance.m_spearDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
             }
         }
-        else if (CMartialArts.GetInstance.m_martialDefaultSkillDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_martialDefaultSkillDic.ContainsKey(tCurSetWeapon))
         {
             for (int i = 0; i < m_defaultSkill_Count; i++)
             {                
-                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CMartialArts.GetInstance.m_martialDefaultSkillDic[tCurSetWeapon][i].m_skill_name);                
-                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CMartialArts.GetInstance.m_martialDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
+                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CWeaponData.GetInstance.m_martialDefaultSkillDic[tCurSetWeapon][i].m_skill_name);                
+                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CWeaponData.GetInstance.m_martialDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
             }
         }
-        else if (CMaceData.GetInstance.m_maceDefaultSkillDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_maceDefaultSkillDic.ContainsKey(tCurSetWeapon))
         {
             for (int i = 0; i < m_defaultSkill_Count; i++)
             {                
-                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CMaceData.GetInstance.m_maceDefaultSkillDic[tCurSetWeapon][i].m_skill_name);              
-                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CMaceData.GetInstance.m_maceDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
+                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CWeaponData.GetInstance.m_maceDefaultSkillDic[tCurSetWeapon][i].m_skill_name);              
+                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CWeaponData.GetInstance.m_maceDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
             }
         }
-        else if (CBowData.GetInstance.m_bowDefaultSkillDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_bowDefaultSkillDic.ContainsKey(tCurSetWeapon))
         {
             for (int i = 0; i < m_defaultSkill_Count; i++)
             {
-                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CBowData.GetInstance.m_bowDefaultSkillDic[tCurSetWeapon][i].m_skill_name);               
-                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CBowData.GetInstance.m_bowDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
+                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CWeaponData.GetInstance.m_bowDefaultSkillDic[tCurSetWeapon][i].m_skill_name);               
+                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CWeaponData.GetInstance.m_bowDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);                
             }
         }
-        else if (CAccessoryData.GetInstance.m_accessoryDefaultSkillDic.ContainsKey(tCurSetWeapon))
+        else if (CWeaponData.GetInstance.m_accessoryDefaultSkillDic.ContainsKey(tCurSetWeapon))
         {
             for (int i = 0; i < m_defaultSkill_Count; i++)
             {
-                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CAccessoryData.GetInstance.m_accessoryDefaultSkillDic[tCurSetWeapon][i].m_skill_name);                
-                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CAccessoryData.GetInstance.m_accessoryDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);              
+                m_cur_Set_Skill_Text[i].text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryDefaultSkillDic[tCurSetWeapon][i].m_skill_name);                
+                m_cur_Set_Skill_Text[m_defaultSkill_Count+i].text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryDefaultSkillDic[tCurSetWeapon][i].m_skill_desc);              
             }
         }
     }

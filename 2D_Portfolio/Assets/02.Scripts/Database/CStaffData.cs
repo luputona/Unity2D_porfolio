@@ -11,14 +11,7 @@ public class CStaffData : SingleTon<CStaffData>, IItemData
     private string m_serverUrl;
     [SerializeField]
     private JsonData m_staffJsonData;
-
-    public List<StaffItem> m_staffItemList = new List<StaffItem>();
-
-    public List<List<DefaultStaffSkill>> m_defaultSkillList = new List<List<DefaultStaffSkill>>();
-
-    public Dictionary<string, StaffItem> m_staffItemDic = new Dictionary<string, StaffItem>();
-    public Dictionary<string, Dictionary<int, DefaultStaffSkill>> m_staffDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultStaffSkill>>();
-
+    
     public  void Awake()
     {
         StartCoroutine(LoadData());
@@ -31,7 +24,7 @@ public class CStaffData : SingleTon<CStaffData>, IItemData
     {
         for (int i = 0; i < m_staffJsonData.Count; i++)
         {
-            m_staffItemList.Add(new StaffItem(
+            CWeaponData.GetInstance.m_staffItemList.Add(new StaffItem(
                 (int)m_staffJsonData[i]["id"],
                 m_staffJsonData[i]["name"].ToString(),
                 m_staffJsonData[i]["description"].ToString(),
@@ -49,39 +42,26 @@ public class CStaffData : SingleTon<CStaffData>, IItemData
                 (int)m_staffJsonData[i]["cost"],
                 m_staffJsonData[i]["code"].ToString()));
 
-            m_staffItemDic.Add(m_staffItemList[i].m_itemCode, m_staffItemList[i]);
+            CWeaponData.GetInstance.m_staffItemDic.Add(CWeaponData.GetInstance.m_staffItemList[i].m_itemCode, CWeaponData.GetInstance.m_staffItemList[i]);
         }
     }
     public void DefaultSkillToJson()
     {
-
-        for (int i = 0; i < m_staffItemList.Count; i++)
+        for (int i = 0; i < CWeaponData.GetInstance.m_staffItemList.Count; i++)
         {
-            m_defaultSkillList.Add(new List<DefaultStaffSkill>());
+            CWeaponData.GetInstance.m_staffDefaultSkillDic.Add(CWeaponData.GetInstance.m_staffItemList[i].m_itemCode, new Dictionary<int, DefaultStaffSkill>());
 
-            m_staffDefaultSkillDic.Add(m_staffItemList[i].m_itemCode, new Dictionary<int, DefaultStaffSkill>());
-
-            JsonData tData = JsonMapper.ToObject(m_staffItemList[i].m_default_skill);
+            JsonData tData = JsonMapper.ToObject(CWeaponData.GetInstance.m_staffItemList[i].m_default_skill);
             //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
 
             for (int j = 0; j < tData.Count; j++)
             {
-                m_defaultSkillList[i].Add(new DefaultStaffSkill(
-                (int)tData[j]["id"],
-                tData[j]["skill_name"].ToString(),
-                tData[j]["skill_desc"].ToString(),
-                tData[j]["skill_effect"].ToString(),
-                (int)tData[j]["count"]));
-                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
-
-                m_staffDefaultSkillDic[m_staffItemList[i].m_itemCode].Add(j, m_defaultSkillList[i][j]);
+                CWeaponData.GetInstance.m_staffDefaultSkillDic[CWeaponData.GetInstance.m_staffItemList[i].m_itemCode].Add(j, 
+                    new DefaultStaffSkill((int)tData[j]["id"], tData[j]["skill_name"].ToString(), tData[j]["skill_desc"].ToString(), tData[j]["skill_effect"].ToString(), (int)tData[j]["count"]));
             }
         }
-
         //Debug.Log(m_staffDefaultSkillDic["w020001"][0].m_skill_name);
-
     }
-
 
     public  IEnumerator LoadData()
     {
@@ -98,9 +78,7 @@ public class CStaffData : SingleTon<CStaffData>, IItemData
         {
             ConstructData();
             DefaultSkillToJson();
-        }  
-
-     
+        }
     }
     public void LoadLocalData()
     { }

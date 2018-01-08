@@ -6,35 +6,27 @@ using LitJson;
 using System.Text;
 
 
-public class CSpearData : SingleTon<CSpearData>, IItemData
+public class CSpearData : MonoBehaviour, IItemData
 {
-
     [SerializeField]
     private string m_serverUrl;
     [SerializeField]
     private JsonData m_spearJsonData;
-
-    public List<SpearItem> m_spearItemList = new List<SpearItem>();
-
-    public List<List<DefaultSpearSkill>> m_defaultSkillList = new List<List<DefaultSpearSkill>>();
-
-    public Dictionary<string, SpearItem> m_spearItemDic = new Dictionary<string, SpearItem>();
-    public Dictionary<string, Dictionary<int, DefaultSpearSkill>> m_spearDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultSpearSkill>>();
-
-
+    
     public void Awake()
     {
         StartCoroutine(LoadData());
-    }
+    } 
     public void Start()
     {
+
     }
 
     public void ConstructData()
     {
         for (int i = 0; i < m_spearJsonData.Count; i++)
         {
-            m_spearItemList.Add(new SpearItem(
+            CWeaponData.GetInstance.m_spearItemList.Add(new SpearItem(
                 (int)m_spearJsonData[i]["id"],
                 m_spearJsonData[i]["name"].ToString(),
                 m_spearJsonData[i]["description"].ToString(),
@@ -52,38 +44,26 @@ public class CSpearData : SingleTon<CSpearData>, IItemData
                 (int)m_spearJsonData[i]["cost"],
                 m_spearJsonData[i]["code"].ToString()));
 
-            m_spearItemDic.Add(m_spearItemList[i].m_itemCode, m_spearItemList[i]);
+            CWeaponData.GetInstance.m_spearItemDic.Add(CWeaponData.GetInstance.m_spearItemList[i].m_itemCode, CWeaponData.GetInstance.m_spearItemList[i]);
         }
     }
 
     public void DefaultSkillToJson()
     {
 
-        for (int i = 0; i < m_spearItemList.Count; i++)
+        for (int i = 0; i < CWeaponData.GetInstance.m_spearItemList.Count; i++)
         {
-            m_defaultSkillList.Add(new List<DefaultSpearSkill>());
+            CWeaponData.GetInstance.m_spearDefaultSkillDic.Add(CWeaponData.GetInstance.m_spearItemList[i].m_itemCode, new Dictionary<int, DefaultSpearSkill>());
 
-            m_spearDefaultSkillDic.Add(m_spearItemList[i].m_itemCode, new Dictionary<int, DefaultSpearSkill>());
-
-            JsonData tData = JsonMapper.ToObject(m_spearItemList[i].m_default_skill);
-            //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
-
+            JsonData tData = JsonMapper.ToObject(CWeaponData.GetInstance.m_spearItemList[i].m_default_skill);
+        
             for (int j = 0; j < tData.Count; j++)
             {
-                m_defaultSkillList[i].Add(new DefaultSpearSkill(
-                (int)tData[j]["id"],
-                tData[j]["skill_name"].ToString(),
-                tData[j]["skill_desc"].ToString(),
-                tData[j]["skill_effect"].ToString(),
-                (int)tData[j]["count"]));
-                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
-
-                m_spearDefaultSkillDic[m_spearItemList[i].m_itemCode].Add(j, m_defaultSkillList[i][j]);
+                CWeaponData.GetInstance.m_spearDefaultSkillDic[CWeaponData.GetInstance.m_spearItemList[i].m_itemCode].Add(j,
+                    new DefaultSpearSkill((int)tData[j]["id"], tData[j]["skill_name"].ToString(), tData[j]["skill_desc"].ToString(), tData[j]["skill_effect"].ToString(), (int)tData[j]["count"]));
             }
         }
-
         //Debug.Log(m_spearDefaultSkillDic["w050001"][0].m_skill_name);
-
     }
 
     public IEnumerator LoadData()

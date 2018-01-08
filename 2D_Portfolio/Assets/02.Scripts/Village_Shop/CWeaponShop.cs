@@ -85,63 +85,63 @@ public class CWeaponShop : CVillageManager
     //TODO : tEnd부분 추후 변경 해야함 , 10개 초과되면 에러남 UI굴리기로 처리
     public void InsertSwordItemData()
     {
-        int tEnd = CSwordData.GetInstance.m_swordItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_swordItemList.Count;
         for (int i = 0; i < tEnd; i++)
         {
-            ShowItemDataText(i, CSwordData.GetInstance.m_swordItemList[i].m_name, CSwordData.GetInstance.m_swordItemList[i].m_cost);       
+            ShowItemDataText(i, CWeaponData.GetInstance.m_swordItemList[i].m_name, CWeaponData.GetInstance.m_swordItemList[i].m_cost);       
         }
     }
     
     public void InsertBowItemData()
     {
-        int tEnd = CBowData.GetInstance.m_bowItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_bowItemList.Count;
         for (int i = 0; i < tEnd; i++)
         {
-            ShowItemDataText(i,  CBowData.GetInstance.m_bowItemList[i].m_name, CBowData.GetInstance.m_bowItemList[i].m_cost);
+            ShowItemDataText(i, CWeaponData.GetInstance.m_bowItemList[i].m_name, CWeaponData.GetInstance.m_bowItemList[i].m_cost);
         }
     }
 
     public void InsertMaceData()
     {
-        int tEnd = CMaceData.GetInstance.m_maceItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_maceItemList.Count;
         for (int i = 0; i < tEnd; i++)
         {
-            ShowItemDataText(i ,  CMaceData.GetInstance.m_maceItemList[i].m_name, CMaceData.GetInstance.m_maceItemList[i].m_cost);            
+            ShowItemDataText(i , CWeaponData.GetInstance.m_maceItemList[i].m_name, CWeaponData.GetInstance.m_maceItemList[i].m_cost);            
         }        
     }
 
     public void InsertMartailArtsData()
     {
-        int tEnd = CMartialArts.GetInstance.m_matialArtsItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_matialArtsItemList.Count;
         for (int i = 0; i < tEnd; i++)
         {
-            ShowItemDataText(i , CMartialArts.GetInstance.m_matialArtsItemList[i].m_name , CMartialArts.GetInstance.m_matialArtsItemList[i].m_cost);
+            ShowItemDataText(i , CWeaponData.GetInstance.m_matialArtsItemList[i].m_name , CWeaponData.GetInstance.m_matialArtsItemList[i].m_cost);
         }
     }
 
     public void InsertSpearData()
     {
-        int tEnd = CSpearData.GetInstance.m_spearItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_spearItemList.Count;
         for (int i = 0; i < tEnd; i++)
         {
-            ShowItemDataText(i,  CSpearData.GetInstance.m_spearItemList[i].m_name, CSpearData.GetInstance.m_spearItemList[i].m_cost);           
+            ShowItemDataText(i, CWeaponData.GetInstance.m_spearItemList[i].m_name, CWeaponData.GetInstance.m_spearItemList[i].m_cost);           
         }
     }
 
     public void InsertStaffData()
     {
-        int tEnd = CStaffData.GetInstance.m_staffItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_staffItemList.Count;
         for (int i = 0; i < tEnd;  i++)
         {
-            ShowItemDataText(i,  CStaffData.GetInstance.m_staffItemList[i].m_name, CStaffData.GetInstance.m_staffItemList[i].m_cost);           
+            ShowItemDataText(i, CWeaponData.GetInstance.m_staffItemList[i].m_name, CWeaponData.GetInstance.m_staffItemList[i].m_cost);           
         }
     }
     public void InsertAccessoryData()
     {
-        int tEnd = CAccessoryData.GetInstance.m_accessoryItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_accessoryItemList.Count;
         for (int i = 0; i < tEnd; i++)
         {
-            ShowItemDataText(i,  CAccessoryData.GetInstance.m_accessoryItemList[i].m_name, CAccessoryData.GetInstance.m_accessoryItemList[i].m_cost);
+            ShowItemDataText(i, CWeaponData.GetInstance.m_accessoryItemList[i].m_name, CWeaponData.GetInstance.m_accessoryItemList[i].m_cost);
         }
     }
     

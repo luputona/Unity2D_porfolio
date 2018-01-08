@@ -7,18 +7,12 @@ using System.Text;
 
 public class CMaceData : SingleTon<CMaceData>, IItemData
 {
-
     [SerializeField]
     private string m_serverUrl;
     [SerializeField]
     private JsonData m_maceJsonData;
 
-    public List<MaceItem> m_maceItemList = new List<MaceItem>();
-
-    public List<List<DefaultMaceSkill>> m_defaultSkillList = new List<List<DefaultMaceSkill>>();
-
-    public Dictionary<string, MaceItem> m_maceItemDic = new Dictionary<string, MaceItem>();
-    public Dictionary<string, Dictionary<int, DefaultMaceSkill>> m_maceDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultMaceSkill>>();
+    
 
     public void Awake()
     {
@@ -32,7 +26,7 @@ public class CMaceData : SingleTon<CMaceData>, IItemData
     {
         for (int i = 0; i < m_maceJsonData.Count; i++)
         {
-            m_maceItemList.Add(new MaceItem(
+            CWeaponData.GetInstance.m_maceItemList.Add(new MaceItem(
                 (int)m_maceJsonData[i]["id"],
                 m_maceJsonData[i]["name"].ToString(),
                 m_maceJsonData[i]["description"].ToString(),
@@ -50,38 +44,25 @@ public class CMaceData : SingleTon<CMaceData>, IItemData
                 (int)m_maceJsonData[i]["cost"],
                 m_maceJsonData[i]["code"].ToString()));
 
-            m_maceItemDic.Add(m_maceItemList[i].m_itemCode, m_maceItemList[i]);
+            CWeaponData.GetInstance.m_maceItemDic.Add(CWeaponData.GetInstance.m_maceItemList[i].m_itemCode, CWeaponData.GetInstance.m_maceItemList[i]);
         }
     }
 
     public void DefaultSkillToJson()
     {
-
-        for (int i = 0; i < m_maceItemList.Count; i++)
+        for (int i = 0; i < CWeaponData.GetInstance.m_maceItemList.Count; i++)
         {
-            m_defaultSkillList.Add(new List<DefaultMaceSkill>());
+            CWeaponData.GetInstance.m_maceDefaultSkillDic.Add(CWeaponData.GetInstance.m_maceItemList[i].m_itemCode, new Dictionary<int, DefaultMaceSkill>());
 
-            m_maceDefaultSkillDic.Add(m_maceItemList[i].m_itemCode, new Dictionary<int, DefaultMaceSkill>());
-
-            JsonData tData = JsonMapper.ToObject(m_maceItemList[i].m_default_skill);
-            //Debug.Log(" : " + m_swordItemList[i].m_default_skill);
+            JsonData tData = JsonMapper.ToObject(CWeaponData.GetInstance.m_maceItemList[i].m_default_skill);
 
             for (int j = 0; j < tData.Count; j++)
             {
-                m_defaultSkillList[i].Add(new DefaultMaceSkill(
-                (int)tData[j]["id"],
-                tData[j]["skill_name"].ToString(),
-                tData[j]["skill_desc"].ToString(),
-                tData[j]["skill_effect"].ToString(),
-                (int)tData[j]["count"]));
-                //Debug.Log(" : " + m_defaultSkillList[i][j].m_skill_name);
-
-                m_maceDefaultSkillDic[m_maceItemList[i].m_itemCode].Add(j, m_defaultSkillList[i][j]);
+                CWeaponData.GetInstance.m_maceDefaultSkillDic[CWeaponData.GetInstance.m_maceItemList[i].m_itemCode].Add(j,  
+                    new DefaultMaceSkill ((int)tData[j]["id"], tData[j]["skill_name"].ToString(), tData[j]["skill_desc"].ToString(), tData[j]["skill_effect"].ToString(), (int)tData[j]["count"]));
             }
         }
-
         //Debug.Log(m_maceDefaultSkillDic["w040001"][0].m_skill_name);
-
     }
 
     public IEnumerator LoadData()
