@@ -91,7 +91,10 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
     }
 
    
-
+    public void SetCurrentEquipWeapon()
+    {
+        m_cur_Set_ItemCode = CInventoryManager.GetInstance.m_itemCode;
+    }
 
     void SetWeaponToChangeCharacterObject()
     {

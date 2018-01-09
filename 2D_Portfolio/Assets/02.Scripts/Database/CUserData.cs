@@ -26,6 +26,7 @@ public class CUserData : SingleTon<CUserData>
     public List<UserMainInfo> m_userDataList = new List<UserMainInfo>();
 
     public List<UserStatus> m_userStatusList = new List<UserStatus>();
+    public List<PotionInventory> m_potionInvenList = new List<PotionInventory>();
     public List<WeaponInventory> m_weaponInvenList = new List<WeaponInventory>();    
     
     public Dictionary<string, PotionInventory> m_potionInvenDic = new Dictionary<string, PotionInventory>();
@@ -163,9 +164,10 @@ public class CUserData : SingleTon<CUserData>
     public void PotionInventoryToObject()
     {
         m_potionInvenData = JsonMapper.ToObject(m_userDataList[0].m_potionInven);
-
+        
         for(int i = 0; i < m_potionInvenData.Count; i++)
         {
+            m_potionInvenList.Add( new PotionInventory(  m_potionInvenData[i]["code"].ToString(), (int)m_potionInvenData[i]["count"]));
             m_potionInvenDic.Add(m_potionInvenData[i][0].ToString() ,new PotionInventory(m_potionInvenData[i][0].ToString(), (int)m_potionInvenData[i][1]));
         }
         

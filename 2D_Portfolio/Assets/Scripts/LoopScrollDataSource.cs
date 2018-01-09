@@ -24,7 +24,15 @@ namespace UnityEngine.UI
         public override void ProvideData(Transform transform, int idx)
         {
             //TODO : 여기다가 데이타 드리븐 연결
-            transform.SendMessage("LoadWeaponInvenData", idx);
+            if(CInventoryManager.EINVENTORY_CATEGORY.Weapon == CInventoryManager.GetInstance.m_eINVENTORY_CATEGORY)
+            {
+                transform.SendMessage("LoadWeaponInvenData", idx);
+            }
+            else if (CInventoryManager.EINVENTORY_CATEGORY.Potion == CInventoryManager.GetInstance.m_eINVENTORY_CATEGORY)
+            {
+                transform.SendMessage("LoadPotionInvenData", idx);
+            }
+
         }
     }
 
