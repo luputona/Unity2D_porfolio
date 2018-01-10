@@ -19,7 +19,7 @@ public class CStatus : SingleTon<CStatus>
         Dex,
         Default = 99
     };
-    private static CUpdateUserInfo Instance = null;
+    
     public ESTATUS m_eStatus = ESTATUS.Default;
 
     [SerializeField]
@@ -106,19 +106,20 @@ public class CStatus : SingleTon<CStatus>
         {
             m_weaponHp = value;
         }
-    }   
+    }
 
 
     //TODO :  디폴트값과 현재값 다시 제작
-    
-
-    void Start()
-    {       
-
-
+    private void Start()
+    {
+        m_defDamage = CUserData.GetInstance.m_userStatusList[0].damage;
+        m_defDefence = CUserData.GetInstance.m_userStatusList[0].def;
+        m_defDodge = CUserData.GetInstance.m_userStatusList[0].dodge;
+        m_defHp = CUserData.GetInstance.m_userStatusList[0].hp;
+        m_defStr = CUserData.GetInstance.m_userStatusList[0].str;
+        m_defDex = CUserData.GetInstance.m_userStatusList[0].dex;
     }
 
-    
     //DB에서 바로 받아오는 초기 셋팅값
     public void InitSetStatus(double damage, double def, double dodge, double hp, double str, double dex)
     {
@@ -129,8 +130,7 @@ public class CStatus : SingleTon<CStatus>
         m_defHp =  hp;
         m_defStr = str;
         m_defDex = dex;
-        
-        
+      
     }
 
     public void RecordStatus( )
@@ -141,7 +141,7 @@ public class CStatus : SingleTon<CStatus>
             {
                 m_defHp += 1;
                 CUpdateUserInfo.GetInstance.m_point -= 1;
-                Debug.Log(CUpdateUserInfo.GetInstance.m_point);
+                //Debug.Log(CUpdateUserInfo.GetInstance.m_point);
             }
             else
             {
@@ -178,6 +178,7 @@ public class CStatus : SingleTon<CStatus>
         CalculateStatus();
         CUpdateUserInfo.GetInstance.UpdateStatus();
         CUploadUserData.GetInstance.UploadUserStatus();
+    
     }
 
     //TODO : 스테이터스 UI 가 true가 되면 작동되게 해야함

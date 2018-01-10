@@ -42,6 +42,8 @@ public class CBowData : SingleTon<CBowData>, IItemData
                 double.Parse(m_bowJsonData[i]["hp"].ToString()),
                 (int)m_bowJsonData[i]["cost"],
                 m_bowJsonData[i]["code"].ToString()));
+
+            CWeaponData.GetInstance.m_bowItemDic.Add(CWeaponData.GetInstance.m_bowItemList[i].m_itemCode, CWeaponData.GetInstance.m_bowItemList[i]);
         }
     }
 

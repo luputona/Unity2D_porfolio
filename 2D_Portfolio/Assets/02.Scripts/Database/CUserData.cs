@@ -167,7 +167,7 @@ public class CUserData : SingleTon<CUserData>
         
         for(int i = 0; i < m_potionInvenData.Count; i++)
         {
-            m_potionInvenList.Add( new PotionInventory(  m_potionInvenData[i]["code"].ToString(), (int)m_potionInvenData[i]["count"]));
+            m_potionInvenList.Add( new PotionInventory(  m_potionInvenData[i]["itemCode"].ToString(), (int)m_potionInvenData[i]["count"]));
             m_potionInvenDic.Add(m_potionInvenData[i][0].ToString() ,new PotionInventory(m_potionInvenData[i][0].ToString(), (int)m_potionInvenData[i][1]));
         }
         
@@ -192,13 +192,13 @@ public class WeaponInventory
 [System.Serializable]
 public class PotionInventory
 {
-    public string m_itemCode;
-    public int m_count;
+    public string itemCode;
+    public int count;
 
     public PotionInventory(string itemCode, int count)
     {
-        m_itemCode = itemCode;
-        m_count = count;
+        this.itemCode = itemCode;
+        this.count = count;
     }
 }
 

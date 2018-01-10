@@ -112,10 +112,10 @@ public class CWeaponShop : CVillageManager
 
     public void InsertMartailArtsData()
     {
-        int tEnd = CWeaponData.GetInstance.m_matialArtsItemList.Count;
+        int tEnd = CWeaponData.GetInstance.m_martialArtsItemList.Count;
         for (int i = 0; i < tEnd; i++)
         {
-            ShowItemDataText(i , CWeaponData.GetInstance.m_matialArtsItemList[i].m_name , CWeaponData.GetInstance.m_matialArtsItemList[i].m_cost);
+            ShowItemDataText(i , CWeaponData.GetInstance.m_martialArtsItemList[i].m_name , CWeaponData.GetInstance.m_martialArtsItemList[i].m_cost);
         }
     }
 

@@ -39,7 +39,7 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
     public Dictionary<string, Dictionary<int, DefaultSpearSkill>> m_spearDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultSpearSkill>>();
 
     //격투
-    public List<MartialArtsItem> m_matialArtsItemList = new List<MartialArtsItem>();
+    public List<MartialArtsItem> m_martialArtsItemList = new List<MartialArtsItem>();
     public Dictionary<string, MartialArtsItem> m_martialItemDic = new Dictionary<string, MartialArtsItem>();
     public Dictionary<string, Dictionary<int, DefaultMartialArtsSkill>> m_martialDefaultSkillDic = new Dictionary<string, Dictionary<int, DefaultMartialArtsSkill>>();
 
@@ -92,7 +92,10 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
         if (www.isDone)
         {
             ConstructData();       
-        }        
+        }
+        //Debug.Log(m_martialArtsItemList[1].m_name);
+        Debug.Log(m_martialItemDic["w060002"].m_skill_Desc);
+        Debug.Log(m_bowItemDic["w010001"].m_name);
     }
 
     public void LoadLocalData()

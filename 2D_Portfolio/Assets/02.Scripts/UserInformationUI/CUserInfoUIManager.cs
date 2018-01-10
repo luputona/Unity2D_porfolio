@@ -14,8 +14,7 @@ public class CUserInfoUIManager : CStatus
         SetSkill,
         ChangeNickNameBtn
     };
-
-
+    
     [SerializeField]
     private const int m_statusUp_UICount = 6;
     [SerializeField]
@@ -23,7 +22,13 @@ public class CUserInfoUIManager : CStatus
     [SerializeField]
     private const int m_Set_Skill_TextCount = 8;
 
+    [SerializeField]
+    private string m_showWeaponInfoName;
+    [SerializeField]
+    private string m_showWeaponInfoSkillDesc;
 
+    [SerializeField]
+    private GameObject m_raycheck = null;
     public GameObject m_main_UserInformation_Panel = null;
     public GameObject m_Top_UserInformation_Panel = null;
     public GameObject m_Bottom_UserInfo_Panel = null;
@@ -56,22 +61,24 @@ public class CUserInfoUIManager : CStatus
     void Update()
     {
         //TODO : 임시 호출 , 타이틀 부분 완성되서 DB가 전 씬에서 먼저 불러와 지게 되면  초기화 함수쪽으로 이동 
-        
+
+        //장비 교체할때 갱신
         ShowUserCurrentSettingWeapon();
         ShowUserCurrentSettingWeaponSkill();
-        ShowTopElementsUserInfo();
+       
+        //스테이터스 올릴때 갱신
         ShowUserStatusInText();
+
+        ShowTopElementsUserInfo();
         //base.SetStatus();
     }
-
-   
 
     public void InitializeComponent()
     {
         m_Bottom_UserInfo_Panel = GameObject.Find("Bottom_MenuUI_Panel");
         m_main_UserInformation_Panel = GameObject.Find("inst_Main_UserInformation_Panel");
         m_Top_UserInformation_Panel = GameObject.Find("inst_Top_UserInformation_Panel");
-        
+        m_raycheck = GameObject.FindWithTag("RayCheck");
 
         for (int i = 0; i < m_main_UserInformation_Panel.transform.childCount; i++)
         {
@@ -100,9 +107,6 @@ public class CUserInfoUIManager : CStatus
         {
             m_cur_User_Elements_Info[i] = m_Top_UserInformation_Panel.transform.GetChild(i).GetChild(1).GetComponent<Text>();
         }
-
-
-        
     }
 
     public void ShowUserStatusInText()
@@ -117,50 +121,56 @@ public class CUserInfoUIManager : CStatus
         m_main_UserInformation_Panel_List[5].transform.GetChild(0).GetComponent<Text>().text = string.Format("{0}", CUpdateUserInfo.GetInstance.m_point );
                 
     }
-
     public void ShowUserCurrentSettingWeapon()
     {
         string tCurSetWeapon = CUpdateUserInfo.GetInstance.m_cur_Set_ItemCode; // TODO : UpdateuserInfo 에서 받아오게 변경 
-        string tShowWeaponInfoName = "";
-        string tShowWeaponInfoSkillDesc = "";
+        //string tShowWeaponInfoName = "";
+        //string tShowWeaponInfoSkillDesc = "";
+
+
+        Debug.Log("Cuserinfomanager 스프라이트 변경 보류 ");
+        //m_set_cur_main_CharaterImage.overrideSprite = CResourceManager.GetInstance.GetillurSprite(tCurSetWeapon);
+        //m_set_cur_Weapon_Thumbnail.overrideSprite = CResourceManager.GetInstance.GetWeaponSprite(tCurSetWeapon);
+        
 
         if (CWeaponData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_skill_Desc;
+            m_showWeaponInfoName = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_name;
+            m_showWeaponInfoSkillDesc = CWeaponData.GetInstance.m_swordItemDic[tCurSetWeapon].m_skill_Desc;
         }
         else if(CWeaponData.GetInstance.m_staffItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_skill_Desc;
+            m_showWeaponInfoName = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_name;
+            m_showWeaponInfoSkillDesc = CWeaponData.GetInstance.m_staffItemDic[tCurSetWeapon].m_skill_Desc;
         }
         else if(CWeaponData.GetInstance.m_spearItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CWeaponData.GetInstance.m_spearItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_spearItemDic[tCurSetWeapon].m_skill_Desc;
+            m_showWeaponInfoName = CWeaponData.GetInstance.m_spearItemDic[tCurSetWeapon].m_name;
+            m_showWeaponInfoSkillDesc = CWeaponData.GetInstance.m_spearItemDic[tCurSetWeapon].m_skill_Desc;
         }
         else if (CWeaponData.GetInstance.m_martialItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CWeaponData.GetInstance.m_martialItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_martialItemDic[tCurSetWeapon].m_skill_Desc;
+            m_showWeaponInfoName = CWeaponData.GetInstance.m_martialItemDic[tCurSetWeapon].m_name;
+            m_showWeaponInfoSkillDesc = CWeaponData.GetInstance.m_martialItemDic[tCurSetWeapon].m_skill_Desc;
         }
         else if (CWeaponData.GetInstance.m_maceItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CWeaponData.GetInstance.m_maceItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_maceItemDic[tCurSetWeapon].m_skill_Desc;
+            m_showWeaponInfoName = CWeaponData.GetInstance.m_maceItemDic[tCurSetWeapon].m_name;
+            m_showWeaponInfoSkillDesc = CWeaponData.GetInstance.m_maceItemDic[tCurSetWeapon].m_skill_Desc;
         }
         else if (CWeaponData.GetInstance.m_bowItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CWeaponData.GetInstance.m_bowItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_bowItemDic[tCurSetWeapon].m_skill_Desc;
+            m_showWeaponInfoName = CWeaponData.GetInstance.m_bowItemDic[tCurSetWeapon].m_name;
+            m_showWeaponInfoSkillDesc = CWeaponData.GetInstance.m_bowItemDic[tCurSetWeapon].m_skill_Desc;
         }
         else if (CWeaponData.GetInstance.m_accessoryItemDic.ContainsKey(tCurSetWeapon))
         {
-            tShowWeaponInfoName = CWeaponData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_name;
-            tShowWeaponInfoSkillDesc = CWeaponData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_skill_Desc;
+            m_showWeaponInfoName = CWeaponData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_name;
+            m_showWeaponInfoSkillDesc = CWeaponData.GetInstance.m_accessoryItemDic[tCurSetWeapon].m_skill_Desc;
         }
-        m_cur_WeaponName_Text.text = string.Format("{0}", tShowWeaponInfoName);
-        m_cur_WeaponDesc_Text.text = string.Format("{0}", tShowWeaponInfoSkillDesc);
+        m_cur_WeaponName_Text.text = string.Format("{0}", m_showWeaponInfoName);
+        m_cur_WeaponDesc_Text.text = string.Format("{0}", m_showWeaponInfoSkillDesc);
+
     }
 
     public void ShowUserCurrentSettingWeaponSkill()
@@ -236,7 +246,11 @@ public class CUserInfoUIManager : CStatus
     public void OpenUserInfomation()
     {        
         // TODO : 추후 인벤토리 갱신도 추가
-        CStatus.GetInstance.CalculateStatus(); 
+        CStatus.GetInstance.CalculateStatus();
+        m_raycheck.SetActive(true);
+
+        ShowUserCurrentSettingWeapon();
+        ShowUserCurrentSettingWeaponSkill();
 
         m_main_UserInformation_Panel.SetActive(true);
     }
@@ -245,6 +259,8 @@ public class CUserInfoUIManager : CStatus
     {
         //TODO : 추후 인벤토리 갱신도 추가 
         CStatus.GetInstance.CalculateStatus();
+        m_raycheck.SetActive(false);
+
         m_main_UserInformation_Panel.SetActive(false);
     }
 }

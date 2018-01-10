@@ -10,6 +10,8 @@ public class CGetItemInfomations : MonoBehaviour
     public string m_name = "";
     public string m_skill_desc = "";
     public string m_skill_name = "";
+    public string m_itemCode = "";
+    public string m_category = "";
 
 
     //던전일경우

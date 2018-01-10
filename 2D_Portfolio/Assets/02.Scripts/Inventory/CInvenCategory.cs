@@ -13,6 +13,7 @@ public class CInvenCategory : MonoBehaviour
                
     }
 
+    [SerializeField]
     CInventoryManager.EINVENTORY_CATEGORY m_eINVENTORY_CATEGORY = CInventoryManager.EINVENTORY_CATEGORY.Default;
 
     // Use this for initialization

@@ -75,22 +75,40 @@ public class CInventoryManager : SingleTon<CInventoryManager>
     private Text m_weaponSkill = null; // 웨폰 스킬 
     [SerializeField]
     private Text m_weaponSkillDesc = null; //웨폰 스킬 설명
+    //장비의 스탯
+    [SerializeField]
+    private Text[] m_weaponStatus = null;
 
+    //포션인포
+    [SerializeField]
+    private Image m_potionSprite = null; //포션 이미지 스프라이트
+    [SerializeField]
+    private Text m_potionName = null;
+    [SerializeField]
+    private Text m_potionDesc = null;
+    [SerializeField]
+    private Text m_potionCount = null;
+    //[SerializeField]
+    //private Text m_potionCost = null;  
+    [SerializeField]
+    private Button m_potionInfo_Closed_Button = null;
+    [SerializeField]
+    private GameObject m_potion_info_BG = null;
+    [SerializeField]
+    private GameObject m_potion_info_Panel = null;
 
     private void Awake()
-    {
-        if(Instance != null)
-        {
-            GameObject.Destroy(this);
-        }
-        else
-        {
-            GameObject.DontDestroyOnLoad(gameObject);
-        }
+    {        
+        //if(Instance != null)
+        //{
+        //    GameObject.Destroy(this);
+        //}
+        //else
+        //{
+        //    GameObject.DontDestroyOnLoad(gameObject);
+        //}
 
         InitializeComponent();
-
-
 
     }
 
@@ -125,100 +143,174 @@ public class CInventoryManager : SingleTon<CInventoryManager>
     //장비 강화가 없을경우  : 있을경우에는 인벤토리 DB에 장비 변화하는 장비의 스테이터스를 추가하고 아이템 코드가 아닌  인덱스로 호출해야함 
     public void ShowItemInfo(string itemcode, string category)
     {
-        m_Item_Info_Panel.SetActive(true);
-        m_eBackButtonCheck = EBACKBUTTON.Disable;
+        m_itemCode = itemcode;
+        if (EINVENTORY_CATEGORY.Weapon == m_eINVENTORY_CATEGORY)
+        {
+            m_Item_Info_Panel.SetActive(true);
+            m_eBackButtonCheck = EBACKBUTTON.Disable;
 
-        if(category.Equals("sword"))
-        {
-            //스프라이트 매니저가 없어서 패스
-            //m_weaponSprite
-            m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_name);
-            m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_description);
-            m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_skill_Desc);
-            m_weaponSkill.text = string.Format("<color='red'>{0}</color>\n{1}\n\n<color='red'>{2}</color>\n{3}\n\n<color='red'>{4}</color>\n{5}\n\n<color='red'>{6}</color>\n{7}\n\n",
-                CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][0].m_skill_desc,
-                CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][1].m_skill_desc,
-                CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][2].m_skill_desc,
-                CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][3].m_skill_desc);
+            
+            m_category = category;
+
+            CUpdateUserInfo.GetInstance.SetWeaponToChangeCharacterObject();
+
+            Debug.Log("인벤토리 매니저 웨폰 스프라이트 보류");
+            //if(!CResourceManager.GetInstance.GetWeaponSprite(itemcode))
+            //{
+            //    return;
+            //}
+            //m_weaponSprite.overrideSprite = CResourceManager.GetInstance.GetWeaponSprite(itemcode);
+
+
+            if (category.Equals("Sword"))
+            {
+                //스프라이트 매니저가 없어서 패스
+
+                m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_name);
+                m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_description);
+                m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_skill_Desc);
+                //4 : 공격력 , 5 : 방어력 , 6 : 회피 , 7 : hp
+                m_weaponStatus[4].text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_damage);
+                m_weaponStatus[5].text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_def);
+                m_weaponStatus[6].text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_dodging);
+                m_weaponStatus[7].text = string.Format("{0}", CWeaponData.GetInstance.m_swordItemDic[itemcode].m_hp);
+
+                m_weaponSkill.text = string.Format("<color='red'>{0}</color>({1})\n{2}\n\n<color='red'>{3}</color>({4})\n{5}\n\n<color='red'>{6}</color>({7})\n{8}\n\n<color='red'>{9}</color>({10})\n{11}\n\n",
+                    CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][0].m_count, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][0].m_skill_desc,
+                    CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][1].m_count, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][1].m_skill_desc,
+                    CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][2].m_count, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][2].m_skill_desc,
+                    CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][3].m_count, CWeaponData.GetInstance.m_swordDefaultSkillDic[itemcode][3].m_skill_desc);
+            }
+            else if (category.Equals("Staff"))
+            {
+                //스프라이트 매니저가 없어서 패스
+                //m_weaponSprite
+                m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_name);
+                m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_description);
+                m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_skill_Desc);
+                //4 : 공격력 , 5 : 방어력 , 6 : 회피 , 7 : hp
+                m_weaponStatus[4].text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_damage);
+                m_weaponStatus[5].text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_def);
+                m_weaponStatus[6].text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_dodging);
+                m_weaponStatus[7].text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_hp);
+
+                m_weaponSkill.text = string.Format("<color='red'>{0}</color>({1})\n{2}\n\n<color='red'>{3}</color>({4})\n{5}\n\n<color='red'>{6}</color>({7})\n{8}\n\n<color='red'>{9}</color>({10})\n{11}\n\n",
+                    CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][0].m_count, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][0].m_skill_desc,
+                    CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][1].m_count, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][1].m_skill_desc,
+                    CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][2].m_count, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][2].m_skill_desc,
+                    CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][3].m_count, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][3].m_skill_desc);
+            }
+            else if (category.Equals("Spear"))
+            {
+                //스프라이트 매니저가 없어서 패스
+                //m_weaponSprite
+                m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_name);
+                m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_description);
+                m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_skill_Desc);
+                //4 : 공격력 , 5 : 방어력 , 6 : 회피 , 7 : hp
+                m_weaponStatus[4].text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_damage);
+                m_weaponStatus[5].text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_def);
+                m_weaponStatus[6].text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_dodging);
+                m_weaponStatus[7].text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_hp);
+
+                m_weaponSkill.text = string.Format("<color='red'>{0}</color>({1})\n{2}\n\n<color='red'>{3}</color>({4})\n{5}\n\n<color='red'>{6}</color>({7})\n{8}\n\n<color='red'>{9}</color>({10})\n{11}\n\n",
+                    CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][0].m_count, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][0].m_skill_desc,
+                    CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][1].m_count, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][1].m_skill_desc,
+                    CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][2].m_count, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][2].m_skill_desc,
+                    CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][3].m_count, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][3].m_skill_desc);
+            }
+            else if (category.Equals("Martial_arts"))
+            {
+                //스프라이트 매니저가 없어서 패스
+                //m_weaponSprite
+                m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_name);
+                m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_description);
+
+                m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_skill_Desc);
+
+                //4 : 공격력 , 5 : 방어력 , 6 : 회피 , 7 : hp
+                m_weaponStatus[4].text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_damage);
+                m_weaponStatus[5].text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_def);
+                m_weaponStatus[6].text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_dodging);
+                m_weaponStatus[7].text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_hp);
+
+                m_weaponSkill.text = string.Format("<color='red'>{0}</color>({1})\n{2}\n\n<color='red'>{3}</color>({4})\n{5}\n\n<color='red'>{6}</color>({7})\n{8}\n\n<color='red'>{9}</color>({10})\n{11}\n\n",
+                    CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][0].m_count, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][0].m_skill_desc,
+                    CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][1].m_count, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][1].m_skill_desc,
+                    CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][2].m_count, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][2].m_skill_desc,
+                    CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][3].m_count, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][3].m_skill_desc);
+            }
+            else if (category.Equals("Mace"))
+            {
+                //스프라이트 매니저가 없어서 패스
+                //m_weaponSprite
+                m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_name);
+                m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_description);
+                m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_skill_Desc);
+                //4 : 공격력 , 5 : 방어력 , 6 : 회피 , 7 : hp
+                m_weaponStatus[4].text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_damage);
+                m_weaponStatus[5].text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_def);
+                m_weaponStatus[6].text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_dodging);
+                m_weaponStatus[7].text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_hp);
+
+                m_weaponSkill.text = string.Format("<color='red'>{0}</color>({1})\n{2}\n\n<color='red'>{3}</color>({4})\n{5}\n\n<color='red'>{6}</color>({7})\n{8}\n\n<color='red'>{9}</color>({10})\n{11}\n\n",
+                    CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][0].m_count, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][0].m_skill_desc,
+                    CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][1].m_count, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][1].m_skill_desc,
+                    CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][2].m_count, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][2].m_skill_desc,
+                    CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][3].m_count, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][3].m_skill_desc);
+            }
+            else if (category.Equals("Bow"))
+            {
+                //스프라이트 매니저가 없어서 패스
+                //m_weaponSprite
+                m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_name);
+                m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_description);
+                m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_skill_Desc);
+                //4 : 공격력 , 5 : 방어력 , 6 : 회피 , 7 : hp
+                m_weaponStatus[4].text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_damage);
+                m_weaponStatus[5].text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_def);
+                m_weaponStatus[6].text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_dodging);
+                m_weaponStatus[7].text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_hp);
+
+                m_weaponSkill.text = string.Format("<color='red'>{0}</color>({1})\n{2}\n\n<color='red'>{3}</color>({4})\n{5}\n\n<color='red'>{6}</color>({7})\n{8}\n\n<color='red'>{9}</color>({10})\n{11}\n\n",
+                    CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][0].m_count, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][0].m_skill_desc,
+                    CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][1].m_count, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][1].m_skill_desc,
+                    CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][2].m_count, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][2].m_skill_desc,
+                    CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][3].m_count, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][3].m_skill_desc);
+            }
+            else if (category.Equals("Accessory"))
+            {
+                //스프라이트 매니저가 없어서 패스
+                //m_weaponSprite
+                m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_name);
+                m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_description);
+                m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_skill_Desc);
+                //4 : 공격력 , 5 : 방어력 , 6 : 회피 , 7 : hp
+                m_weaponStatus[4].text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_damage);
+                m_weaponStatus[5].text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_def);
+                m_weaponStatus[6].text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_dodging);
+                m_weaponStatus[7].text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_hp);
+
+                m_weaponSkill.text = string.Format("<color='red'>{0}</color>({1})\n{2}\n\n<color='red'>{3}</color>({4})\n{5}\n\n<color='red'>{6}</color>({7})\n{8}\n\n<color='red'>{9}</color>({10})\n{11}\n\n",
+                    CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][0].m_count, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][0].m_skill_desc,
+                    CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][1].m_count, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][1].m_skill_desc,
+                    CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][2].m_count, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][2].m_skill_desc,
+                    CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][3].m_count, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][3].m_skill_desc);
+            }
         }
-        else if(category.Equals("staff"))
+        else if(EINVENTORY_CATEGORY.Potion == m_eINVENTORY_CATEGORY)
         {
-            //스프라이트 매니저가 없어서 패스
-            //m_weaponSprite
-            m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_name);
-            m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_description);
-            m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_staffItemDic[itemcode].m_skill_Desc);
-            m_weaponSkill.text = string.Format("<color='red'>{0}</color>\n{1}\n\n<color='red'>{2}</color>\n{3}\n\n<color='red'>{4}</color>\n{5}\n\n<color='red'>{6}</color>\n{7}\n\n",
-                CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][0].m_skill_desc,
-                CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][1].m_skill_desc,
-                CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][2].m_skill_desc,
-                CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_staffDefaultSkillDic[itemcode][3].m_skill_desc);
+            Debug.Log("인벤 포션창 열기");
+            m_potion_info_Panel.SetActive(true);
+
+            m_potionName.text = string.Format("<color='red'>{0}</color>", CPotionData.GetInstance.m_potionItemList.Find(x => x.m_itemCode == itemcode).m_name);
+            m_potionDesc.text = string.Format("{0}", CPotionData.GetInstance.m_potionItemList.Find(x => x.m_itemCode == itemcode).m_description);
+            m_potionCount.text = string.Format("수량 : {0}", CUserData.GetInstance.m_potionInvenDic[itemcode].count);
+            // TODO : 이미지 추후 추가
+            //m_potionSprite.overrideSprite = 
+
         }
-        else if (category.Equals("spear"))
-        {
-            //스프라이트 매니저가 없어서 패스
-            //m_weaponSprite
-            m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_name);
-            m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_description);
-            m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_spearItemDic[itemcode].m_skill_Desc);
-            m_weaponSkill.text = string.Format("<color='red'>{0}</color>\n{1}\n\n<color='red'>{2}</color>\n{3}\n\n<color='red'>{4}</color>\n{5}\n\n<color='red'>{6}</color>\n{7}\n\n",
-                CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][0].m_skill_desc,
-                CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][1].m_skill_desc,
-                CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][2].m_skill_desc,
-                CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_spearDefaultSkillDic[itemcode][3].m_skill_desc);
-        }
-        else if (category.Equals("martial_arts"))
-        {
-            //스프라이트 매니저가 없어서 패스
-            //m_weaponSprite
-            m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_name);
-            m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[itemcode].m_description);
-            m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_martialItemDic[m_itemCode].m_skill_Desc);
-            m_weaponSkill.text = string.Format("<color='red'>{0}</color>\n{1}\n\n<color='red'>{2}</color>\n{3}\n\n<color='red'>{4}</color>\n{5}\n\n<color='red'>{6}</color>\n{7}\n\n",
-                CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][0].m_skill_desc,
-                CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][1].m_skill_desc,
-                CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][2].m_skill_desc,
-                CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_martialDefaultSkillDic[itemcode][3].m_skill_desc);
-        }
-        else if (category.Equals("mace"))
-        {
-            //스프라이트 매니저가 없어서 패스
-            //m_weaponSprite
-            m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_name);
-            m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_description);
-            m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_maceItemDic[itemcode].m_skill_Desc);
-            m_weaponSkill.text = string.Format("<color='red'>{0}</color>\n{1}\n\n<color='red'>{2}</color>\n{3}\n\n<color='red'>{4}</color>\n{5}\n\n<color='red'>{6}</color>\n{7}\n\n",
-                CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][0].m_skill_desc,
-                CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][1].m_skill_desc,
-                CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][2].m_skill_desc,
-                CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_maceDefaultSkillDic[itemcode][3].m_skill_desc);
-        }
-        else if (category.Equals("bow"))
-        {
-            //스프라이트 매니저가 없어서 패스
-            //m_weaponSprite
-            m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_name);
-            m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_description);
-            m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_bowItemDic[itemcode].m_skill_Desc);
-            m_weaponSkill.text = string.Format("<color='red'>{0}</color>\n{1}\n\n<color='red'>{2}</color>\n{3}\n\n<color='red'>{4}</color>\n{5}\n\n<color='red'>{6}</color>\n{7}\n\n",
-                CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][0].m_skill_desc,
-                CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][1].m_skill_desc,
-                CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][2].m_skill_desc,
-                CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_bowDefaultSkillDic[itemcode][3].m_skill_desc);
-        }
-        else if (category.Equals("accessory"))
-        {
-            //스프라이트 매니저가 없어서 패스
-            //m_weaponSprite
-            m_weaponName.text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_name);
-            m_weaponDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_description);
-            m_weaponSkillDesc.text = string.Format("{0}", CWeaponData.GetInstance.m_accessoryItemDic[itemcode].m_skill_Desc);
-            m_weaponSkill.text = string.Format("<color='red'>{0}</color>\n{1}\n\n<color='red'>{2}</color>\n{3}\n\n<color='red'>{4}</color>\n{5}\n\n<color='red'>{6}</color>\n{7}\n\n",
-                CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][0].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][0].m_skill_desc,
-                CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][1].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][1].m_skill_desc,
-                CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][2].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][2].m_skill_desc,
-                CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][3].m_skill_name, CWeaponData.GetInstance.m_accessoryDefaultSkillDic[itemcode][3].m_skill_desc);
-        }        
+            
     }
 
     public void UpdatePotionInventorySlot()
@@ -249,10 +341,29 @@ public class CInventoryManager : SingleTon<CInventoryManager>
     public void UpdateAddInventory(string category, string itemCode)
     {
         CUserData.GetInstance.m_weaponInvenList.Add(new WeaponInventory(category, itemCode));
-        //for(int i = 0; i < m_invenSize; i++)
-        //{
+        
+    }
 
+    public void UpdateAddPotionInventory( string itemCode)
+    {
+        //if(CUserData.GetInstance.m_potionInvenDic.ContainsKey(itemCode))
+        //{
+        //    CUserData.GetInstance.m_potionInvenDic[itemCode].m_count += 1;
         //}
+       
+        for(int i = 0; i < CUserData.GetInstance.m_potionInvenList.Count; i++)
+        {
+            if(CUserData.GetInstance.m_potionInvenList[i].itemCode.Equals(itemCode))
+            {
+                CUserData.GetInstance.m_potionInvenList[i].count += 1;
+            }            
+        }
+        if(!CUserData.GetInstance.m_potionInvenList.Exists(x => x.itemCode == itemCode))
+        {
+            CUserData.GetInstance.m_potionInvenList.Add(new PotionInventory(itemCode, 1));
+        }
+
+
     }
 
     public void ChangeCategory(EINVENTORY_CATEGORY eINVENTORY_CATEGORY)
@@ -323,6 +434,7 @@ public class CInventoryManager : SingleTon<CInventoryManager>
         }
 
         m_Item_Info_Panel.SetActive(false);
+        m_potion_info_Panel.SetActive(false);
         m_ray_State_check.SetActive(true);
 
         InitInventory();
@@ -340,7 +452,7 @@ public class CInventoryManager : SingleTon<CInventoryManager>
             m_eBackButtonCheck = EBACKBUTTON.closed;
         }
         else if(EBACKBUTTON.closed == m_eBackButtonCheck)
-        {
+        {            
             m_eINVENTORY_CATEGORY = EINVENTORY_CATEGORY.Weapon;
             m_ray_State_check.SetActive(false);
 
@@ -362,17 +474,22 @@ public class CInventoryManager : SingleTon<CInventoryManager>
         }
     }
 
+    public void ClosedPotionInfo()
+    {
+        m_potion_info_Panel.SetActive(false);
+    }
 
 
     void InitializeComponent()
     {
         m_inventory_Panel = GameObject.Find("inst_Inventory_Panel").gameObject;
         m_ray_State_check = GameObject.Find("inst_Raycast_State_Check");
+        
 
         //m_inst_Item_List = m_inventory_Panel.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).gameObject;
 
         int tEndChild = m_inventory_Panel.transform.childCount;
-        m_backBtn = m_inventory_Panel.transform.GetChild(tEndChild - 1).GetComponent<Button>();
+        m_backBtn = m_inventory_Panel.transform.GetChild(tEndChild - 2).GetComponent<Button>();
 
         for (int i = 0; i < InvenCategoryCount; i++)
         {
@@ -384,11 +501,29 @@ public class CInventoryManager : SingleTon<CInventoryManager>
         m_Item_Info_Panel = m_inventory_Panel.transform.GetChild(5).gameObject;
         m_Item_Info_Panel.SetActive(false); //아이템 정보 판넬 : ID: 5
 
-        m_weaponSprite = m_Item_Info_Panel.transform.GetChild(0).GetComponent<Image>();
+        //웨폰 정보 UI모음
+        m_weaponSprite = m_Item_Info_Panel.transform.GetChild(0).GetChild(0).GetComponent<Image>();
         m_weaponName = m_Item_Info_Panel.transform.GetChild(1).GetChild(0).GetComponent<Text>();
         m_weaponSkill = m_Item_Info_Panel.transform.GetChild(2).GetChild(0).GetComponent<Text>();
         m_weaponSkillDesc = m_Item_Info_Panel.transform.GetChild(3).GetChild(0).GetComponent<Text>();
         m_weaponDesc = m_Item_Info_Panel.transform.GetChild(4).GetChild(0).GetComponent<Text>();
+
+        m_weaponStatus = new Text[m_Item_Info_Panel.transform.GetChild(5).childCount];
+        for(int i = 0; i < m_weaponStatus.Length; i++)
+        {
+            m_weaponStatus[i] = m_Item_Info_Panel.transform.GetChild(5).GetChild(i).GetComponent<Text>();
+        }
+
+        //포션 정보 UI모음
+        m_potion_info_Panel = m_inventory_Panel.transform.GetChild(tEndChild - 1).gameObject;
+        m_potion_info_BG = m_inventory_Panel.transform.GetChild(tEndChild - 1).GetChild(0).gameObject;
+        m_potionSprite = m_potion_info_BG.transform.GetChild(0).GetChild(0).GetComponent<Image>(); //포션 이미지
+        m_potionName = m_potion_info_BG.transform.GetChild(1).GetChild(0).GetComponent<Text>();//포션이름
+        m_potionDesc = m_potion_info_BG.transform.GetChild(2).GetChild(0).GetComponent<Text>();// 포션 설명
+        m_potionCount = m_potion_info_BG.transform.GetChild(2).GetChild(1).GetComponent<Text>();// 포션 수량
+        m_potionInfo_Closed_Button = m_potion_info_BG.transform.GetChild(m_potion_info_BG.transform.childCount - 1).GetComponent<Button>();
+
+        m_potion_info_Panel.SetActive(false);
     }
 
 

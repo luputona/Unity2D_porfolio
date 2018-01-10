@@ -6,7 +6,7 @@ namespace UnityEngine.UI
     public abstract class LoopScrollDataSource
     {
         public abstract void ProvideData(Transform transform, int idx);
-        public abstract void LoadWeaponInvenData(Transform transform , List<WeaponInventory> weaponInven);
+        
     }
 
 	public class LoopScrollSendIndexSource : LoopScrollDataSource
@@ -15,11 +15,7 @@ namespace UnityEngine.UI
 
 		LoopScrollSendIndexSource(){}
 
-        public override void LoadWeaponInvenData(Transform transform, List<WeaponInventory> weaponInven)
-        {
-            //transform.SendMessage("LoadItemData",  weaponInven);
-
-        }
+     
 
         public override void ProvideData(Transform transform, int idx)
         {
@@ -45,9 +41,7 @@ namespace UnityEngine.UI
             this.objectsToFill = objectsToFill;
         }
 
-        public override void LoadWeaponInvenData(Transform transform, List<WeaponInventory> weaponInven)
-        {            
-        }
+       
 
         public override void ProvideData(Transform transform, int idx)
         {

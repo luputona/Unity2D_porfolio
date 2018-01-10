@@ -10,7 +10,11 @@ public class CUploadUserData : SingleTon<CUploadUserData>
     [SerializeField]
     private string m_uploadUserNameURL;
     [SerializeField]
+    private string m_uploadUserCurSetWeapon;
+    [SerializeField]
     private string m_uploadWeaponInvenURL;
+    [SerializeField]
+    private string m_uploadPotionInvenURL;
     [SerializeField]
     private string m_uploadGoodsInvenURL;
     [SerializeField]
@@ -46,6 +50,7 @@ public class CUploadUserData : SingleTon<CUploadUserData>
 
     }
 
+    //사용안함
     public void UploadUserData(string name, string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int point, int userCode)
     {
         WWWForm form = new WWWForm();
@@ -99,6 +104,16 @@ public class CUploadUserData : SingleTon<CUploadUserData>
         WWW www = new WWW(m_uploadUserSimpleDataURL, form);
     }
 
+    public void UploadCurSetWeapon()
+    {
+        WWWForm form = new WWWForm();
+
+        form.AddField("curSetItemCode", CUpdateUserInfo.GetInstance.m_cur_Set_ItemCode);
+        form.AddField("userCode", CUpdateUserInfo.GetInstance.m_userCode);
+
+        WWW www = new WWW(m_uploadUserCurSetWeapon, form);
+    }
+
     public void UploadUserStatus()
     {
         WWWForm form = new WWWForm();
@@ -125,10 +140,21 @@ public class CUploadUserData : SingleTon<CUploadUserData>
     {
         WWWForm form = new WWWForm();
         form.AddField("weaponInventory",CUpdateUserInfo.GetInstance.GetWeaponInventoryToJson());
+        form.AddField("gold", CUpdateUserInfo.GetInstance.m_gold);
         form.AddField("userCode", CUpdateUserInfo.GetInstance.m_userCode);
 
         WWW www = new WWW(m_uploadWeaponInvenURL, form);
 
+    }
+
+    public void UploadPotionInventory()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("potionInventory", CUpdateUserInfo.GetInstance.GetPotionInventoryToJson());
+        form.AddField("gold", CUpdateUserInfo.GetInstance.m_gold);
+        form.AddField("userCode", CUpdateUserInfo.GetInstance.m_userCode);
+
+        WWW www = new WWW(m_uploadPotionInvenURL, form);
     }
 
     //잡화 인벤토리 전용

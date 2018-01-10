@@ -25,7 +25,7 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
     {
         for (int i = 0; i < m_matialArtsJsonData.Count; i++)
         {
-            CWeaponData.GetInstance.m_matialArtsItemList.Add(new MartialArtsItem(
+            CWeaponData.GetInstance.m_martialArtsItemList.Add(new MartialArtsItem(
                 (int)m_matialArtsJsonData[i]["id"],
                 m_matialArtsJsonData[i]["name"].ToString(),
                 m_matialArtsJsonData[i]["description"].ToString(),
@@ -43,22 +43,22 @@ public class CMartialArts : SingleTon<CMartialArts>, IItemData
                 (int)m_matialArtsJsonData[i]["cost"],
                 m_matialArtsJsonData[i]["code"].ToString()));
 
-            CWeaponData.GetInstance.m_martialItemDic.Add(CWeaponData.GetInstance.m_matialArtsItemList[i].m_itemCode, CWeaponData.GetInstance.m_matialArtsItemList[i]);
+            CWeaponData.GetInstance.m_martialItemDic.Add(CWeaponData.GetInstance.m_martialArtsItemList[i].m_itemCode, CWeaponData.GetInstance.m_martialArtsItemList[i]);
         }
     }
 
     public void DefaultSkillToJson()
     {
 
-        for (int i = 0; i < CWeaponData.GetInstance.m_matialArtsItemList.Count; i++)
+        for (int i = 0; i < CWeaponData.GetInstance.m_martialArtsItemList.Count; i++)
         {
-            CWeaponData.GetInstance.m_martialDefaultSkillDic.Add(CWeaponData.GetInstance.m_matialArtsItemList[i].m_itemCode, new Dictionary<int, DefaultMartialArtsSkill>());
+            CWeaponData.GetInstance.m_martialDefaultSkillDic.Add(CWeaponData.GetInstance.m_martialArtsItemList[i].m_itemCode, new Dictionary<int, DefaultMartialArtsSkill>());
 
-            JsonData tData = JsonMapper.ToObject(CWeaponData.GetInstance.m_matialArtsItemList[i].m_default_skill);
+            JsonData tData = JsonMapper.ToObject(CWeaponData.GetInstance.m_martialArtsItemList[i].m_default_skill);
 
             for (int j = 0; j < tData.Count; j++)
             {
-                CWeaponData.GetInstance.m_martialDefaultSkillDic[CWeaponData.GetInstance.m_matialArtsItemList[i].m_itemCode].Add(j,
+                CWeaponData.GetInstance.m_martialDefaultSkillDic[CWeaponData.GetInstance.m_martialArtsItemList[i].m_itemCode].Add(j,
                     new DefaultMartialArtsSkill ((int)tData[j]["id"], tData[j]["skill_name"].ToString(), tData[j]["skill_desc"].ToString(), tData[j]["skill_effect"].ToString(), (int)tData[j]["count"]) );
             }
         }

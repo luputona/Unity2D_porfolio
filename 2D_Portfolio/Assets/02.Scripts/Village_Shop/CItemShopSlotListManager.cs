@@ -109,6 +109,9 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_cost = CPotionData.GetInstance.m_potionItemList[i].m_cost;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_name = CPotionData.GetInstance.m_potionItemList[i].m_name;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CPotionData.GetInstance.m_potionItemList[i].m_description;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CPotionData.GetInstance.m_potionItemList[i].m_itemCode;
+
                 if (i <= m_shopSlotCount)
                 {
                     //TODO : 잉여 슬롯 가려주기 
@@ -168,6 +171,9 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_swordItemList[i].m_description;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_swordItemList[i].m_skill_name;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_swordItemList[i].m_skill_Desc;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CWeaponData.GetInstance.m_swordItemList[i].m_itemCode;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_category = CWeaponData.GetInstance.m_categoryLocalList[0].m_category;
             }
 
             //잉여 슬롯 false
@@ -187,6 +193,9 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_bowItemList[i].m_description;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_bowItemList[i].m_skill_name;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_bowItemList[i].m_skill_Desc;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CWeaponData.GetInstance.m_bowItemList[i].m_itemCode;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_category = CWeaponData.GetInstance.m_categoryLocalList[1].m_category;
             }
 
 
@@ -205,6 +214,9 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_staffItemList[i].m_description;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_staffItemList[i].m_skill_name;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_staffItemList[i].m_skill_Desc;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CWeaponData.GetInstance.m_staffItemList[i].m_itemCode;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_category = CWeaponData.GetInstance.m_categoryLocalList[2].m_category;
             }
 
             SlotCount(CWeaponData.GetInstance.m_staffItemList.Count);
@@ -222,6 +234,9 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_accessoryItemList[i].m_description;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_accessoryItemList[i].m_skill_name;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_accessoryItemList[i].m_skill_Desc;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CWeaponData.GetInstance.m_accessoryItemList[i].m_itemCode;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_category = CWeaponData.GetInstance.m_categoryLocalList[3].m_category;
             }
 
             SlotCount(CWeaponData.GetInstance.m_accessoryItemList.Count);
@@ -239,6 +254,9 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_maceItemList[i].m_description;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_maceItemList[i].m_skill_name;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_maceItemList[i].m_skill_Desc;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CWeaponData.GetInstance.m_maceItemList[i].m_itemCode;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_category = CWeaponData.GetInstance.m_categoryLocalList[4].m_category;
             }
 
             SlotCount(CWeaponData.GetInstance.m_maceItemList.Count);
@@ -256,6 +274,9 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_spearItemList[i].m_description;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_spearItemList[i].m_skill_name;
                 m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_spearItemList[i].m_skill_Desc;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CWeaponData.GetInstance.m_spearItemList[i].m_itemCode;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_category = CWeaponData.GetInstance.m_categoryLocalList[5].m_category;
             }
 
             SlotCount(CWeaponData.GetInstance.m_spearItemList.Count);
@@ -264,18 +285,21 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
         {
             Debug.Log("격투 아이템");
 
-            for (int i = 0; i < CWeaponData.GetInstance.m_matialArtsItemList.Count; i++)
+            for (int i = 0; i < CWeaponData.GetInstance.m_martialArtsItemList.Count; i++)
             {
-                m_slots[i].transform.name = CWeaponData.GetInstance.m_matialArtsItemList[i].m_name;
-                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_id = CWeaponData.GetInstance.m_matialArtsItemList[i].m_id;
-                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_cost = CWeaponData.GetInstance.m_matialArtsItemList[i].m_cost;
-                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_name = CWeaponData.GetInstance.m_matialArtsItemList[i].m_name;
-                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_matialArtsItemList[i].m_description;
-                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_matialArtsItemList[i].m_skill_name;
-                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_matialArtsItemList[i].m_skill_Desc;
+                m_slots[i].transform.name = CWeaponData.GetInstance.m_martialArtsItemList[i].m_name;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_id = CWeaponData.GetInstance.m_martialArtsItemList[i].m_id;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_cost = CWeaponData.GetInstance.m_martialArtsItemList[i].m_cost;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_name = CWeaponData.GetInstance.m_martialArtsItemList[i].m_name;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_desc = CWeaponData.GetInstance.m_martialArtsItemList[i].m_description;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_name = CWeaponData.GetInstance.m_martialArtsItemList[i].m_skill_name;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_skill_desc = CWeaponData.GetInstance.m_martialArtsItemList[i].m_skill_Desc;
+
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_itemCode = CWeaponData.GetInstance.m_martialArtsItemList[i].m_itemCode;
+                m_slots[i].transform.GetChild(3).GetComponent<CGetItemInfomations>().m_category = CWeaponData.GetInstance.m_categoryLocalList[7].m_category;
             }
 
-            SlotCount(CWeaponData.GetInstance.m_matialArtsItemList.Count);
+            SlotCount(CWeaponData.GetInstance.m_martialArtsItemList.Count);
         }
     }
 
@@ -344,15 +368,30 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
         //m_slots[tIndex].GetComponent<CGetItemInfomations>().m_disc = ;
     }
 
-    public void BuyItem(string tItemDesc, int tCost)
+    public void BuyItem(string tItemDesc, int tCost , string itemcode, string category)
     {
         if (m_cWeaponShop.m_shopinfo == CSelectShop.ShopInfo.WeaponShop)
         {
             m_cWeaponShop.m_itemDesc_Text.text = string.Format("매번 구매 해줘서 고마워 \n\n\n가격 : {0} \n아이템 이름 : {1} ", tCost, tItemDesc);
+
+            CUpdateUserInfo.GetInstance.m_gold -= tCost;
+
+            CInventoryManager.GetInstance.UpdateAddInventory(category, itemcode);
+            CUpdateUserInfo.GetInstance.GetWeaponInventoryToJson();
+            CUploadUserData.GetInstance.UploadWeaponInventory();
+
         }
         else if (m_cGoodsShop.m_shopinfo == CSelectShop.ShopInfo.GoodsShop)
         {
             m_cGoodsShop.m_itemDesc_Text.text = string.Format("매번 구매 해줘서 고마워 \n\n\n가격 : {0} \n아이템 이름 : {1} ", tCost, tItemDesc);
+
+            CUpdateUserInfo.GetInstance.m_gold -= tCost;
+
+            CInventoryManager.GetInstance.UpdateAddPotionInventory(itemcode);
+            CUpdateUserInfo.GetInstance.GetPotionInventoryToJson();
+            CUploadUserData.GetInstance.UploadPotionInventory();
+
+
         }
        
 
