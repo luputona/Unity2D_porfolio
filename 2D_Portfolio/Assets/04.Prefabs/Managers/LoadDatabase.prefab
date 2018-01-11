@@ -1,0 +1,320 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1101416085901830}
+  m_IsPrefabParent: 1
+--- !u!1 &1101416085901830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4511273091631752}
+  - component: {fileID: 114852231135751914}
+  - component: {fileID: 114490626141696020}
+  - component: {fileID: 114022166740768296}
+  - component: {fileID: 114790714854843730}
+  - component: {fileID: 114657405480201804}
+  - component: {fileID: 114924728094417980}
+  - component: {fileID: 114546546643025540}
+  - component: {fileID: 114816970592283520}
+  - component: {fileID: 114753553590316728}
+  - component: {fileID: 114011441925154596}
+  - component: {fileID: 114489541021735166}
+  - component: {fileID: 114725849814068844}
+  - component: {fileID: 114056409593683050}
+  - component: {fileID: 114202579685144434}
+  - component: {fileID: 114529780287658434}
+  m_Layer: 0
+  m_Name: LoadDatabase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4511273091631752
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114011441925154596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f09efe1998f266f4a8855e7d720e78d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/potionData.php
+  m_potionItemList: []
+--- !u!114 &114022166740768296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8fe0d7a51647354496c75d7ad6243e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/bowData.php
+--- !u!114 &114056409593683050
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ec5b423bfb93149a62ff84f09c6be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cUserInfoUIManager: {fileID: 0}
+  m_characterObject: {fileID: 0}
+  m_charAnim: {fileID: 0}
+  m_characterMainImage: {fileID: 0}
+  m_weaponThumbnail: {fileID: 0}
+  m_statusString: 
+  m_name: 
+  m_rank: 0
+  m_cur_Set_ItemCode: 
+  m_gold: 0
+  m_weaponInvenString: 
+  m_potionInvenString: 
+  m_goodsInvenString: 
+  m_clearDungeonString: 
+  m_point: 0
+  m_userCode: 0
+  m_damage: 0
+  m_defence: 0
+  m_dodge: 0
+  m_hp: 0
+  m_str: 0
+  m_dex: 0
+  m_category: 
+  m_itemCode: 
+  m_invenSize: 0
+--- !u!114 &114202579685144434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4488f5ee8ea9b44a7dfc78e7071b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_uploadUserAllDataURL: 
+  m_uploadUserNameURL: http://13.112.49.138/DGtop/UploadName.php
+  m_uploadUserCurSetWeapon: http://13.112.49.138/DGtop/UploadCurSetWeapon.php
+  m_uploadWeaponInvenURL: http://13.112.49.138/DGtop/UploadweaponInventory.php
+  m_uploadPotionInvenURL: http://13.112.49.138/DGtop/UploadpotionInventory.php
+  m_uploadGoodsInvenURL: 
+  m_uploadUserSimpleDataURL: 
+  m_uploadUserStatusDataURL: http://13.112.49.138/DGtop/UploadStatus.php
+--- !u!114 &114489541021735166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a50f10e1055584587b0bc8bbca8542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_dungeonDataUrl: http://13.112.49.138/DGtop/DGData.php
+  m_dungeonList: []
+  m_localPath: 
+  m_dungeonLocalList: []
+--- !u!114 &114490626141696020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a491b08f369f924ca9f09be6ae2a28d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/staffData.php
+--- !u!114 &114529780287658434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db72264bcdb47144190ffd50396c3f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_eStatus: 99
+  m_id: 
+  m_defDamage: 0
+  m_defDefence: 0
+  m_defDodge: 0
+  m_defHp: 0
+  m_defStr: 0
+  m_defDex: 0
+  m_weaponDamage: 0
+  m_weaponDodge: 0
+  m_weaponDef: 0
+  m_exceedDodge: 0
+  m_weaponHp: 0
+  m_curhp: 0
+  m_curDamage: 0
+  m_curDefence: 0
+  m_curDodge: 0
+  m_curHp: 0
+  m_curStr: 0
+  m_curDex: 0
+--- !u!114 &114546546643025540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a633d3d6dfc1ac4fb5d27e63e256725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/accessoryData.php
+--- !u!114 &114657405480201804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713ede1c0b6d90d42a167f1d206d93af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/spearData.php
+--- !u!114 &114725849814068844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a999d6a86d0a21458b30dadd2dd1cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_userInfoUrl: http://13.112.49.138/DGtop/userinfo.php
+  m_userData:
+    m_name: 
+    m_status: 
+    m_rank: 0
+    m_gold: 0
+    m_weaponInven: 
+    m_potionInven: 
+    m_goodsInven: 
+    m_clearDungeon: 
+    m_point: 0
+    m_userCode: 0
+    m_cur_set_itemcode: 
+  m_searchUserCodeURL: http://13.112.49.138/DGtop/userinfo.php
+  m_userDataList: []
+  m_userStatusList: []
+  m_potionInvenList: []
+  m_weaponInvenList: []
+--- !u!114 &114753553590316728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e56449609276e498a9b0a2ceb85e4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_goodsShopDataUrl: 
+  m_goodsCategoryList: []
+  m_localPath: 
+  m_localGoodsCategoryList: []
+--- !u!114 &114790714854843730
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53afec1235d9bd84b835bfebc61e9f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/maceData.php
+--- !u!114 &114816970592283520
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd0d73bb61a576449774823b8b51991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_weaponDataUrl: http://13.112.49.138/DGtop/weaponData.php
+  m_categoryList: []
+  m_localPath: 
+  m_categoryLocalList: []
+  m_swordItemList: []
+  m_staffItemList: []
+  m_spearItemList: []
+  m_martialArtsItemList: []
+  m_maceItemList: []
+  m_bowItemList: []
+  m_accessoryItemList: []
+--- !u!114 &114852231135751914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c483bec387fa0a4cb5c21154dc14e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/swordData.php
+--- !u!114 &114924728094417980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101416085901830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7724afcd798ad614d9ed365d35a2dfd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_serverUrl: http://13.112.49.138/DGtop/martial_artsData.php

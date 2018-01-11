@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1235930701534034}
+  m_IsPrefabParent: 1
+--- !u!1 &1235930701534034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4226526207655242}
+  - component: {fileID: 114509653285234004}
+  - component: {fileID: 114210624552343560}
+  - component: {fileID: 114957065217735232}
+  m_Layer: 0
+  m_Name: UserDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4226526207655242
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235930701534034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 277.80118, y: 141.87976, z: 0.55553555}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114210624552343560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235930701534034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4488f5ee8ea9b44a7dfc78e7071b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_uploadUserAllDataURL: 
+  m_uploadUserNameURL: http://13.112.49.138/DGtop/UploadName.php
+  m_uploadUserCurSetWeapon: http://13.112.49.138/DGtop/UploadCurSetWeapon.php
+  m_uploadWeaponInvenURL: http://13.112.49.138/DGtop/UploadweaponInventory.php
+  m_uploadPotionInvenURL: http://13.112.49.138/DGtop/UploadpotionInventory.php
+  m_uploadGoodsInvenURL: 
+  m_uploadUserSimpleDataURL: 
+  m_uploadUserStatusDataURL: http://13.112.49.138/DGtop/UploadStatus.php
+--- !u!114 &114509653285234004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235930701534034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ec5b423bfb93149a62ff84f09c6be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cUserInfoUIManager: {fileID: 0}
+  m_characterObject: {fileID: 0}
+  m_charAnim: {fileID: 0}
+  m_characterMainImage: {fileID: 0}
+  m_weaponThumbnail: {fileID: 0}
+  m_statusString: 
+  m_name: 
+  m_rank: 0
+  m_cur_Set_ItemCode: 
+  m_gold: 0
+  m_weaponInvenString: 
+  m_potionInvenString: 
+  m_goodsInvenString: 
+  m_clearDungeonString: 
+  m_point: 0
+  m_userCode: 0
+  m_damage: 0
+  m_defence: 0
+  m_dodge: 0
+  m_hp: 0
+  m_str: 0
+  m_dex: 0
+  m_category: 
+  m_itemCode: 
+  m_invenSize: 0
+--- !u!114 &114957065217735232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235930701534034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db72264bcdb47144190ffd50396c3f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_eStatus: 99
+  m_id: 
+  m_defDamage: 0
+  m_defDefence: 0
+  m_defDodge: 0
+  m_defHp: 0
+  m_defStr: 0
+  m_defDex: 0
+  m_weaponDamage: 0
+  m_weaponDodge: 0
+  m_weaponDef: 0
+  m_exceedDodge: 0
+  m_weaponHp: 0
+  m_curhp: 0
+  m_curDamage: 0
+  m_curDefence: 0
+  m_curDodge: 0
+  m_curHp: 0
+  m_curStr: 0
+  m_curDex: 0

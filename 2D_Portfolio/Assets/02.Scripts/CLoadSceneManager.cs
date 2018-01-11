@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 public class CLoadSceneManager : SingleTon<CLoadSceneManager>
 {
     private static CLoadSceneManager Instance = null;
+    [SerializeField]
+    private float m_timer;
+    [SerializeField]
+    private bool m_waiting = false;
+
 
     void Awake()
     {
@@ -20,13 +25,25 @@ public class CLoadSceneManager : SingleTon<CLoadSceneManager>
         }
     }
 
-    // Use this for initialization
-    void Start ()
+    private void Start()
     {
-        
+        StartCoroutine(Timer());
+    }
 
-	}
-	
+    IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(4.0f);
+
+        m_waiting = true;
+    }
+
+    public void GotoMainScene(string sceneName)
+    {
+        if(m_waiting)
+        {
+            SceneManager.LoadScene(sceneName);
+        }       
+    }
 
     public void ChangeScene(string sceneName)
     {

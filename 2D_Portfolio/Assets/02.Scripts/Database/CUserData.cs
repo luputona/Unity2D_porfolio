@@ -122,7 +122,7 @@ public class CUserData : SingleTon<CUserData>
                 (int)m_userJsonData[i]["point"],
                 (int)m_userJsonData[i]["userCode"] ));
 
-        }
+        }        
     }
 
     public void StatusToObject()
@@ -225,7 +225,7 @@ public class UserStatus
         str = tStr;
         dex = tDex;
         
-        CStatus.GetInstance.InitSetStatus(tDamage, tDef, tDodge , tHp, tStr, tDex);
+        //CStatus.GetInstance.InitSetStatus(tDamage, tDef, tDodge , tHp, tStr, tDex);
     }
 
 }
@@ -261,7 +261,7 @@ public class UserMainInfo
         m_point = point;
         m_userCode = userCode;
         
-        CUpdateUserInfo.GetInstance.InitUserInfo(point, userCode, name, rank, gold, tcur_set_itemcode);
+        //CUpdateUserInfo.GetInstance.InitUserInfo(point, userCode, name, rank, gold, tcur_set_itemcode);
     }
 
 }

@@ -155,11 +155,16 @@ public class CInventoryManager : SingleTon<CInventoryManager>
             CUpdateUserInfo.GetInstance.SetWeaponToChangeCharacterObject();
 
             Debug.Log("인벤토리 매니저 웨폰 스프라이트 보류");
-            //if(!CResourceManager.GetInstance.GetWeaponSprite(itemcode))
-            //{
-            //    return;
-            //}
-            //m_weaponSprite.overrideSprite = CResourceManager.GetInstance.GetWeaponSprite(itemcode);
+            if(CResourceManager.GetInstance.m_weaponSprite.ContainsKey(itemcode) ==  false)
+            {
+                m_weaponSprite.overrideSprite = null;
+                return;
+            }
+            else
+            {
+                m_weaponSprite.overrideSprite = CResourceManager.GetInstance.GetWeaponSprite(itemcode);
+            }
+            
 
 
             if (category.Equals("Sword"))

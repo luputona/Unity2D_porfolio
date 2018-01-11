@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CCharacterMoveCtrl : MonoBehaviour
-{    
+{
+    private static CResourceManager _instance = null;
     public bool m_isRightDir;
 
-
-	// Use this for initialization
-	protected void Start ()
+    private void Awake()
     {
-		
-	}
+        if (_instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+    
 
-    // Update is called once per frame
-    protected void Update ()
-    {
-		
-	}
 
     public void Flip()
     {

@@ -129,8 +129,15 @@ public class CUserInfoUIManager : CStatus
 
 
         Debug.Log("Cuserinfomanager 스프라이트 변경 보류 ");
-        //m_set_cur_main_CharaterImage.overrideSprite = CResourceManager.GetInstance.GetillurSprite(tCurSetWeapon);
-        //m_set_cur_Weapon_Thumbnail.overrideSprite = CResourceManager.GetInstance.GetWeaponSprite(tCurSetWeapon);
+        if(CResourceManager.GetInstance.m_characterillurSprite.ContainsKey(tCurSetWeapon) == false )
+        {
+            m_set_cur_main_CharaterImage.overrideSprite = null;
+            m_set_cur_Weapon_Thumbnail.overrideSprite = null;
+            return;
+        }
+
+        m_set_cur_main_CharaterImage.overrideSprite = CResourceManager.GetInstance.GetillurSprite(tCurSetWeapon);
+        m_set_cur_Weapon_Thumbnail.overrideSprite = CResourceManager.GetInstance.GetWeaponSprite(tCurSetWeapon);
         
 
         if (CWeaponData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))

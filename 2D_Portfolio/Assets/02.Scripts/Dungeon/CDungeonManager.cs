@@ -6,6 +6,9 @@ public class CDungeonManager : SingleTon<CDungeonManager>
 {
     private static CDungeonManager Instance = null;
 
+    [SerializeField]
+    private GameObject m_player = null;
+
     public int m_floorIndex;
 
     private void Awake()
@@ -18,6 +21,8 @@ public class CDungeonManager : SingleTon<CDungeonManager>
         {
             GameObject.DontDestroyOnLoad(gameObject);
         }
+
+        
     }
 
     // Use this for initialization

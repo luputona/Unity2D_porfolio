@@ -53,7 +53,7 @@ public class CShopCategory : SingleTon<CShopCategory>//CSelectCategory// 임시�
 
     void Awake()
     {
-        m_shop_Catergory = GameObject.Find("Shop_CatergoryList").gameObject;
+        m_shop_Catergory = GameObject.Find("inst_Shop_CatergoryList").gameObject;
         m_shopcheck = this.GetComponent<CVillageManager>();
         m_cWeaponShop = this.GetComponent<CWeaponShop>();
         m_cGoodsShop = this.GetComponent<CGoodsShop>();

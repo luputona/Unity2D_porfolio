@@ -7,9 +7,9 @@ public class CResourceManager : SingleTon<CResourceManager>
 {
     private static CResourceManager _instance = null;
 
-    private Dictionary<string, Sprite> m_weaponSprite = new Dictionary<string, Sprite>();
-    private Dictionary<string, Sprite> m_characterillurSprite = new Dictionary<string, Sprite>();
-    private Dictionary<string, RuntimeAnimatorController> m_characterAnimator = new Dictionary<string, RuntimeAnimatorController>();
+    public Dictionary<string, Sprite> m_weaponSprite = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> m_characterillurSprite = new Dictionary<string, Sprite>();
+    public Dictionary<string, RuntimeAnimatorController> m_characterAnimator = new Dictionary<string, RuntimeAnimatorController>();
       
     void Awake()
     {

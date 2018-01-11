@@ -94,8 +94,8 @@ public class CWeaponData : SingleTon<CWeaponData>, IItemData
             ConstructData();       
         }
         //Debug.Log(m_martialArtsItemList[1].m_name);
-        Debug.Log(m_martialItemDic["w060002"].m_skill_Desc);
-        Debug.Log(m_bowItemDic["w010001"].m_name);
+        //Debug.Log(m_martialItemDic["w060002"].m_skill_Desc);
+        //Debug.Log(m_bowItemDic["w010001"].m_name);
     }
 
     public void LoadLocalData()

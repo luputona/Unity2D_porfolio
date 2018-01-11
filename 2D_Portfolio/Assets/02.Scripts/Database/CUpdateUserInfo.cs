@@ -62,8 +62,15 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
         m_cUserInfoUIManager = GameObject.Find("VillageManager").GetComponent<CUserInfoUIManager>();
     }
 
-	// Update is called once per frame
-	void Update ()
+    void Start()
+    {
+        InitUserInfo(CUserData.GetInstance.m_userDataList[0].m_point, CUserData.GetInstance.m_userDataList[0].m_userCode, 
+            CUserData.GetInstance.m_userDataList[0].m_name, CUserData.GetInstance.m_userDataList[0].m_rank, 
+            CUserData.GetInstance.m_userDataList[0].m_gold, CUserData.GetInstance.m_userDataList[0].m_cur_set_itemcode);
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         SetWeaponToChangeCharacterObject();
         UpdateStatus();
@@ -111,7 +118,14 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
 
         // TODO : 무기의 키값에 따라서 캐릭터 외형 변경 및 스테이터스 갱신 , 유저정보창 일러 변경
         Debug.Log("Cupdateuserinfo 부분 애니메이터 보류");
-        //m_charAnim.runtimeAnimatorController = CResourceManager.GetInstance.GetAnimator(tCurSetWeapon);
+
+        if(CResourceManager.GetInstance.m_characterAnimator.ContainsKey(tCurSetWeapon) == false)
+        {
+            m_charAnim.runtimeAnimatorController = null;
+            return;
+        }
+
+        m_charAnim.runtimeAnimatorController = CResourceManager.GetInstance.GetAnimator(tCurSetWeapon);
 
         if (CWeaponData.GetInstance.m_swordItemDic.ContainsKey(tCurSetWeapon))
         {

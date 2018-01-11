@@ -6,21 +6,21 @@ using UnityEngine;
 public class CUploadUserData : SingleTon<CUploadUserData>
 {
     [SerializeField]
-    private string m_uploadUserAllDataURL;
+    private string m_uploadUserAllDataURL = "http://13.112.49.138/DGtop/UploadUserData.php";
     [SerializeField]
-    private string m_uploadUserNameURL;
+    private string m_uploadUserNameURL = "http://13.112.49.138/DGtop/UploadName.php";
     [SerializeField]
-    private string m_uploadUserCurSetWeapon;
+    private string m_uploadUserCurSetWeapon = "http://13.112.49.138/DGtop/UploadCurSetWeapon.php";
     [SerializeField]
-    private string m_uploadWeaponInvenURL;
+    private string m_uploadWeaponInvenURL = "http://13.112.49.138/DGtop/UploadpotionInventory.php";
     [SerializeField]
-    private string m_uploadPotionInvenURL;
+    private string m_uploadPotionInvenURL = "http://13.112.49.138/DGtop/UploadpotionInventory.php";
     [SerializeField]
-    private string m_uploadGoodsInvenURL;
+    private string m_uploadGoodsInvenURL = "";
     [SerializeField]
-    private string m_uploadUserSimpleDataURL;
+    private string m_uploadUserSimpleDataURL = "";
     [SerializeField]
-    private string m_uploadUserStatusDataURL;
+    private string m_uploadUserStatusDataURL = "http://13.112.49.138/DGtop/UploadStatus.php";
 
     private static CUpdateUserInfo Instance = null;
 
