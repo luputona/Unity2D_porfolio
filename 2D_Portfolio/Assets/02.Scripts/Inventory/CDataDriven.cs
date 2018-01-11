@@ -103,10 +103,12 @@ public class CDataDriven : MonoBehaviour
         m_itemCode = tCode;
         if(m_itemNameText != null)
         {
-            if(CUserData.GetInstance.m_potionInvenDic.ContainsKey(tCode))
+            if(CUserData.GetInstance.m_potionInvenList.Exists(x => x.itemCode == tCode))
             {
-                m_itemNameText.text = string.Format("slot num : {0}\nitemcode:\n{1}\nname\n:<color='red'>{2}</color>\n수량 : {3}", index.ToString(), CUserData.GetInstance.m_potionInvenDic[tCode].itemCode,
-                    CPotionData.GetInstance.m_potionItemList[index].m_name,CUserData.GetInstance.m_potionInvenDic[tCode].count);
+                m_itemNameText.text = string.Format("slot num : {0}\nitemcode:\n{1}\nname\n:<color='red'>{2}</color>\n수량 : {3}", index.ToString(), 
+                    CUserData.GetInstance.m_potionInvenList.Find(x => x.itemCode == m_itemCode).itemCode,
+                    CPotionData.GetInstance.m_potionItemList[index].m_name , 
+                    CUserData.GetInstance.m_potionInvenList.Find(x => x.itemCode == m_itemCode).count);
             }
         }
     }

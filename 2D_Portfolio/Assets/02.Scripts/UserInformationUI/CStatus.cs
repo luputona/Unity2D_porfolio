@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
-
+using UnityEngine.UI;
 //마을에서만 이용  
 // 스텟찍을때만 갱신 하는 클래스 
 public class CStatus : SingleTon<CStatus>
 {
     private const double LimitedDodge = 75;
+
+    public Text text;
 
     public enum ESTATUS
     {
@@ -22,30 +24,20 @@ public class CStatus : SingleTon<CStatus>
     
     public ESTATUS m_eStatus = ESTATUS.Default;
 
-    [SerializeField]
-    private string m_id;
-    [SerializeField]
-    private double m_defDamage;
-    [SerializeField]
-    private double m_defDefence;
-    [SerializeField]
-    private double m_defDodge;   
-    [SerializeField]
-    private double m_defHp;
-    [SerializeField]
-    private double m_defStr;
-    [SerializeField]
-    private double m_defDex;
-    [SerializeField]
-    private double m_weaponDamage;
-    [SerializeField]
-    private double m_weaponDodge;
-    [SerializeField]
-    private double m_weaponDef;
-    [SerializeField]
-    private double m_exceedDodge;
-    [SerializeField]
-    private double m_weaponHp;
+    
+    public string m_id;
+
+    public double m_defDamage;
+    public double m_defDefence;
+    public double m_defDodge;   
+    public double m_defHp;
+    public double m_defStr;
+    public double m_defDex;
+    public double m_weaponDamage;
+    public double m_weaponDodge;
+    public double m_weaponDef;
+    public double m_exceedDodge;
+    public double m_weaponHp;
 
     public double m_curhp;
     public double m_curDamage;
@@ -62,11 +54,11 @@ public class CStatus : SingleTon<CStatus>
             return m_id;
         }     
     }
-    public double DefDamage { get { return m_defDamage; } }
-    public double DefDefence { get { return m_defDefence; } }
-    public double DefDodge { get { return m_defDodge; } }
-    public double DefStr { get { return m_defStr; } }
-    public double DefDex { get { return m_defDex; } }
+    //public double DefDamage { get { return m_defDamage; } }
+    //public double DefDefence { get { return m_defDefence; } }
+    //public double DefDodge { get { return m_defDodge; } }
+    //public double DefStr { get { return m_defStr; } }
+    //public double DefDex { get { return m_defDex; } }
 
     public double DefHp
     {
@@ -110,7 +102,7 @@ public class CStatus : SingleTon<CStatus>
 
 
     //TODO :  디폴트값과 현재값 다시 제작
-    private void Start()
+    void Start()
     {
         m_defDamage = CUserData.GetInstance.m_userStatusList[0].damage;
         m_defDefence = CUserData.GetInstance.m_userStatusList[0].def;
@@ -118,6 +110,8 @@ public class CStatus : SingleTon<CStatus>
         m_defHp = CUserData.GetInstance.m_userStatusList[0].hp;
         m_defStr = CUserData.GetInstance.m_userStatusList[0].str;
         m_defDex = CUserData.GetInstance.m_userStatusList[0].dex;
+
+        text.text = string.Format("{0},{1},{2}",m_defHp, m_defStr, m_defDex);
     }
 
     //DB에서 바로 받아오는 초기 셋팅값
@@ -177,7 +171,9 @@ public class CStatus : SingleTon<CStatus>
 
         CalculateStatus();
         CUpdateUserInfo.GetInstance.UpdateStatus();
-        CUploadUserData.GetInstance.UploadUserStatus();
+        
+        StartCoroutine(CUploadUserData.GetInstance.UploadUserStatus());
+        
     
     }
 

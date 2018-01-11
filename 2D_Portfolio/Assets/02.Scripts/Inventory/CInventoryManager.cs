@@ -310,7 +310,7 @@ public class CInventoryManager : SingleTon<CInventoryManager>
 
             m_potionName.text = string.Format("<color='red'>{0}</color>", CPotionData.GetInstance.m_potionItemList.Find(x => x.m_itemCode == itemcode).m_name);
             m_potionDesc.text = string.Format("{0}", CPotionData.GetInstance.m_potionItemList.Find(x => x.m_itemCode == itemcode).m_description);
-            m_potionCount.text = string.Format("수량 : {0}", CUserData.GetInstance.m_potionInvenDic[itemcode].count);
+            m_potionCount.text = string.Format("수량 : {0}", CUserData.GetInstance.m_potionInvenList.Find(x => x.itemCode == itemcode).count);
             // TODO : 이미지 추후 추가
             //m_potionSprite.overrideSprite = 
 
@@ -320,15 +320,12 @@ public class CInventoryManager : SingleTon<CInventoryManager>
 
     public void UpdatePotionInventorySlot()
     {
-        if (m_LoopScrollRect.totalCount < CUserData.GetInstance.m_potionInvenDic.Count || m_LoopScrollRect.totalCount > CUserData.GetInstance.m_potionInvenDic.Count)
-        {
-            m_LoopScrollRect.totalCount = CUserData.GetInstance.m_potionInvenDic.Count; //인벤토리 슬롯 갯수 갱신
-        }
+        
+        m_LoopScrollRect.totalCount = CUserData.GetInstance.m_potionInvenList.Count; //인벤토리 슬롯 갯수 갱신
+        Debug.Log(CUserData.GetInstance.m_potionInvenList.Count);
         
         m_LoopScrollRect.RefillCells(); // 인벤토리 생성함수 호출
         m_LoopScrollRect.RefreshCells();
-
-        
     }
 
 
@@ -361,6 +358,7 @@ public class CInventoryManager : SingleTon<CInventoryManager>
             if(CUserData.GetInstance.m_potionInvenList[i].itemCode.Equals(itemCode))
             {
                 CUserData.GetInstance.m_potionInvenList[i].count += 1;
+                Debug.Log("증가호출 : " + CUserData.GetInstance.m_potionInvenList[i].count);
             }            
         }
         if(!CUserData.GetInstance.m_potionInvenList.Exists(x => x.itemCode == itemCode))

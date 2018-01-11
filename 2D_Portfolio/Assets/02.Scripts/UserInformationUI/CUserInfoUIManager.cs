@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class CUserInfoUIManager : CStatus
+public class CUserInfoUIManager : MonoBehaviour
 {
     public enum EMAIN_UILIST
     {
@@ -112,12 +112,12 @@ public class CUserInfoUIManager : CStatus
     public void ShowUserStatusInText()
     {
         //TODO : 
-        m_statusUp_text[(int)ESTATUS.Damage].text = string.Format("{0}",  (int)CStatus.GetInstance.DefDamage);
-        m_statusUp_text[(int)ESTATUS.Defence].text = string.Format("{0}", (int)CStatus.GetInstance.DefDefence);
-        m_statusUp_text[(int)ESTATUS.Dodge].text = string.Format("{0}", (int)CStatus.GetInstance.DefDodge);
-        m_statusUp_text[(int)ESTATUS.Hp].text = string.Format("{0}", (int)CStatus.GetInstance.m_curhp);
-        m_statusUp_text[(int)ESTATUS.Str].text = string.Format("{0}", (int)CStatus.GetInstance.DefStr);
-        m_statusUp_text[(int)ESTATUS.Dex].text = string.Format("{0}", (int)CStatus.GetInstance.DefDex);
+        m_statusUp_text[(int)CStatus.ESTATUS.Damage].text = string.Format("{0}",  (int)CStatus.GetInstance.m_defDamage);
+        m_statusUp_text[(int)CStatus.ESTATUS.Defence].text = string.Format("{0}", (int)CStatus.GetInstance.m_defDefence);
+        m_statusUp_text[(int)CStatus.ESTATUS.Dodge].text = string.Format("{0}", (int)CStatus.GetInstance.m_defDodge);
+        m_statusUp_text[(int)CStatus.ESTATUS.Hp].text = string.Format("{0}", (int)CStatus.GetInstance.m_curhp);
+        m_statusUp_text[(int)CStatus.ESTATUS.Str].text = string.Format("{0}", (int)CStatus.GetInstance.m_defStr);
+        m_statusUp_text[(int)CStatus.ESTATUS.Dex].text = string.Format("{0}", (int)CStatus.GetInstance.m_defDex);
         m_main_UserInformation_Panel_List[5].transform.GetChild(0).GetComponent<Text>().text = string.Format("{0}", CUpdateUserInfo.GetInstance.m_point );
                 
     }

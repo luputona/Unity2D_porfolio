@@ -51,7 +51,7 @@ public class CUploadUserData : SingleTon<CUploadUserData>
     }
 
     //사용안함
-    public void UploadUserData(string name, string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int point, int userCode)
+    public IEnumerator UploadUserData(string name, string status, int rank, string tcur_set_itemcode, int gold, string weaponInven, string goodsInven, string claerDungeon, int point, int userCode)
     {
         WWWForm form = new WWWForm();
         form.AddField("nickname", name);
@@ -66,6 +66,9 @@ public class CUploadUserData : SingleTon<CUploadUserData>
         form.AddField("userCode", userCode);
 
         WWW www = new WWW(m_uploadUserAllDataURL, form);
+
+        yield return www;
+
     }
 
     public void UploadUserAllData()
@@ -114,7 +117,7 @@ public class CUploadUserData : SingleTon<CUploadUserData>
         WWW www = new WWW(m_uploadUserCurSetWeapon, form);
     }
 
-    public void UploadUserStatus()
+    public IEnumerator UploadUserStatus()
     {
         WWWForm form = new WWWForm();
         form.AddField("status", CUpdateUserInfo.GetInstance.GetStatusToJson());
@@ -122,6 +125,17 @@ public class CUploadUserData : SingleTon<CUploadUserData>
         form.AddField("userCode", CUpdateUserInfo.GetInstance.m_userCode);
 
         WWW www = new WWW(m_uploadUserStatusDataURL, form);
+
+        yield return www;
+
+        if(www.error == null)
+        {
+
+        }
+        else
+        {
+            print(www.error);
+        }
     }
 
     // 이름 변경ㅇ 전용

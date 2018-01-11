@@ -90,12 +90,12 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
     public void UpdateStatus()
     {
         // 연산이 완료된 스테이터스 대입 
-        m_damage = CStatus.GetInstance.DefDamage;
-        m_defence = CStatus.GetInstance.DefDefence;
-        m_dodge = CStatus.GetInstance.DefDodge;
-        m_hp = CStatus.GetInstance.DefHp;
-        m_str = CStatus.GetInstance.DefStr;
-        m_dex = CStatus.GetInstance.DefDex;
+        m_damage = CStatus.GetInstance.m_defDamage;
+        m_defence = CStatus.GetInstance.m_defDefence;
+        m_dodge = CStatus.GetInstance.m_defDodge;
+        m_hp = CStatus.GetInstance.m_defHp;
+        m_str = CStatus.GetInstance.m_defStr;
+        m_dex = CStatus.GetInstance.m_defDex;
         
     }
 
@@ -105,6 +105,8 @@ public class CUpdateUserInfo : SingleTon<CUpdateUserInfo>
         //m_cUserInfoUIManager.ShowUserCurrentSettingWeapon();
         //m_cUserInfoUIManager.ShowUserCurrentSettingWeaponSkill();
         m_cur_Set_ItemCode = CInventoryManager.GetInstance.m_itemCode;
+
+
         CUploadUserData.GetInstance.UploadCurSetWeapon();
         Debug.Log(m_cur_Set_ItemCode);
     }

@@ -386,8 +386,8 @@ public class CItemShopSlotListManager : SingleTon<CItemShopSlotListManager>
             m_cGoodsShop.m_itemDesc_Text.text = string.Format("매번 구매 해줘서 고마워 \n\n\n가격 : {0} \n아이템 이름 : {1} ", tCost, tItemDesc);
 
             CUpdateUserInfo.GetInstance.m_gold -= tCost;
-
             CInventoryManager.GetInstance.UpdateAddPotionInventory(itemcode);
+            //CInventoryManager.GetInstance.UpdatePotionInventorySlot();            
             CUpdateUserInfo.GetInstance.GetPotionInventoryToJson();
             CUploadUserData.GetInstance.UploadPotionInventory();
 

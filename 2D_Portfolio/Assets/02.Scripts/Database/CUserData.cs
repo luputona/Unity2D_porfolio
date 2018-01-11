@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System.IO;
+using UnityEngine.UI;
 using LitJson;
 
 public class CUserData : SingleTon<CUserData>
@@ -18,7 +19,8 @@ public class CUserData : SingleTon<CUserData>
     private JsonData m_userJsonData;
     [SerializeField]
     private string m_searchUserCodeURL;
-    
+    [SerializeField]
+    private Text m_isDone;
     public JsonData m_statusData;
     public JsonData m_weaponInvenData;
     public JsonData m_potionInvenData;
@@ -53,13 +55,9 @@ public class CUserData : SingleTon<CUserData>
     // Use this for initialization
     void Start ()
     {
-        
-    }
+        m_isDone = GameObject.Find("IsDone").GetComponent<Text>();
 
-    private void Update()
-    {
-        //UserCodeCheck();
-        //StartCoroutine(LoadData());
+
     }
 
 
@@ -86,6 +84,10 @@ public class CUserData : SingleTon<CUserData>
             WeaponInventoryToObject();
             PotionInventoryToObject();
 
+            if(www.isDone)
+            {
+                m_isDone.text = string.Format("{0}", m_userStatusList[0].dex);
+            }
             //CUpdateUserInfo.GetInstance.InitUserStatus();
         }
         else
